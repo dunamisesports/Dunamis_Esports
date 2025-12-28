@@ -1,27 +1,26 @@
 body {
-  margin: 0px;
-  padding: 0px;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+    margin: 0px;
+    padding: 0px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 
-  background-color: #04151d;
-  color: #b3b1b1;
-  font-family: 'OrbitronLight', monospace;
+    background-color: #04151d;
+    color: #b3b1b1;
+    font-family: 'OrbitronLight', monospace;
 
-  padding: 40px;
 
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 @font-face {
-  font-family: OrbitronLight;
-  src: url("/orbitron/orbitron-light.otf") format("opentype");
+    font-family: OrbitronLight;
+    src: url("/orbitron/orbitron-light.otf") format("opentype");
 }
 
 @font-face {
-  font-family: Orbitron;
-  font-weight: bold;
-  src: url("/orbitron/orbitron-bold.otf") format("opentype");
+    font-family: Orbitron;
+    font-weight: bold;
+    src: url("/orbitron/orbitron-bold.otf") format("opentype");
 }
