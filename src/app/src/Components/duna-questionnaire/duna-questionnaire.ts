@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class DunaQuestionnaire {
     currentHEXADType: string = "";
     HEXADType: string[] = ["Philanthropist", "Socializer", "Free Spirit", "Achiever", "Player", "Disruptor"];
-
+    DunaHEXADType: string[] = ["Sãmakh", "Qãhal", "Tùr", "Bãnãh", "Qasar", "Nãsãh"];
 
     questionReponses = {
         "questions": [

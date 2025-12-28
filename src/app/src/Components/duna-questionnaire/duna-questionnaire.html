@@ -1,8 +1,33 @@
 <p>duna-questionnaire works!</p>
 <div>
+
+</div>
+<div>
     @for( currentHEXADType of HEXADType; track $index){
     <div class="HEXADType">
         <h1>{{currentHEXADType}}</h1>
     </div>
     }
+    <div class="container">
+        <h1>🎮 QUESTIONNAIRE – QUEL EST TON GAME ARCHETYPE (HEXAD)</h1>
+        <div class="instructions">
+            <strong>🧠 Instructions :</strong> Pour chaque question, choisis <strong>UNE seule réponse</strong> (celle
+            qui
+            te correspond le plus).
+        </div>
+        <div class="cle">
+            <h4>🔢 Clé des archétypes</h4>
+            <ul>
+                <li>1️⃣ <strong>Philanthropist 🤝</strong> – Aider, donner du sens</li>
+                <li>2️⃣ <strong>Socializer 💬</strong> – Relations, communauté</li>
+                <li>3️⃣ <strong>Free Spirit 🧭</strong> – Liberté, exploration, créativité</li>
+                <li>4️⃣ <strong>Achiever 🏆</strong> – Progression, maîtrise</li>
+                <li>5️⃣ <strong>Player 💎</strong> – Récompenses, loot</li>
+                <li>6️⃣ <strong>Disruptor ☠️</strong> – Domination, perturbation, pouvoir</li>
+            </ul>
+        </div>
+        <div id="questions"></div>
+        <button onclick="calculateResults()">🧮 Calculer mes résultats</button>
+        <div id="results" style="display: none;"></div>
+    </div>
 </div>

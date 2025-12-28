@@ -30,14 +30,19 @@
     display: flex;
     width: 100%;
     justify-content: space-evenly;
-    background-color: rgba(133, 132, 132, 0.4);
+    background-color: rgba(179, 177, 177, 0.4);
     border-radius: 20px;
 }
 
 .aNavNoStyle {
-    color: inherit;
+    color: rgb(10, 93, 131);
     text-decoration: none;
+    text-shadow: 2px 0px 2px rgb(179, 177, 177);
+}
 
+.aNavNoStyle:hover {
+    color: rgb(10, 93, 131);
+    text-shadow: 2px 0px 2px rgb(179, 177, 177);
 }
 
 .NavElem {
@@ -46,7 +51,7 @@
 }
 
 .NavElem:hover {
-    background-color: rgba(12, 73, 114, 0.4);
+    background-color: rgba(12, 73, 114, 0.1);
     padding-left: 2%;
     padding-right: 2%;
 }
