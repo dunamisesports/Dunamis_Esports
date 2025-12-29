@@ -1,22 +1,35 @@
 import { Component } from '@angular/core';
 
+
+type Answers = {
+    value: number,
+    label: string
+
+}
+type DunaQR = {
+    id: number,
+    question: string,
+    answers: Answers[]
+}
+
+
 @Component({
     selector: 'app-duna-questionnaire',
     imports: [],
     templateUrl: './duna-questionnaire.html',
     styleUrl: './duna-questionnaire.css'
 })
+
 export class DunaQuestionnaire {
-    currentHEXADType: string = "";
     HEXADType: string[] = ["Philanthropist", "Socializer", "Free Spirit", "Achiever", "Player", "Disruptor"];
     DunaHEXADType: string[] = ["Sãmakh", "Qãhal", "Tùr", "Bãnãh", "Qasar", "Nãsãh"];
 
-    questionReponses = {
-        "questions": [
+    questionReponses: DunaQR[] =
+        [
             {
-                "id": 1,
-                "question": "Quand tu lances un nouveau jeu, ton premier réflexe est :",
-                "answers": [
+                id: 1,
+                question: "Quand tu lances un nouveau jeu, ton premier réflexe est :",
+                answers: [
                     { "value": 1, "label": "Voir comment je peux aider ou guider" },
                     { "value": 2, "label": "Chercher des gens avec qui jouer" },
                     { "value": 3, "label": "Explorer librement sans objectif précis" },
@@ -230,6 +243,5 @@ export class DunaQuestionnaire {
                 ]
             }
         ]
-    }
 
 }
