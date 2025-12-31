@@ -1,23 +1,88 @@
 <div>
-    <div class="HEXADType">
-        @for( currentDunaQR of questionReponses; track $index){
-        <div class="flexerino">
-            <details>
-                <summary>
-                    <div class="flexerino">
-                        <h1>{{currentDunaQR.question}}</h1>
+    <button (click)="fillFormMock()">
+        Remplir automatiquement
+    </button>
+    <details>
+        <summary class="flexerino">
+            <h1>Questions</h1>
+        </summary>
+        <div class="HEXADType">
+            @for( currentDunaQR of questionReponses; track $index){
+            <div class="flexerino">
+                <details open>
+                    <summary>
+                        <div class="flexerino">
+                            <h1>{{currentDunaQR.question}}</h1>
+                        </div>
+                    </summary>
+                    <div>
+                        <select (change)="setUiAnswers(currentDunaQR.id,$event)">
+                            <option value="Choisis une Option"></option>
+                            @for( currentQuestion of currentDunaQR.answers; track $index){
+                            <option value="{{currentQuestion.value}}">{{currentQuestion.label}}</option>
+                            }
+                        </select>
                     </div>
-                </summary>
-                <div>
-                    <select name="" id="">
-                        <option value="Choisis une Option"></option>
-                        @for( currentQuestion of currentDunaQR.answers; track $index){
-                        <option value="{{currentQuestion.value}}">{{currentQuestion.label}}</option>
-                        }
-                    </select>
-                </div>
-            </details>
+                </details>
+            </div>
+            }
         </div>
-        }
+    </details>
+    <div class="flexerino">
+        <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
     </div>
+
+    @if(showHexad){
+    <div class="flexerino">
+        <div class="HEXADChara">
+            <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+                <g transform="translate(200,200)">
+
+                    <!-- HEXA GRID : 6 LEVELS -->
+                    <g stroke="yellow" stroke-dasharray="6,6" fill="none">
+                        <!-- r = 25 -->
+                        <path d="M0,-25 L21.65,-12.5 L21.65,12.5 L0,25 L-21.65,12.5 L-21.65,-12.5 Z" />
+                        <!-- r = 75 -->
+                        <path d="M0,-75 L64.95,-37.5 L64.95,37.5 L0,75 L-64.95,37.5 L-64.95,-37.5 Z" />
+                        <!-- r = 125 -->
+                        <path d="M0,-125 L108.25,-62.5 L108.25,62.5 L0,125 L-108.25,62.5 L-108.25,-62.5 Z" />
+
+                    </g>
+                    <g stroke="white" stroke-dasharray="6,6" fill="none">
+                        <!-- r = 50 -->
+                        <path d="M0,-50 L43.3,-25 L43.3,25 L0,50 L-43.3,25 L-43.3,-25 Z" />
+                        <!-- r = 100 -->
+                        <path d="M0,-100 L86.6,-50 L86.6,50 L0,100 L-86.6,50 L-86.6,-50 Z" />
+                        <!-- r = 150 -->
+                        <path d="M0,-150 L129.9,-75 L129.9,75 L0,150 L-129.9,75 L-129.9,-75 Z" />
+                    </g>
+
+
+                    <!-- AXES -->
+                    <path d="M0,0L0,-150" stroke="white" />
+                    <path d="M0,0L130,-75" stroke="white" />
+                    <path d="M0,0L130,75" stroke="white" />
+                    <path d="M0,0L0,150" stroke="white" />
+                    <path d="M0,0L-130,75" stroke="white" />
+                    <path d="M0,0L-130,-75" stroke="white" />
+
+                    <!-- LABELS -->
+                    <text x="0" y="-170" text-anchor="middle" fill="white">Sãmakh</text>
+                    <text x="150" y="-85" text-anchor="middle" fill="white">Qãhal</text>
+                    <text x="150" y="95" text-anchor="middle" fill="white">Tùr</text>
+                    <text x="0" y="185" text-anchor="middle" fill="white">Bãnãh</text>
+                    <text x="-150" y="95" text-anchor="middle" fill="white">Qasar</text>
+                    <text x="-150" y="-85" text-anchor="middle" fill="white">Nãsãh</text>
+
+                    <path [attr.d]="hexadPath" fill="#92f0da" fill-opacity="0.5" stroke="#92f0da" stroke-width="2">
+                    </path>
+                </g>
+
+            </svg>
+        </div>
+    </div>
+    }
+
+
+
 </div>
