@@ -1,38 +1,17 @@
 <div>
-    <button (click)="fillFormMock()">
-        Remplir automatiquement
-    </button>
-    <details>
-        <summary class="flexerino">
-            <h1>Questions</h1>
-        </summary>
-        <div class="HEXADType">
-            @for( currentDunaQR of questionReponses; track $index){
-            <div class="flexerino">
-                <details open>
-                    <summary>
-                        <div class="flexerino">
-                            <h1>{{currentDunaQR.question}}</h1>
-                        </div>
-                    </summary>
-                    <div>
-                        <select (change)="setUiAnswers(currentDunaQR.id,$event)">
-                            <option value="Choisis une Option"></option>
-                            @for( currentQuestion of currentDunaQR.answers; track $index){
-                            <option value="{{currentQuestion.value}}">{{currentQuestion.label}}</option>
-                            }
-                        </select>
-                    </div>
-                </details>
-            </div>
-            }
-        </div>
-    </details>
-    <div class="flexerino">
-        <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
-    </div>
 
-    @if(showHexad){
+    @if (hasInLocalStorage("OccuBoard") && showHexad) {
+    <div>
+        <h2 class="title">Test Buttons</h2>
+        <div class="flexerino">
+            <button (click)="fillFormMock()">
+                Remplir automatiquement
+            </button>
+            <div>
+                <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
+            </div>
+        </div>
+    </div>
     <div class="flexerino">
         <div class="HEXADChara">
             <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
@@ -81,7 +60,99 @@
             </svg>
         </div>
     </div>
+    <div class="flexerino">
+        <div class="cardHexad">
+            <div class="title">
+                <h1>Primary</h1>
+            </div>
+            <hr>
+            <div class="title">
+                <h2>{{primary!.DunaHEXADType}}</h2>
+                <br>
+                <h2>{{primary!.HEXADType}}</h2>
+            </div>
+            <div class="flexerino ">
+                <img class="imgPadd"
+                    src="/img/HEXAD/{{primary?.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray}}.png"
+                    alt="{{primary?.HEXADType}}">
+            </div>
+            <div>
+                {{primary!.HEXADTypeDescription}}
+            </div>
+        </div>
+        <div class="cardHexad underlying">
+            <div class="title">
+                <h1>Underlying</h1>
+            </div>
+            <hr>
+            <div class="title">
+                <h2>{{underlying!.DunaHEXADType}}</h2>
+                <br>
+                <h2>{{underlying!.HEXADType}}</h2>
+            </div>
+            <div class="flexerino">
+                <img class="imgPadd"
+                    src="/img/HEXAD/{{underlying?.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray}}.png"
+                    alt="{{underlying?.HEXADType}}">
+            </div>
+            <div>
+                {{underlying!.HEXADTypeDescription}}
+            </div>
+        </div>
+    </div>
     }
+    @else{
+    <details>
+        <summary class="flexerino">
+            <button (click)="fillFormMock()">
+                Remplir automatiquement
+            </button>
+
+            <h1>Questions</h1>
+            <div class="flexerino">
+                <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
+            </div>
+        </summary>
+
+        <div class=" HEXADType flexerino">
+            @for( currentDunaQR of questionReponses; track $index){
+            <details class="QuestionCard" open>
+                <summary>
+                    <div class="flexerino">
+                        <h1 class="title">{{currentDunaQR.question}}</h1>
+                    </div>
+                </summary>
+                <div class="radio-group flexerino">
+                    @for (answer of currentDunaQR.answers; track answer.value) {
+                    <label class="radio-label">
+                        <input type="radio" [name]="'question_' + currentDunaQR.id" [value]="answer.value"
+                            (change)="setUiAnswers(currentDunaQR.id, $event)" />
+                        <span class="custom-radio"></span>
+                        {{ answer.label }}
+                    </label>
+                    }
+                </div>
+                <!--<div class="flexerino">
+                    <select (change)="setUiAnswers(currentDunaQR.id,$event)">
+                        <option value="Choisis une Option"></option>
+                        @for( currentQuestion of currentDunaQR.answers; track $index){
+                        <option value="{{currentQuestion.value}}">{{currentQuestion.label}}</option>
+                        }
+                    </select>
+                </div>-->
+            </details>
+            }
+        </div>
+
+    </details>
+    }
+
+
+
+
+
+
+
 
 
 

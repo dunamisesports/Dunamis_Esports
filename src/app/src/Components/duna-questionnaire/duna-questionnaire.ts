@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { eventNames } from 'node:process';
-
 
 type Answers = {
     value: number,
     label: string
-
 }
 type DunaQR = {
     id: number,
@@ -17,7 +14,10 @@ type HEXADClass = {
     DunaHEXADType: string,
     Occurences: number
 }
-
+type HEXADClassEX = HEXADClass & {
+    indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray: number
+    HEXADTypeDescription: string
+} | null
 @Component({
     selector: 'app-duna-questionnaire',
     imports: [],
@@ -26,12 +26,23 @@ type HEXADClass = {
 })
 
 export class DunaQuestionnaire {
+    HEXADTypeDescription = [
+        "Les Sãmakh (Philanthropist) aiment aider les autres sans rien attendre en retour. Ils sont motivés par le sens et la contribution à une cause.",
+        "Les Qãhal (Socializer) sont motivés par les interactions sociales. Ils aiment connecter avec les autres, collaborer et construire des relations.",
+        "Les Tùr (Free Spirit) cherchent l’autonomie et la liberté. Ils aiment explorer, créer et exprimer leur individualité sans contraintes.",
+        "Les Bãnãh (Achiever) veulent progresser, maîtriser et atteindre des objectifs. Ils sont motivés par les défis, les compétences et les récompenses.",
+        "Les Qasar (Player) aiment gagner des récompenses et profiter du système. Ils cherchent les points, badges et avantages offerts par les règles.",
+        "Les Nãsãh (Disruptor) aiment changer le système, tester les limites et provoquer du changement. Ils sont motivés par l’innovation et le défi des normes."
+    ]
     HEXADType: string[] = ["Philanthropist", "Socializer", "Free Spirit", "Achiever", "Player", "Disruptor"];
     DunaHEXADType: string[] = ["Sãmakh", "Qãhal", "Tùr", "Bãnãh", "Qasar", "Nãsãh"];
     OccurencesHEXADType: number[] = [];
     finishedHEXADPersonnalClassification: HEXADClass[] = [];
     showHexad = false;
     hexadPath: string = '';
+
+    primary: HEXADClassEX = null;
+    underlying: HEXADClassEX = null;
 
     questionReponses: DunaQR[] =
         [
@@ -97,7 +108,7 @@ export class DunaQuestionnaire {
             },
             {
                 "id": 6,
-                "question": "Un objet rare apparaît :",
+                "question": "Un objet rare apparaît:",
                 "answers": [
                     { "value": 1, "label": "Tu penses à qui pourrait en profiter" },
                     { "value": 2, "label": "Tu veux le montrer / partager" },
@@ -145,14 +156,14 @@ export class DunaQuestionnaire {
             },
             {
                 "id": 10,
-                "question": "Quand tu maîtrises un jeu :",
+                "question": "Quand tu maîtrises vraiment un jeu, tu as tendance à :",
                 "answers": [
-                    { "value": 1, "label": "Tu aides les autres à progresser" },
-                    { "value": 2, "label": "Tu renforces la communauté" },
-                    { "value": 3, "label": "Tu explores les détails cachés" },
-                    { "value": 4, "label": "Tu affines ton gameplay" },
-                    { "value": 5, "label": "Tu optimises ton farming" },
-                    { "value": 6, "label": "Tu imposes ton niveau" }
+                    { "value": 1, "label": "Transmettre ton savoir et guider les autres" },
+                    { "value": 2, "label": "Structurer un groupe ou une communauté autour de toi" },
+                    { "value": 3, "label": "Explorer les systèmes cachés ou non documentés" },
+                    { "value": 4, "label": "Optimiser chaque détail pour atteindre l’excellence" },
+                    { "value": 5, "label": "Exploiter ta maîtrise pour générer plus de ressources" },
+                    { "value": 6, "label": "Utiliser ta supériorité pour imposer un ordre ou une hiérarchie" }
                 ]
             },
             {
@@ -217,14 +228,14 @@ export class DunaQuestionnaire {
             },
             {
                 "id": 16,
-                "question": "Si tu gagnes beaucoup :",
+                "question": "Quand tu disposes de beaucoup de ressources ou d’influence en jeu :",
                 "answers": [
-                    { "value": 1, "label": "Tu partages" },
-                    { "value": 2, "label": "Tu célèbres avec les autres" },
-                    { "value": 3, "label": "Tu explores plus" },
-                    { "value": 4, "label": "Tu montes encore le niveau" },
-                    { "value": 5, "label": "Tu accumules" },
-                    { "value": 6, "label": "Tu renforces ton pouvoir" }
+                    { "value": 1, "label": "Tu les utilises pour soutenir et protéger les autres" },
+                    { "value": 2, "label": "Tu renforces des liens, alliances ou une organisation" },
+                    { "value": 3, "label": "Tu investis pour explorer de nouvelles possibilités" },
+                    { "value": 4, "label": "Tu consolides ta position pour rester au sommet" },
+                    { "value": 5, "label": "Tu développes un empire économique rentable" },
+                    { "value": 6, "label": "Tu redessines les rapports de force du monde" }
                 ]
             },
             {
@@ -253,21 +264,29 @@ export class DunaQuestionnaire {
             }
         ]
     UIAnswers: number[] = [];
+    // Méthode qui prend la clé en paramètre
+    getFromLocalStorage(key: string): string | null {
+        return typeof window !== 'undefined' ? localStorage.getItem(key) : null;
+    }
+    setToLocalStorage(key: string, value: string) {
+        if (typeof window !== 'undefined')
+            localStorage.setItem(key, value);
+    }
+    hasInLocalStorage(key: string): boolean {
+        return typeof window !== 'undefined' && !!localStorage.getItem(key);
+    }
 
     fillFormMock(): void {
-
         // nombre de questions réelles
         const totalQuestions = 18;
-
         // reset au cas où
         this.UIAnswers = [];
-
         for (let i = 1; i < totalQuestions + 1; i++) {
             // valeur random entre 1 et 6
             const value = Math.floor(Math.random() * 6) + 1;
             this.UIAnswers[i] = value;
+            console.table(this.UIAnswers);
         }
-
     }
     setUiAnswers(indexQuestion: number, answer: Event) {
         let answerChoix = parseInt((answer.target as HTMLSelectElement).value);
@@ -289,9 +308,7 @@ export class DunaQuestionnaire {
     }
 
     buildHexadPathFromOccurences(): void {
-
-        const MAX_RADIUS = 150;
-
+        const MAX_RADIUS = 200;
         const AXES_ORDER = [
             'Sãmakh',
             'Qãhal',
@@ -302,23 +319,16 @@ export class DunaQuestionnaire {
         ];
 
         const angles = [-90, -30, 30, 90, 150, 210];
-
         let path = '';
-
         AXES_ORDER.forEach((axis, index) => {
-
             const angleRad = angles[index] * Math.PI / 180;
-
             const item = this.finishedHEXADPersonnalClassification
                 .find(i => i.DunaHEXADType === axis);
-
             // 🔑 ICI la règle importante
             const occurences = item ? item.Occurences : 0;
-            const MAX_PER_AXIS = 9;
+            const MAX_PER_AXIS = 18;
             const t = Math.min(occurences, MAX_PER_AXIS) / MAX_PER_AXIS;
-
-            // ⚠️ avant : t * MAX_RADIUS
-            const radius = (0.7 * t) * MAX_RADIUS;
+            const radius = (t) * MAX_RADIUS;
 
             const x = +(radius * Math.cos(angleRad)).toFixed(2);
             const y = +(radius * Math.sin(angleRad)).toFixed(2);
@@ -329,14 +339,40 @@ export class DunaQuestionnaire {
                 path += `L${x},${y}`;
             }
         });
-
         path += 'Z';
-
         this.hexadPath = path;
     }
 
 
-
+    setPrimary(): void {
+        let indexOfPrimary = 0;
+        for (let i = 1; i < this.finishedHEXADPersonnalClassification.length; i++) {
+            if (this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[i - 1].Occurences) {
+                indexOfPrimary = i;
+            }
+        }
+        this.primary = {
+            ...this.finishedHEXADPersonnalClassification[indexOfPrimary],
+            indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray: indexOfPrimary,
+            HEXADTypeDescription: this.HEXADTypeDescription[indexOfPrimary]
+        }
+    }
+    setUnderlying(): void {
+        let indexOfUnderlying = 0;
+        for (let i = 1; i < this.finishedHEXADPersonnalClassification.length; i++) {
+            if (
+                (this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[i - 1].Occurences) &&
+                (this.finishedHEXADPersonnalClassification[i].Occurences < this.finishedHEXADPersonnalClassification[this.primary!.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray].Occurences)
+            ) {
+                indexOfUnderlying = i;
+            }
+        }
+        this.underlying = {
+            ...this.finishedHEXADPersonnalClassification[indexOfUnderlying],
+            indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray: indexOfUnderlying,
+            HEXADTypeDescription: this.HEXADTypeDescription[indexOfUnderlying]
+        }
+    }
 
 
     YourHEXADType(): any {
@@ -370,14 +406,20 @@ export class DunaQuestionnaire {
                         Occurences: this.OccurencesHEXADType[i]
                     }
                 }
-            }
+            }/*
             console.log(this.finishedHEXADPersonnalClassification);
             this.finishedHEXADPersonnalClassification.sort((a: HEXADClass, b: HEXADClass) => {
                 return a.Occurences - b.Occurences;
-            })
+            })*/
             console.log(this.finishedHEXADPersonnalClassification);
 
             this.buildHexadPathFromOccurences();
+            let toLocalHEXAPATH = JSON.stringify(this.finishedHEXADPersonnalClassification);
+            this.setToLocalStorage("OccuBoard", toLocalHEXAPATH);
+
+            this.setPrimary();
+            this.setUnderlying();
+
             this.showHexad = true;
         }
     }
