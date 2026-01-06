@@ -308,7 +308,7 @@ export class DunaQuestionnaire {
     }
 
     buildHexadPathFromOccurences(): void {
-        const MAX_RADIUS = 200;
+        const MAX_RADIUS = 230;
         const AXES_ORDER = [
             'Sãmakh',
             'Qãhal',

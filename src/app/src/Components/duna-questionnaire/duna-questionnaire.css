@@ -8,7 +8,7 @@
 }
 
 .HEXADType {
-    color: wheat;
+    color: rgb(255, 195, 0);
     padding: 2%;
 
 }
@@ -32,17 +32,30 @@ details>summary {
 }
 
 .HEXADChara {
-    width: 50%;
+    width: 60%;
+
+    background-color: black;
+
+    border: 4px solid rgb(255, 57, 15);
+    border-radius: 25px;
+
+    padding-bottom: 50px;
+    margin-bottom: 200px;
+    margin-top: 50px;
 }
 
-
+.svgPadding {
+    padding-top: 150px;
+    padding-bottom: 150px;
+    margin-top: 150px;
+    margin-bottom: 150px;
+}
 
 .cardHexad {
     max-width: 25%;
-    border: 3px solid yellow;
+    border: 4px solid rgb(255, 57, 15);
     border-radius: 25px;
     padding: 3%;
-
 }
 
 .underlying {
@@ -59,11 +72,17 @@ details>summary {
 
 .radio-group:has(input[type="radio"]:checked) {
     border-radius: 25px;
-    background-color: rgb(53, 133, 53);
+    background-color: rgb(255, 57, 15);
 
     .radio-label:hover {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 1);
     }
+}
+
+.backText {
+    background-color: black;
+    padding: 10px;
+    border-radius: 25px;
 }
 
 .radio-label {
@@ -76,17 +95,17 @@ details>summary {
     padding: 8px 12px;
     border-radius: 8px;
     transition: background 0.2s;
-    background-color: wheat;
+    background-color: rgb(8, 202, 202);
 }
 
 .radio-label:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(255, 57, 15)
 }
 
 .custom-radio {
     width: 20px;
     height: 20px;
-    border: 2px solid #ffd700;
+    border: 4px solid rgb(255, 195, 0);
     border-radius: 50%;
     display: inline-block;
     position: relative;
@@ -95,6 +114,7 @@ details>summary {
 
 .imgPadd {
     padding-bottom: 15px;
+    max-width: 450px;
 }
 
 input[type="radio"]:checked+.custom-radio {

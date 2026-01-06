@@ -14,7 +14,7 @@
     </div>
     <div class="flexerino">
         <div class="HEXADChara">
-            <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet">
+            <svg viewBox="0 -50 400 470" preserveAspectRatio="xMidYMid meet">
                 <g transform="translate(200,200)">
 
                     <!-- HEXA GRID : 6 LEVELS -->
@@ -46,12 +46,23 @@
                     <path d="M0,0L-130,-75" stroke="white" />
 
                     <!-- LABELS -->
-                    <text x="0" y="-170" text-anchor="middle" fill="white">Sãmakh</text>
-                    <text x="150" y="-85" text-anchor="middle" fill="white">Qãhal</text>
-                    <text x="150" y="95" text-anchor="middle" fill="white">Tùr</text>
-                    <text x="0" y="185" text-anchor="middle" fill="white">Bãnãh</text>
-                    <text x="-150" y="95" text-anchor="middle" fill="white">Qasar</text>
-                    <text x="-150" y="-85" text-anchor="middle" fill="white">Nãsãh</text>
+                    <text x="0" y="-160" text-anchor="middle" fill="rgb(255, 87, 51)">Sãmakh</text>
+                    <image href="/img/HEXAD/0b.svg" x="-24" y="-220" width="50" height="50" />
+
+                    <text x="150" y="-85" text-anchor="middle" fill="rgb(255, 87, 51)">Qãhal</text>
+                    <image href="/img/HEXAD/1b.svg" x="130" y="-80" width="50" height="50" />
+
+                    <text x="150" y="90" text-anchor="middle" fill="rgb(255, 87, 51)">Tùr</text>
+                    <image href="/img/HEXAD/2b.svg" x="126" y="85" width="50" height="50" />
+
+                    <text x="-1" y="169" text-anchor="middle" fill="rgb(255, 87, 51)">Bãnãh</text>
+                    <image href="/img/HEXAD/3b.svg" x="-24" y="170" width="50" height="50" />
+
+                    <text x="-150" y="95" text-anchor="middle" fill="rgb(255, 87, 51)">Qasar</text>
+                    <image href="/img/HEXAD/4b.svg" x="-174" y="95" width="50" height="50" />
+
+                    <text x="-158" y="-85" text-anchor="middle" fill="rgb(255, 87, 51)">Nãsãh</text>
+                    <image href="/img/HEXAD/5b.svg" x="-180" y="-80" width="50" height="50" />
 
                     <path [attr.d]="hexadPath" fill="#92f0da" fill-opacity="0.5" stroke="#92f0da" stroke-width="2">
                     </path>
@@ -73,10 +84,10 @@
             </div>
             <div class="flexerino ">
                 <img class="imgPadd"
-                    src="/img/HEXAD/{{primary?.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray}}.png"
+                    src="/img/HEXAD/{{primary?.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray}}b.svg"
                     alt="{{primary?.HEXADType}}">
             </div>
-            <div>
+            <div class="title backText">
                 {{primary!.HEXADTypeDescription}}
             </div>
         </div>
@@ -92,10 +103,10 @@
             </div>
             <div class="flexerino">
                 <img class="imgPadd"
-                    src="/img/HEXAD/{{underlying?.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray}}.png"
+                    src="/img/HEXAD/{{underlying?.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray}}b.svg"
                     alt="{{underlying?.HEXADType}}">
             </div>
-            <div>
+            <div class="title backText">
                 {{underlying!.HEXADTypeDescription}}
             </div>
         </div>
