@@ -8,11 +8,18 @@
 }
 
 .bandeauLastStream {
-    max-width: 30%;
+    min-width: 30%;
     border: 5px solid rgb(255, 57, 15);
     border-radius: 25px;
 }
 
-#twitch-embed {
-    padding: 5%;
+.twitch-frame {
+    width: 90%;
+    min-height: 300px;
+    padding-left: 5%;
+    padding-bottom: 5%;
+}
+
+.streamer {
+    color: aqua;
 }
