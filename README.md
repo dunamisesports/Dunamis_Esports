@@ -1,59 +1,69 @@
-# DunamisEsports
+# ⚡ Dunamis Esports
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+> *In communion, in front of our screens,*  
+> *our trust in the Lord sharpens our skill.*  
+> *Blessed may be our adversaries —*  
+> *but in His name, we’ll claim all victories.*
 
-## Development server
+---
 
-To start a local development server, run:
+## 🎮 About Dunamis
+
+Dunamis Esports is a Christian-oriented gaming and esports initiative built around identity, communion, and transformation through gaming culture.
+
+The project aims to create more than a competitive structure:
+- a community,
+- a gathering place,
+- a system of tribes and archetypes,
+- and eventually a complete ecosystem around gamers, creators, and shared values.
+
+### Core Values
+- **Love**
+- **Integrity**
+- **Creativity**
+
+---
+
+## 🧩 Current Features
+
+- Twitch stream integrations
+- Dynamic featured streamers section
+- HEXAD-inspired tribe attribution system
+- DunaMember onboarding flow
+- Responsive Angular frontend
+- Future-ready backend architecture using Supabase
+
+---
+
+## 🏛️ The Tribes
+
+Dunamis uses adapted HEXAD gamer archetypes known internally as the Duna Tribes.
+
+| HEXAD Type | Duna Name | Core Motivation |
+|---|---|---|
+| Philanthropist | Sãmakh | Helping others |
+| Socializer | Qãhal | Building connections |
+| Free Spirit | Tùr | Freedom & expression |
+| Achiever | Bãnãh | Progress & mastery |
+| Player | Qasar | Rewards & systems |
+| Disruptor | Nãsãh | Innovation & change |
+
+---
+
+## ⚙️ Tech Stack
+
+- Angular 20
+- TypeScript
+- Twitch Embedded Player
+- Supabase *(planned backend)*
+- PostgreSQL
+- SSR-ready architecture
+
+---
+
+## 🚀 Development Server
+
+Run locally:
 
 ```bash
 ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
