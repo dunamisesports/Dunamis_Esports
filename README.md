@@ -18,9 +18,9 @@ The project aims to create more than a competitive structure:
 - and eventually a complete ecosystem around gamers, creators, and shared values.
 
 ### Core Values
-- **Love**
-- **Integrity**
-- **Creativity**
+- **MASTERY**
+- **NOT CHOSEN YET**
+- **NOT CHOSEN YET**
 
 ---
 
