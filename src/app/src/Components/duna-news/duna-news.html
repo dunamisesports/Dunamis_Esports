@@ -11,3 +11,37 @@
     </div>
     }
 </div>
+<hr style="width: 50%;">
+<details class="dontTouchBorder">
+    <summary>
+        <h1 class="title">Dernières News</h1>
+    </summary>
+    <article class="article dontTouchBorder">
+        <p title="">Dofus : Lore Update </p>
+        <div>
+            <p class="title">Le Duel de la Crypte</p>
+            <img style="width: 100%; cursor: pointer;" src="/img/Lore/be8edb0e-4e2d-4f1b-8a8f-04a88eeec16e.png" alt=""
+                (click)="openImage('/img/Lore/be8edb0e-4e2d-4f1b-8a8f-04a88eeec16e.png')">
+
+            <p class="paragraphArticle">
+                Barar-Sameda s'élance sans hésitation vers Kardorim, transformant les profondeurs silencieuses de la
+                crypte en théâtre
+                d'un affrontement où seule la volonté de vaincre survivra.
+            </p>
+        </div>
+
+    </article>
+</details>
+
+
+
+@if (selectedImage) {
+<div class="image-modal" (click)="closeImage()">
+    <img class="image-modal-content dontTouchBorder" [src]="selectedImage" alt="" (click)="$event.stopPropagation()">
+    <p class="paragraphArticle dontTouchBorder">
+        Barar-Sameda s'élance sans hésitation vers Kardorim, transformant les profondeurs silencieuses de la
+        crypte en théâtre
+        d'un affrontement où seule la volonté de vaincre survivra.
+    </p>
+</div>
+}

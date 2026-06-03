@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
@@ -32,5 +32,19 @@ export class DunaNews {
         { channel: 'Dunamis_tv' }
     ];
 
+    selectedImage: string | null = null;
+    @HostListener('document:keydown.escape')
+    onEscape(): void {
+        this.closeImage();
+    }
+
+    openImage(image: string): void {
+        console.log('IN openImage' + image)
+        this.selectedImage = image;
+    }
+
+    closeImage(): void {
+        this.selectedImage = null;
+    }
 
 }
