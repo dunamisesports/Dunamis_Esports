@@ -6,7 +6,7 @@ import { DunaContact } from './src/Components/duna-contact/duna-contact';
 
 export const routes: Routes = [
     { path: '', component: DunaNews },/*a changé en Home apres avoir fait le questionnaire i guess*/
-    { path: "HexadQuiz", component: DunaQuestionnaire },
-    { path: 'OurIdentity', component: DunaIdentity },
-    { path: 'ContactUs', component: DunaContact }
+    { path: "hexadquiz", component: DunaQuestionnaire },
+    { path: 'ouridentity', component: DunaIdentity },
+    { path: 'contactus', component: DunaContact }
 ];
