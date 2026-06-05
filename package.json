@@ -31,7 +31,7 @@
         "@angular/platform-server": "^20.3.0",
         "@angular/router": "^20.3.0",
         "@angular/ssr": "^20.3.5",
-        "@netlify/angular-runtime": "^3.0.1",
+        "@netlify/angular-runtime": "^4.0.0",
         "dotenv": "^17.2.4",
         "express": "^5.1.0",
         "postgres": "^3.4.8",
