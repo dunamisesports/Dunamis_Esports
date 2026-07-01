@@ -15,8 +15,8 @@ export interface StreamCarac {
 export class DunaNews {
     sanitizer = inject(DomSanitizer);
     getEmbedUrl(stream: StreamCarac): SafeResourceUrl {
-        //const parent = "localhost";
-        const parent = "dunamis-esports.netlify.app"
+        const parent = "localhost";
+        //const parent = "dunamis-esports.netlify.app"
         const base = 'https://player.twitch.tv/';
 
         const params = stream.lastVideoStreamID
