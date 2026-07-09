@@ -1,0 +1,85 @@
+.game-worlds {
+    width: 90%;
+    margin: auto;
+    color: white;
+}
+
+.game-worlds h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin: 40px 0;
+    color: #ffbf00;
+}
+
+.world-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.world-card {
+    width: 320px;
+    padding: 25px;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: .35s;
+    border: 2px solid #555;
+    background: rgba(20, 20, 20, .9);
+}
+
+.world-card h3 {
+    color: #ffc400;
+    margin-bottom: 15px;
+}
+
+.world-card p {
+    color: #ddd;
+    line-height: 1.5;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    font-size: .8rem;
+    font-weight: bold;
+}
+
+.canon {
+    background: #445;
+    color: #9bd8ff;
+}
+
+.active-status {
+    background: #1c5823;
+    color: #9cff90;
+}
+
+.inactive {
+    opacity: .55;
+    filter: grayscale(.3);
+    cursor: default;
+}
+
+.active {
+    border-color: #59d7ff;
+    box-shadow: 0 0 20px rgba(89, 215, 255, .35);
+}
+
+.active:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 35px rgba(89, 215, 255, .7);
+}
+
+.enter {
+    margin-top: 20px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 30px;
+    background: #0f3b63;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
