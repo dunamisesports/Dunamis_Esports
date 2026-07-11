@@ -1,3 +1,13 @@
+:root {
+    --nav-height: 180px;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+}
+
 body {
     margin: 0px;
     padding: 0px;
@@ -8,7 +18,7 @@ body {
     background-position: center;
 
     background-color: rgb(0, 0, 0);
-    color: rgb(255, 195, 0);
+    color: rgb(184, 141, 0);
     font-family: 'OrbitronLight', monospace;
 
 

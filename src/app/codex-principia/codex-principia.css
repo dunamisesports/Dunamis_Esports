@@ -1,0 +1,65 @@
+.container {
+    height: 100vh;
+    align-content: center;
+    color: rgb(163, 163, 163);
+}
+
+.title {
+    text-align: center;
+    text-shadow: 1px 1px 3px rgb(255, 255, 255);
+}
+
+.Firstchapter {
+    height: calc(100vh - var(--nav-height));
+    justify-content: center;
+    scroll-snap-align: end;
+}
+
+.chapter {
+    height: 100vh;
+    justify-content: center;
+    scroll-snap-align: start;
+    align-items: start;
+}
+
+.flexerino {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.house {
+    min-width: 300px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.houseEmblem {
+    width: 50%;
+    border: 1px solid rgba(124, 122, 1, 0.35);
+}
+
+.OfTheMagisteria:hover>img {
+    width: 51%;
+    background-color: rgba(10, 101, 143, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+}
+
+.OfTheAequitas:hover>img {
+    width: 51%;
+    background-color: rgba(240, 239, 239, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+}
+
+.OfTheConcordia:hover>img {
+    width: 51%;
+    background-color: rgba(143, 10, 10, 0.4);
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+}
+
+/*.OfTheMagisteria {}*/

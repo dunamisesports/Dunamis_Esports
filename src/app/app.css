@@ -27,6 +27,7 @@
 }
 
 .Nav {
+
     display: flex;
     width: 100%;
     justify-content: space-evenly;
@@ -35,7 +36,7 @@
 }
 
 .aNavNoStyle {
-    color: rgb(255, 195, 0);
+    color: rgb(184, 141, 0);
     text-decoration: none;
     text-shadow: 2px 0px 2px rgb(179, 177, 177);
 }
