@@ -1,65 +1,402 @@
 .container {
-    height: 100vh;
-    align-content: center;
+    height: auto;
     color: rgb(163, 163, 163);
 }
 
 .title {
     text-align: center;
-    text-shadow: 1px 1px 3px rgb(255, 255, 255);
+    text-shadow: 0 0 0.4em rgb(0, 0, 0), 1px 1px 3px rgb(255, 255, 255);
+    font-size: clamp(1.8rem, 4vw, 4.2rem);
+}
+
+.Firstchapter,
+.chapter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: clamp(0.6rem, 2vh, 1.6rem) clamp(1rem, 3vw, 4rem);
+    overflow: hidden;
 }
 
 .Firstchapter {
     height: calc(100vh - var(--nav-height));
-    justify-content: center;
     scroll-snap-align: end;
 }
 
 .chapter {
     height: 100vh;
-    justify-content: center;
     scroll-snap-align: start;
-    align-items: start;
+}
+
+.creed-chapter .title {
+    margin-bottom: clamp(0.6rem, 2vh, 1.6rem);
+    font-size: clamp(2.1rem, 5vw, 5.35rem);
+}
+
+.creed-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: clamp(0.6rem, 2vw, 2.2rem);
+}
+
+.creed-col {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.creed-video {
+    width: auto;
+    height: auto;
+    max-width: min(22vw, 16rem);
+    max-height: calc(100vh - var(--nav-height) - 14rem);
+    flex: 0 0 auto;
+    object-fit: contain;
+    background: rgb(0, 0, 0);
+}
+
+.creed {
+    margin: clamp(0.55rem, 1.4vh, 1.15rem) 0;
+    text-align: center;
+    line-height: 2.2;
+    font-size: clamp(0.85rem, 1.35vw, 1.55rem);
+    text-shadow: 0 0 0.6em rgb(0, 0, 0);
+}
+
+#creed-fr {
+    color: rgb(89, 215, 255);
+}
+
+#creed-en {
+    color: rgb(255, 195, 0);
 }
 
 .flexerino {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    width: 100%;
+    gap: clamp(0.4rem, 1.5vw, 2rem);
 }
 
 .house {
-    min-width: 300px;
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+}
+
+.house h2 {
+    font-size: clamp(1.15rem, 2.2vw, 2.8rem);
+    margin: clamp(0.3rem, 1vh, 0.8rem) 0 0;
+}
+
+.house p {
+    max-width: 100%;
+    margin: clamp(0.15rem, 0.4vh, 0.4rem) 0;
+    line-height: 1.35;
+    font-size: clamp(0.75rem, 1.05vw, 1.2rem);
+    text-shadow: 0 0 0.5em rgb(0, 0, 0), 0 1px 2px rgb(0, 0, 0);
 }
 
 .houseEmblem {
-    width: 50%;
+    width: clamp(7.5rem, 24vw, 26rem);
     border: 1px solid rgba(124, 122, 1, 0.35);
+    transition: transform 0.35s ease, background-color 0.35s ease, border-radius 0.35s ease;
+}
+
+.affiliation,
+.archon,
+.rank-note,
+.hexad-type {
+    color: rgb(255, 195, 0);
+}
+
+.archon {
+    font-size: clamp(0.9rem, 1.3vw, 1.6rem);
+}
+
+.core-value,
+.devise {
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.04em;
+    font-size: clamp(1rem, 1.5vw, 1.8rem);
+}
+
+.OfTheConcordia .core-value {
+    color: rgb(255, 120, 90);
+}
+
+.OfTheAequitas .core-value {
+    color: rgb(214, 228, 242);
+}
+
+.OfTheMagisteria .core-value,
+.OfTheMagisteria .devise {
+    color: rgb(120, 190, 255);
+}
+
+.OfTheConcordia .devise-gap {
+    color: rgb(196, 30, 30);
+}
+
+.OfTheAequitas .devise-gap {
+    color: rgb(255, 255, 255);
+}
+
+.house-def {
+    position: relative;
+}
+
+.archon-pop {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.45rem);
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    color: rgb(255, 195, 0);
+    background: rgba(0, 0, 0, 0.88);
+    border-radius: clamp(0.4rem, 0.8vw, 0.8rem);
+    padding: clamp(0.25rem, 0.6vh, 0.45rem) clamp(0.5rem, 1vw, 0.9rem);
+    font-size: clamp(0.8rem, 1.1vw, 1.15rem);
+    transition: opacity 0.2s ease;
+    z-index: 2;
+}
+
+.house-def:hover .archon-pop,
+.house-def:focus-within .archon-pop {
+    opacity: 1;
+}
+
+.OfTheMagisteria:hover>img,
+.OfTheAequitas:hover>img,
+.OfTheConcordia:hover>img {
+    transform: scale(1.16);
+    border-radius: clamp(0.6rem, 1.2vw, 1.4rem);
+    backdrop-filter: blur(4px);
 }
 
 .OfTheMagisteria:hover>img {
-    width: 51%;
     background-color: rgba(10, 101, 143, 0.4);
-    border-radius: 20px;
-    backdrop-filter: blur(4px);
 }
 
 .OfTheAequitas:hover>img {
-    width: 51%;
     background-color: rgba(240, 239, 239, 0.4);
-    border-radius: 20px;
-    backdrop-filter: blur(4px);
 }
 
 .OfTheConcordia:hover>img {
-    width: 51%;
     background-color: rgba(143, 10, 10, 0.4);
-    border-radius: 20px;
-    backdrop-filter: blur(4px);
 }
 
-/*.OfTheMagisteria {}*/
+.lead {
+    text-align: center;
+    max-width: 70vw;
+    margin: 0 0 clamp(0.8rem, 2vh, 1.8rem);
+    font-size: clamp(1rem, 1.8vw, 1.8rem);
+}
+
+.verse-ref {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.72em;
+    letter-spacing: 0.04em;
+}
+
+.rank-path {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: min(96vw, 80rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.35rem, 1vh, 0.9rem);
+}
+
+.rank-path li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    padding: clamp(0.45rem, 1.2vh, 1rem) clamp(0.6rem, 1.5vw, 1.4rem);
+    border: 1px solid rgba(184, 141, 0, 0.45);
+    border-radius: clamp(0.8rem, 1.5vw, 1.6rem);
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.rank-path li:nth-child(1) {
+    width: 90%;
+}
+
+.rank-path li:nth-child(2) {
+    width: 76%;
+}
+
+.rank-path li:nth-child(3) {
+    width: 62%;
+}
+
+.rank-path li:nth-child(4) {
+    width: 50%;
+}
+
+.rank-path li:nth-child(5) {
+    width: 38%;
+}
+
+.rank-name {
+    color: rgb(255, 195, 0);
+    font-size: clamp(0.85rem, 1.5vw, 1.7rem);
+    white-space: nowrap;
+}
+
+.rank-note {
+    font-size: clamp(0.75rem, 1.2vw, 1.15rem);
+}
+
+.hexad-chapter {
+    width: 100%;
+}
+
+.hexad-carousel {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(0.4rem, 2vw, 2rem);
+}
+
+.hexad-nav {
+    font-size: clamp(2.4rem, 6vw, 6rem);
+    line-height: 1;
+    color: rgb(255, 195, 0);
+    background: transparent;
+    border: 1px solid rgba(184, 141, 0, 0.45);
+    border-radius: clamp(0.6rem, 1vw, 1.2rem);
+    padding: clamp(0.2rem, 1vh, 0.8rem) clamp(0.5rem, 1.2vw, 1.2rem);
+    cursor: pointer;
+}
+
+.hexad-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 0;
+}
+
+.hexad-slide img {
+    width: clamp(14rem, 34vw, 38rem);
+    max-height: 46vh;
+    object-fit: contain;
+    filter:
+        brightness(0) invert(1)
+        drop-shadow(0 0 0.15rem rgb(255, 255, 255))
+        drop-shadow(0 0 0.55rem rgb(80, 210, 255))
+        drop-shadow(0 0 1.4rem rgb(0, 160, 255));
+}
+
+.hexad-slide h2 {
+    margin: clamp(0.2rem, 0.6vh, 0.5rem) 0 0;
+    font-size: clamp(1.6rem, 3.2vw, 3.4rem);
+    color: rgb(255, 195, 0);
+}
+
+.hexad-type {
+    font-size: clamp(0.75rem, 1.1vw, 1.15rem);
+}
+
+.hexad-line {
+    max-width: 70vw;
+    margin: clamp(0.15rem, 0.5vh, 0.4rem) 0 0;
+    font-size: clamp(0.75rem, 1.15vw, 1.2rem);
+    line-height: 1.3;
+}
+
+.hexad-dots {
+    display: flex;
+    gap: clamp(0.4rem, 0.8vw, 0.8rem);
+    margin-top: clamp(0.6rem, 1.5vh, 1.2rem);
+}
+
+.hexad-dot {
+    width: clamp(0.7rem, 1vw, 1rem);
+    height: clamp(0.7rem, 1vw, 1rem);
+    border-radius: 50%;
+    border: 1px solid rgb(255, 195, 0);
+    background: transparent;
+    cursor: pointer;
+}
+
+.hexad-dot.is-current {
+    background: rgb(255, 195, 0);
+}
+
+.arca {
+    width: min(100%, 92vw);
+    text-align: center;
+    padding: clamp(1.4rem, 3vh, 2.8rem) clamp(1rem, 2vw, 2.4rem);
+    border-radius: clamp(0.8rem, 1.5vw, 1.6rem);
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.arca-icon {
+    width: clamp(1.6rem, 2.4vw, 2.4rem);
+    height: auto;
+    color: rgb(255, 255, 255);
+}
+
+.arca-lead {
+    margin: clamp(0.3rem, 0.8vh, 0.6rem) 0 clamp(0.8rem, 2vh, 1.4rem);
+    font-size: clamp(1rem, 1.6vw, 1.5rem);
+}
+
+.arca-rule {
+    width: 100%;
+    height: 1px;
+    margin-bottom: clamp(1rem, 2.5vh, 2rem);
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.pillar-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    gap: clamp(0.8rem, 2vw, 2rem);
+}
+
+.pillar {
+    text-align: center;
+    padding: clamp(1rem, 2.4vh, 2rem) clamp(0.8rem, 1.5vw, 1.6rem);
+    border-radius: clamp(0.8rem, 1.5vw, 1.6rem);
+    background-color: rgba(255, 255, 255, 0.04);
+    border: none;
+}
+
+.pillar h2,
+.pillar h3 {
+    font-size: clamp(1.35rem, 2.4vw, 2.6rem);
+    margin: 0;
+}
+
+.pillar-when {
+    color: rgb(255, 195, 0);
+    font-size: clamp(0.95rem, 1.4vw, 1.3rem);
+    margin: clamp(0.25rem, 0.6vh, 0.5rem) 0 clamp(0.5rem, 1vh, 0.8rem);
+}
+
+.pillar p {
+    line-height: 1.4;
+    font-size: clamp(0.95rem, 1.4vw, 1.35rem);
+}
+

@@ -1,45 +1,143 @@
 <div class="container">
 
-    <div class="Firstchapter">
-        <div>
-            <div>
-                <h1 class="title">
-                    Les Maisons du Dunamis
-                </h1>
+    <section class="Firstchapter creed-chapter">
+        <h1 class="title">⚔️ Le Dunamis Creed ⚔️</h1>
+        <div class="creed-stage">
+            <div class="creed-col" id="creed-fr">
+                <p class="creed">
+                    En communion, devant nos écrans,<br>
+                    notre confiance en Dieu aiguise notre talent.
+                </p>
+                <p class="creed">
+                    Bénis soient nos adversaires —<br>
+                    Mais en Lui, nous prendrons toutes les victoires.
+                </p>
             </div>
-
-            <div class="flexerino">
-                <div class="OfTheConcordia house">
-                    <img class="houseEmblem" src="/img/codexprincipia/OfTheConcordiaT.png" alt="OfTheConcordia">
-                    <h2 class="title">De la Concordia</h2>
-                    <h3 class="title">Pas le vrai logo</h3>
-                </div>
-                <div class="OfTheAequitas house">
-                    <img class="houseEmblem" src="/img/codexprincipia/OfTheAequitasT.png" alt="OfTheAequitas">
-                    <h2 class="title">De l'Aequitas</h2>
-                    <h3 class="title">Pas le vrai logo</h3>
-                </div>
-                <div class="OfTheMagisteria house">
-                    <img class="houseEmblem" src="/img/codexprincipia/OfTheMagisteriaT.png" alt="OfTheMagisteria">
-                    <h2 class="title">De la Magisteria</h2>
-                </div>
+            <video class="creed-video" controls playsinline preload="metadata" [src]="creedVideo"></video>
+            <div class="creed-col" id="creed-en">
+                <p class="creed">
+                    In communion, in front of our screens,<br>
+                    our trust in the Lord sharpens our skill.
+                </p>
+                <p class="creed">
+                    Blessed may be our adversaries —<br>
+                    but in His name, we’ll claim all victories.
+                </p>
             </div>
         </div>
+    </section>
 
-    </div>
-    <div class="chapter">
-        A venir Les Archetypes HEXAD
-    </div>
-    <div class="chapter">
-        A venir Le Registre de Vie
-    </div>
-    <div class="chapter">
-        A venir Les Chroniques
-    </div>
-    <div class="chapter">
-        A venir L'Observatoire
-    </div>
-    <div class="chapter">
-        A venir Le Sanctuaire
-    </div>
+    <section class="chapter houses-chapter">
+        <h1 class="title">Les Maisons du Dunamis</h1>
+        <p class="lead">« Choisir les valeurs qui guident notre évolution. »</p>
+        <div class="flexerino">
+            <article class="OfTheConcordia house">
+                <img class="houseEmblem" src="/img/codexprincipia/OfTheConcordiaT.png" alt="Blason de la Concordia">
+                <h2 class="title">De la Concordia</h2>
+                <p class="affiliation">He’s Of the Concordia</p>
+                <p class="core-value">Unité</p>
+                <p class="devise devise-gap">-</p>
+                <p class="house-def" tabindex="0">
+                    La cohésion du groupe, la solidarité, et la capacité à rester unis autour d’un objectif commun.
+                    <span class="archon-pop">Archon — BlackJainus</span>
+                </p>
+            </article>
+            <article class="OfTheAequitas house">
+                <img class="houseEmblem" src="/img/codexprincipia/OfTheAequitasT.png" alt="Blason de l'Aequitas">
+                <h2 class="title">De l'Aequitas</h2>
+                <p class="affiliation">He’s Of the Aequitas</p>
+                <p class="core-value">Équité</p>
+                <p class="devise devise-gap">-</p>
+                <p class="house-def" tabindex="0">
+                    Traiter chacun avec justice. L’erreur est une occasion d’apprendre, de grandir et de progresser.
+                    <span class="archon-pop">Archon — Jobby00</span>
+                </p>
+            </article>
+            <article class="OfTheMagisteria house">
+                <img class="houseEmblem" src="/img/codexprincipia/OfTheMagisteriaT.png" alt="Blason de La Magisteria">
+                <h2 class="title">De La Magisteria</h2>
+                <p class="affiliation">He’s Of the Magisteria</p>
+                <p class="core-value">Maîtrise</p>
+                <p class="devise">We must learn. We will learn.</p>
+                <p class="house-def" tabindex="0">
+                    Chercher à comprendre, apprendre et progresser jusqu’à la maîtrise.
+                    <span class="archon-pop">Archon — Kairos_Solg</span>
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <section class="chapter hierarchy-chapter">
+        <h1 class="title">La Hiérarchie</h1>
+        <p class="lead">« Quiconque veut être grand parmi vous, qu’il soit votre serviteur. » <span class="verse-ref">Matthieu 20:26</span></p>
+        <ol class="rank-path">
+            <li>
+                <span class="rank-name">Initié(e)</span>
+            </li>
+            <li>
+                <span class="rank-name">DAEVA</span>
+                <span class="rank-note">Les étoiles marquent un degré. Leur nombre n’est pas fixé.</span>
+            </li>
+            <li>
+                <span class="rank-name">Lieutenant / ArchDaeva</span>
+            </li>
+            <li>
+                <span class="rank-name">Commandant / Guildmaster</span>
+            </li>
+            <li>
+                <span class="rank-name">Archon du Konclave</span>
+            </li>
+        </ol>
+    </section>
+
+    <section class="chapter hexad-chapter">
+        <h1 class="title">Les Archétypes HEXAD</h1>
+        <p class="lead">« Comprendre ce qui nous motive et guide nos comportements. »</p>
+        <div class="hexad-carousel">
+            <button type="button" class="hexad-nav" (click)="prev()" aria-label="Archétype précédent">‹</button>
+            <article class="hexad-slide">
+                <img [src]="current().image" [alt]="'Emblème ' + current().name">
+                <h2>{{ current().name }}</h2>
+                <p class="hexad-type">{{ current().type }}</p>
+                <p class="hexad-line">{{ current().line }}</p>
+            </article>
+            <button type="button" class="hexad-nav" (click)="next()" aria-label="Archétype suivant">›</button>
+        </div>
+        <div class="hexad-dots">
+            @for (hexad of hexads; track hexad.name; let i = $index) {
+            <button type="button" class="hexad-dot" [class.is-current]="i === index()" (click)="go(i)"
+                [attr.aria-label]="hexad.name"></button>
+            }
+        </div>
+    </section>
+
+    <section class="chapter pillars-chapter">
+        <article class="arca">
+            <svg class="arca-icon" viewBox="0 0 48 48" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-width="1.6"
+                    d="M24 6 8 16h32L24 6zM10 18h28v18H10zM6 38h36M16 22v10M24 22v10M32 22v10" />
+            </svg>
+            <h2 class="title">Arca Temporum</h2>
+            <p class="arca-lead">Le passé, le présent et l'avenir de Dunamis</p>
+            <div class="arca-rule"></div>
+            <div class="pillar-row">
+                <article class="pillar">
+                    <h3 class="title">Chroniques</h3>
+                    <p class="pillar-when">Passé</p>
+                    <p>La mémoire narrative, hors jeu et entre les jeux. Chaque récit n’est pas canonisé pour autant.</p>
+                </article>
+                <article class="pillar">
+                    <h3 class="title">Registre de Vie</h3>
+                    <p class="pillar-when">Présent</p>
+                    <p>Le registre des membres de Dunamis. Ce qu’il conserve, et pour combien de temps, reste à préciser.</p>
+                </article>
+                <article class="pillar">
+                    <h3 class="title">Observatoire</h3>
+                    <p class="pillar-when">Futur</p>
+                    <p>L’état et l’évolution de l’association, lus par ses statistiques. Les indicateurs restent à choisir.</p>
+                </article>
+            </div>
+        </article>
+    </section>
+
 </div>
