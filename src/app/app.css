@@ -7,7 +7,7 @@
 }
 
 .dunamisesportsTitle {
-    font-size: xx-large;
+    font-size: clamp(2rem, 2vw, 2rem);
 }
 
 .flexerino {
@@ -31,6 +31,7 @@
     display: flex;
     width: 100%;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     background-color: rgba(179, 177, 177, 0.4);
     border-radius: 20px;
 }
