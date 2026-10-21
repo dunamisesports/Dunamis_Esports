@@ -13,5 +13,6 @@ export const routes: Routes = [
     { path: 'ouridentity', component: DunaIdentity },
     { path: 'contactus', component: DunaContact },
     { path: 'ourgames', component: Ourgames },
-    { path: "codexprincipia", component: CodexPrincipia }
+    { path: "codexprincipia", component: CodexPrincipia },
+    { path: "initiation", redirectTo: "codexprincipia", pathMatch: "full" }
 ];

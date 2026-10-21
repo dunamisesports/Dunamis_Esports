@@ -1,29 +1,14 @@
+@if (showInitiation()) {
+<app-initiation (closed)="closeInitiation($event)"></app-initiation>
+} @else {
 <div class="container">
 
-    <section class="Firstchapter creed-chapter">
-        <h1 class="title">⚔️ Le Dunamis Creed ⚔️</h1>
-        <div class="creed-stage">
-            <div class="creed-col" id="creed-fr">
-                <p class="creed">
-                    En communion, devant nos écrans,<br>
-                    notre confiance en Dieu aiguise notre talent.
-                </p>
-                <p class="creed">
-                    Bénis soient nos adversaires —<br>
-                    Mais en Lui, nous prendrons toutes les victoires.
-                </p>
-            </div>
-            <video class="creed-video" controls playsinline preload="metadata" [src]="creedVideo"></video>
-            <div class="creed-col" id="creed-en">
-                <p class="creed">
-                    In communion, in front of our screens,<br>
-                    our trust in the Lord sharpens our skill.
-                </p>
-                <p class="creed">
-                    Blessed may be our adversaries —<br>
-                    but in His name, we’ll claim all victories.
-                </p>
-            </div>
+    <section class="Firstchapter appel-chapter">
+        <h1 class="title">L'Appel</h1>
+        <div class="appel-lines">
+            <p><span>Vision</span> Permettre à des joueurs et joueuses chrétiens, amateurs comme professionnels, de se réunir pour partager leur passion du jeu vidéo et leur foi au sein d’une communauté multigaming organisée.</p>
+            <p><span>Mission</span> Créer une multigaming chrétienne francophone rassemblant joueurs et joueuses autour de valeurs communes, dans un esprit de camaraderie, de partage et d’entraide.</p>
+            <p><span>Valeurs</span> Les valeurs chrétiennes constituent le cœur même de Dunamis Esports.</p>
         </div>
     </section>
 
@@ -121,23 +106,29 @@
             <p class="arca-lead">Le passé, le présent et l'avenir de Dunamis</p>
             <div class="arca-rule"></div>
             <div class="pillar-row">
-                <article class="pillar">
+                <a class="pillar" href="" (click)="$event.preventDefault()">
                     <h3 class="title">Chroniques</h3>
                     <p class="pillar-when">Passé</p>
                     <p>La mémoire narrative, hors jeu et entre les jeux. Chaque récit n’est pas canonisé pour autant.</p>
-                </article>
-                <article class="pillar">
+                </a>
+                <a class="pillar" href="" (click)="$event.preventDefault()">
                     <h3 class="title">Registre de Vie</h3>
                     <p class="pillar-when">Présent</p>
                     <p>Le registre des membres de Dunamis. Ce qu’il conserve, et pour combien de temps, reste à préciser.</p>
-                </article>
-                <article class="pillar">
+                </a>
+                <a class="pillar" href="" (click)="$event.preventDefault()">
                     <h3 class="title">Observatoire</h3>
                     <p class="pillar-when">Futur</p>
                     <p>L’état et l’évolution de l’association, lus par ses statistiques. Les indicateurs restent à choisir.</p>
-                </article>
+                </a>
             </div>
         </article>
     </section>
 
+    <section class="chapter initiation-chapter">
+        <p class="lead">« Jésus lui dit : Je suis le chemin, la vérité, et la vie. Nul ne vient au Père que par moi. » <span class="verse-ref">Jean 14:6</span></p>
+        <button type="button" class="initiation-link" (click)="openInitiation()">l'Initiation</button>
+    </section>
+
 </div>
+}

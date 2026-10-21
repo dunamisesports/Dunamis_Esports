@@ -1,0 +1,436 @@
+.initiation {
+    color: rgb(163, 163, 163);
+    padding: clamp(1rem, 3vh, 2.4rem) clamp(1rem, 3vw, 3rem) clamp(3rem, 8vh, 6rem);
+}
+
+.initiation-head {
+    text-align: center;
+    margin-bottom: clamp(1.2rem, 3vh, 2.4rem);
+}
+
+.title {
+    text-align: center;
+    text-shadow: 0 0 0.4em rgb(0, 0, 0), 1px 1px 3px rgb(255, 255, 255);
+    font-size: clamp(1.8rem, 4vw, 4.2rem);
+}
+
+.initiation-part {
+    margin-top: clamp(1.2rem, 3vh, 2.4rem);
+}
+
+.initiation-fold {
+    width: min(100%, 92rem);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.initiation-fold > summary {
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: clamp(0.8rem, 1.5vw, 1.6rem);
+    padding: clamp(0.6rem, 1.5vh, 1rem);
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.initiation-fold > summary::-webkit-details-marker {
+    display: none;
+}
+
+.initiation-fold > summary::marker {
+    content: "";
+}
+
+.initiation-fold > summary:hover .title,
+.initiation-fold > summary:hover h3 {
+    color: rgb(255, 57, 15);
+}
+
+.initiation-fold > summary h1,
+.initiation-fold > summary h3 {
+    margin: 0;
+    text-align: center;
+}
+
+.initiation-fold > summary h3 {
+    max-width: 46rem;
+    margin: 0.35rem auto 0;
+    font-weight: inherit;
+    font-size: clamp(1rem, 1.6vw, 1.45rem);
+    line-height: 1.45;
+}
+
+.rgpd-anchor {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.rgpd-pop {
+    display: none;
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    top: calc(100% + 0.45rem);
+    transform: translateX(-50%);
+    width: min(34rem, 78vw);
+    margin: 0;
+    padding: 0.75rem 0.9rem;
+    text-align: center;
+    font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+    font-weight: 400;
+    line-height: 1.45;
+    text-shadow: none;
+    color: rgb(220, 220, 220);
+    background: rgba(0, 0, 0, 0.94);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 0.8rem;
+    pointer-events: none;
+}
+
+.rgpd-anchor:hover .rgpd-pop {
+    display: block;
+}
+
+.house-lore {
+    margin-top: clamp(1rem, 2vh, 1.8rem);
+    padding: clamp(1rem, 2vh, 1.6rem) clamp(1rem, 2vw, 2rem);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: clamp(0.8rem, 1.5vw, 1.6rem);
+}
+
+.house-lore h3 {
+    margin: 0 0 0.6rem;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+}
+
+.house-lore .motto {
+    text-align: center;
+    color: rgb(255, 195, 0);
+}
+
+.house-lore p {
+    line-height: 1.55;
+    font-size: clamp(0.9rem, 1.2vw, 1.15rem);
+}
+
+.house-lore span {
+    color: rgb(255, 195, 0);
+}
+
+.choose-house,
+.modal-actions button {
+    font: inherit;
+    cursor: pointer;
+    color: rgb(255, 195, 0);
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 1rem;
+    padding: 0.7rem 1.2rem;
+}
+
+.choose-house {
+    display: block;
+    margin: 1.2rem auto 0;
+    color: rgb(89, 215, 255);
+    border-color: rgb(89, 215, 255);
+    box-shadow: 0 0 0.7rem rgba(89, 215, 255, 0.35);
+}
+
+.modal-actions button:hover {
+    color: rgb(255, 57, 15);
+}
+
+.choose-house:hover {
+    color: rgb(0, 0, 0);
+    background: rgb(89, 215, 255);
+    border-color: rgb(89, 215, 255);
+}
+
+.modal-back {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.modal-card {
+    width: min(36rem, 90vw);
+    padding: 1.4rem;
+    text-align: center;
+    background: rgb(0, 0, 0);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 1.2rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.lead {
+    text-align: center;
+    margin: 0 0 clamp(1rem, 2vh, 1.8rem);
+    font-size: clamp(1rem, 1.8vw, 1.8rem);
+}
+
+.house-choice {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    width: 100%;
+    margin-top: 0;
+    padding-top: clamp(2.4rem, 6vh, 4.5rem);
+    gap: clamp(0.4rem, 1.5vw, 2rem);
+}
+
+.house-pick {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.house-pick h2 {
+    font-size: clamp(1.15rem, 2.2vw, 2.8rem);
+    margin: clamp(0.3rem, 1vh, 0.8rem) 0 0;
+}
+
+.house-pick p {
+    max-width: 100%;
+    margin: clamp(0.15rem, 0.4vh, 0.4rem) 0;
+    line-height: 1.35;
+    font-size: clamp(0.75rem, 1.05vw, 1.2rem);
+    text-shadow: 0 0 0.5em rgb(0, 0, 0), 0 1px 2px rgb(0, 0, 0);
+}
+
+.houseEmblem {
+    width: clamp(7.5rem, 24vw, 26rem);
+    border: 1px solid rgba(124, 122, 1, 0.35);
+    transition: transform 0.35s ease, background-color 0.35s ease, border-radius 0.35s ease;
+}
+
+.affiliation {
+    color: rgb(255, 195, 0);
+}
+
+.core-value {
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.04em;
+    font-size: clamp(1rem, 1.5vw, 1.8rem);
+}
+
+.OfTheConcordia .core-value {
+    color: rgb(255, 120, 90);
+}
+
+.OfTheAequitas .core-value {
+    color: rgb(214, 228, 242);
+}
+
+.OfTheMagisteria .core-value {
+    color: rgb(120, 190, 255);
+}
+
+.OfTheMagisteria:hover > img,
+.OfTheAequitas:hover > img,
+.OfTheConcordia:hover > img,
+.OfTheMagisteria.is-chosen > img,
+.OfTheAequitas.is-chosen > img,
+.OfTheConcordia.is-chosen > img {
+    transform: scale(1.16);
+    border-radius: clamp(0.6rem, 1.2vw, 1.4rem);
+    backdrop-filter: blur(4px);
+}
+
+.OfTheMagisteria:hover > img,
+.OfTheMagisteria.is-chosen > img {
+    background-color: rgba(10, 101, 143, 0.4);
+}
+
+.OfTheAequitas:hover > img,
+.OfTheAequitas.is-chosen > img {
+    background-color: rgba(240, 239, 239, 0.4);
+}
+
+.OfTheConcordia:hover > img,
+.OfTheConcordia.is-chosen > img {
+    background-color: rgba(143, 10, 10, 0.4);
+}
+
+.creed-chapter .title {
+    margin-bottom: clamp(0.6rem, 2vh, 1.6rem);
+    font-size: clamp(2.1rem, 5vw, 5.35rem);
+}
+
+.creed-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: clamp(0.6rem, 2vw, 2.2rem);
+}
+
+.creed-col {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.creed-video {
+    display: block;
+    width: 30%;
+    height: auto;
+    margin: clamp(1rem, 3vh, 2rem) auto 0;
+    object-fit: contain;
+    background: rgb(0, 0, 0);
+}
+
+.identity-form {
+    width: min(100%, 28rem);
+    margin: clamp(1rem, 3vh, 1.8rem) auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.identity-form label,
+.game-list label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-align: left;
+    color: rgb(255, 195, 0);
+}
+
+.game-list label {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    color: rgb(163, 163, 163);
+}
+
+.game-list label.is-hidden {
+    display: none;
+}
+
+.identity-form input,
+.identity-form select {
+    font: inherit;
+    color: rgb(255, 255, 255);
+    background: rgb(0, 0, 0);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 0.55rem;
+    padding: 0.55rem 0.7rem;
+}
+
+.identity-form input:focus,
+.identity-form select:focus {
+    outline: none;
+    border-color: rgb(255, 195, 0);
+}
+
+.game-list {
+    margin: 0;
+    padding: 0.2rem 0 0;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.game-list legend {
+    margin-bottom: 0.35rem;
+    color: rgb(255, 195, 0);
+}
+
+.game-scroll {
+    height: 11rem;
+    overflow-y: auto;
+    padding-right: 0.35rem;
+}
+
+.game-empty {
+    margin: 0.4rem 0 0;
+    text-align: left;
+    color: rgb(163, 163, 163);
+}
+
+.identity-form button,
+.fight-btn {
+    font: inherit;
+    cursor: pointer;
+    color: rgb(255, 195, 0);
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 1rem;
+    padding: 0.7rem 1.2rem;
+}
+
+.identity-form button {
+    align-self: center;
+    margin-top: 0.3rem;
+}
+
+.show-pass {
+    align-self: flex-start;
+    margin-top: 0.2rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+}
+
+.identity-form button:hover,
+.fight-btn:hover {
+    color: rgb(255, 57, 15);
+}
+
+.fight-btn {
+    display: block;
+    margin: clamp(1.2rem, 3vh, 2rem) auto 0;
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+}
+
+.form-error,
+.form-ok {
+    margin: 0;
+    text-align: center;
+}
+
+.form-error {
+    color: rgb(255, 57, 15);
+}
+
+.form-ok {
+    color: rgb(255, 195, 0);
+}
+
+.creed {
+    margin: clamp(0.55rem, 1.4vh, 1.15rem) 0;
+    text-align: center;
+    line-height: 2.2;
+    font-size: clamp(0.85rem, 1.35vw, 1.55rem);
+    text-shadow: 0 0 0.6em rgb(0, 0, 0);
+}
+
+#creed-fr {
+    color: rgb(89, 215, 255);
+}
+
+#creed-en {
+    color: rgb(255, 195, 0);
+}

@@ -1,10 +1,3 @@
-<div class="flexerino">
-    <h1>Les Maisons</h1>
-</div>
-<div class="flexerino">
-    <h1>Les Archétypes HEXAD</h1>
-</div>
-<hr>
 <div>
 
     @if (hasInLocalStorage("OccuBoard") && showHexad) {
@@ -21,7 +14,7 @@
     </div>
     <div class="flexerino">
         <div class="HEXADChara">
-            <svg viewBox="0 -50 400 470" preserveAspectRatio="xMidYMid meet">
+            <svg viewBox="-100 -100 600 600" preserveAspectRatio="xMidYMid meet">
                 <g transform="translate(200,200)">
 
                     <!-- HEXA GRID : 6 LEVELS -->
@@ -53,23 +46,23 @@
                     <path d="M0,0L-130,-75" stroke="white" />
 
                     <!-- LABELS -->
-                    <text x="0" y="-160" text-anchor="middle" fill="rgb(255, 87, 51)">Sãmakh</text>
-                    <image href="/img/HEXAD/0b.svg" x="-24" y="-220" width="50" height="50" />
+                    <image href="/img/HEXAD/0b.svg" x="-48" y="-268" width="96" height="96" />
+                    <text x="0" y="-148" text-anchor="middle" fill="rgb(255, 87, 51)">Sãmakh</text>
 
-                    <text x="150" y="-85" text-anchor="middle" fill="rgb(255, 87, 51)">Qãhal</text>
-                    <image href="/img/HEXAD/1b.svg" x="130" y="-80" width="50" height="50" />
+                    <text x="145" y="-88" text-anchor="middle" fill="rgb(255, 87, 51)">Qãhal</text>
+                    <image href="/img/HEXAD/1b.svg" x="175" y="-112" width="96" height="96" />
 
-                    <text x="150" y="90" text-anchor="middle" fill="rgb(255, 87, 51)">Tùr</text>
-                    <image href="/img/HEXAD/2b.svg" x="126" y="85" width="50" height="50" />
+                    <text x="145" y="95" text-anchor="middle" fill="rgb(255, 87, 51)">Tùr</text>
+                    <image href="/img/HEXAD/2b.svg" x="172" y="70" width="96" height="96" />
 
-                    <text x="-1" y="169" text-anchor="middle" fill="rgb(255, 87, 51)">Bãnãh</text>
-                    <image href="/img/HEXAD/3b.svg" x="-24" y="170" width="50" height="50" />
+                    <text x="-1" y="172" text-anchor="middle" fill="rgb(255, 87, 51)">Bãnãh</text>
+                    <image href="/img/HEXAD/3b.svg" x="-48" y="178" width="96" height="96" />
 
-                    <text x="-150" y="95" text-anchor="middle" fill="rgb(255, 87, 51)">Qasar</text>
-                    <image href="/img/HEXAD/4b.svg" x="-174" y="95" width="50" height="50" />
+                    <text x="-145" y="100" text-anchor="middle" fill="rgb(255, 87, 51)">Qasar</text>
+                    <image href="/img/HEXAD/4b.svg" x="-268" y="78" width="96" height="96" />
 
-                    <text x="-158" y="-85" text-anchor="middle" fill="rgb(255, 87, 51)">Nãsãh</text>
-                    <image href="/img/HEXAD/5b.svg" x="-180" y="-80" width="50" height="50" />
+                    <text x="-145" y="-88" text-anchor="middle" fill="rgb(255, 87, 51)">Nãsãh</text>
+                    <image href="/img/HEXAD/5b.svg" x="-271" y="-112" width="96" height="96" />
 
                     <path [attr.d]="hexadPath" fill="#92f0da" fill-opacity="0.5" stroke="#92f0da" stroke-width="2">
                     </path>
@@ -120,17 +113,18 @@
     </div>
     }
     @else{
-    <details>
-        <summary class="flexerino">
+    <details class="present-fold">
+        <summary>
+            <h1>Le Présent</h1>
+            <h3>Quel type de joueur(euse) es-tu ?</h3>
+        </summary>
+        <div class="fold-body">
+        <div class="flexerino mock-row">
             <button (click)="fillFormMock()">
                 Remplir automatiquement
             </button>
-
-            <h1>Ton Identité Dunamis</h1>
-            <div class="flexerino">
-                <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
-            </div>
-        </summary>
+            <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
+        </div>
 
         <div class=" HEXADType flexerino">
             @for( currentDunaQR of questionReponses; track $index){
@@ -160,6 +154,7 @@
                 </div>-->
             </details>
             }
+        </div>
         </div>
 
     </details>

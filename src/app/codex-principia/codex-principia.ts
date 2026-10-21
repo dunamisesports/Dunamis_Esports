@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { Initiation, MemberDossier } from '../initiation/initiation';
 
 interface HexadArchetype {
     name: string;
@@ -9,12 +10,22 @@ interface HexadArchetype {
 
 @Component({
     selector: 'app-codex-principia',
-    imports: [],
+    imports: [Initiation],
     templateUrl: './codex-principia.html',
     styleUrl: './codex-principia.css'
 })
 export class CodexPrincipia {
-    protected readonly creedVideo = '/videos/DunaCreed.mp4';
+    protected readonly showInitiation = signal(false);
+    readonly inscription = signal<MemberDossier | null>(null);
+
+    protected openInitiation(): void {
+        this.showInitiation.set(true);
+    }
+
+    protected closeInitiation(dossier: MemberDossier): void {
+        this.inscription.set(dossier);
+        this.showInitiation.set(false);
+    }
 
     protected readonly hexads: HexadArchetype[] = [
         {

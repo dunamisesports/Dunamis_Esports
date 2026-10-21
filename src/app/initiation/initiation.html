@@ -1,0 +1,156 @@
+<div class="initiation">
+    <header class="initiation-head">
+        <h1 class="title">Devenir un Initié</h1>
+    </header>
+
+    <details class="initiation-part initiation-fold">
+        <summary>
+            <span class="rgpd-anchor">
+                <h1 class="title">Données personnelles</h1>
+                <p class="rgpd-pop" role="tooltip">Ces données servent à ton inscription et à ton profil de membre. Elles ne sont pas cédées. Tu peux en demander l'accès, la rectification ou l'effacement.</p>
+            </span>
+        </summary>
+        <div class="fold-body">
+        <form class="identity-form" (submit)="saveProfil($event)">
+            <label>
+                Email
+                <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label>
+                Pseudo Gaming
+                <input type="text" name="pseudo" autocomplete="username" required>
+            </label>
+            <label>
+                Date de naissance
+                <input type="date" name="birthdate" required>
+            </label>
+            <label>
+                Genre
+                <select name="genre" required>
+                    <option value="" disabled selected>Genre</option>
+                    <option value="Masculin">Masculin</option>
+                    <option value="Féminin">Féminin</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </label>
+            <fieldset class="game-list">
+                <legend>Jeux</legend>
+                <input class="game-search" type="search" placeholder="Rechercher un jeu" aria-label="Rechercher un jeu"
+                    [value]="gameQuery()" (input)="onGameQuery($event)">
+                <div class="game-scroll">
+                    @for (game of games; track game) {
+                    <label [class.is-hidden]="!gameListed(game)">
+                        <input type="checkbox" name="jeux" [value]="game">
+                        {{ game }}
+                    </label>
+                    }
+                    @if (listedGameCount() === 0) {
+                    <p class="game-empty">Aucun jeu</p>
+                    }
+                </div>
+            </fieldset>
+            <button type="button" class="show-pass" [attr.aria-pressed]="showPasswords()"
+                (click)="showPasswords.set(!showPasswords())">
+                {{ showPasswords() ? 'Masquer les mots de passe' : 'Afficher les mots de passe' }}
+            </button>
+            <label>
+                Mot de passe
+                <input [type]="showPasswords() ? 'text' : 'password'" name="motDePasse" autocomplete="new-password" required>
+            </label>
+            <label>
+                Confirmer le mot de passe
+                <input [type]="showPasswords() ? 'text' : 'password'" name="confirmation" autocomplete="new-password" required>
+            </label>
+            <button type="submit">Enregistrer</button>
+            @if (profilError()) {
+            <p class="form-error">{{ profilError() }}</p>
+            } @else if (profilSaved()) {
+            <p class="form-ok">Enregistré pour ton profil.</p>
+            }
+        </form>
+        </div>
+    </details>
+
+    <section class="initiation-part">
+        <app-duna-questionnaire></app-duna-questionnaire>
+    </section>
+
+    <details class="initiation-part initiation-fold">
+        <summary>
+            <h1 class="title">Le Futur</h1>
+            <h3>Quel type de Personne aspires-tu à devenir en particulier (donc sans exclure les autres valeurs) ?</h3>
+        </summary>
+        <div class="fold-body">
+        <div class="house-choice">
+            @for (item of visibleHouses(); track item.id) {
+            <button type="button" class="house-pick house {{ item.cssClass }}" [class.is-chosen]="house() === item.id"
+                [attr.aria-pressed]="house() === item.id" (click)="choose(item.id)">
+                <img class="houseEmblem" [src]="item.image" [alt]="'Blason ' + item.title">
+                <h2 class="title">{{ item.title }}</h2>
+                <p class="affiliation">{{ item.affiliation }}</p>
+                <p class="core-value">{{ item.value }}</p>
+            </button>
+            }
+        </div>
+        @if (selected(); as item) {
+        <article class="house-lore">
+            <h3>{{ item.mark }} {{ item.id }} — {{ item.value }}</h3>
+            <p class="motto">{{ item.mottoEn }} — {{ item.mottoFr }}</p>
+            <p>{{ item.body }}</p>
+            <p><span>Sa philosophie :</span> {{ item.philosophy }}</p>
+            <p><span>Vertus cultivées :</span> {{ item.virtues }}</p>
+            <p><span>Idéal :</span> {{ item.ideal }}</p>
+            @if (!confirmed()) {
+            <button type="button" class="choose-house" (click)="openModal()">Choisir ma Maison</button>
+            }
+        </article>
+        }
+    </div>
+    </details>
+
+    @if (creedRevealed()) {
+    <section class="initiation-part creed-chapter">
+        <h2 class="title">⚔️ Le Dunamis Creed ⚔️</h2>
+        <div class="creed-stage">
+            <div class="creed-col" id="creed-fr">
+                <p class="creed">
+                    En communion, devant nos écrans,<br>
+                    notre confiance en Dieu aiguise notre talent.
+                </p>
+                <p class="creed">
+                    Bénis soient nos adversaires —<br>
+                    Mais en Lui, nous prendrons toutes les victoires.
+                </p>
+            </div>
+            <div class="creed-col" id="creed-en">
+                <p class="creed">
+                    In communion, in front of our screens,<br>
+                    our trust in the Lord sharpens our skill.
+                </p>
+                <p class="creed">
+                    Blessed may be our adversaries —<br>
+                    but in His name, we’ll claim all victories.
+                </p>
+            </div>
+        </div>
+        <video class="creed-video" controls playsinline autoplay preload="auto" [src]="creedVideo"
+            (loadedmetadata)="tuneCreed($event)"></video>
+        <button type="button" class="fight-btn" (click)="closeInitiation()">Time to Fight the Good Fight</button>
+        @if (closeError()) {
+        <p class="form-error">{{ closeError() }}</p>
+        }
+    </section>
+    }
+
+    @if (modalOpen()) {
+    <div class="modal-back" role="dialog" aria-modal="true" aria-labelledby="house-modal-title">
+        <div class="modal-card">
+            <p id="house-modal-title">Ce choix n'est pas irréversible une fois initié, mais il sera statué par les Archons.</p>
+            <div class="modal-actions">
+                <button type="button" (click)="confirmHouse()">Oui</button>
+                <button type="button" (click)="closeModal()">Non</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>

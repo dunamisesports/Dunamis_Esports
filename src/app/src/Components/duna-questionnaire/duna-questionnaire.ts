@@ -423,4 +423,34 @@ export class DunaQuestionnaire {
             this.showHexad = true;
         }
     }
+
+    snapshot(): {
+        reponses: { id: number; question: string; value: number | null; label: string | null }[];
+        primary: { HEXADType: string; DunaHEXADType: string; Occurences: number; HEXADTypeDescription: string } | null;
+        underlying: { HEXADType: string; DunaHEXADType: string; Occurences: number; HEXADTypeDescription: string } | null;
+    } {
+        if (this.isQuizFullyAnwsered()) {
+            this.YourHEXADType();
+        }
+        const pack = (item: HEXADClassEX) => item ? {
+            HEXADType: item.HEXADType,
+            DunaHEXADType: item.DunaHEXADType,
+            Occurences: item.Occurences,
+            HEXADTypeDescription: item.HEXADTypeDescription
+        } : null;
+        return {
+            reponses: this.questionReponses.map((question) => {
+                const value = this.UIAnswers[question.id];
+                const chosen = question.answers.find((answer) => answer.value === value);
+                return {
+                    id: question.id,
+                    question: question.question,
+                    value: Number.isFinite(value) ? value : null,
+                    label: chosen?.label ?? null
+                };
+            }),
+            primary: pack(this.primary),
+            underlying: pack(this.underlying)
+        };
+    }
 }
