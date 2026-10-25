@@ -13,10 +13,6 @@
 
 }
 
-.title {
-    text-align: center;
-}
-
 .flexerino {
     display: flex;
     justify-content: space-around;
@@ -71,10 +67,74 @@ details>summary {
     color: rgb(255, 57, 15);
 }
 
-.mock-row {
+.title {
+    text-align: center;
+}
+
+.present-fold:not([open]) > .answer-gauge {
+    display: none;
+}
+
+.answer-gauge {
+    position: fixed;
+    top: 0.75rem;
+    left: 50%;
+    z-index: 12;
+    width: min(42rem, calc(100vw - 2rem));
+    height: 1.7rem;
+    transform: translateX(-50%);
+    border: 1px solid rgba(184, 141, 0, 0.85);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.78);
+    overflow: hidden;
+}
+
+.answer-gauge-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background: linear-gradient(90deg, rgb(184, 141, 0), rgb(255, 195, 0));
+    box-shadow: 0 0 0.8rem rgba(255, 195, 0, 0.55);
+    transition: width 0.28s ease;
+}
+
+.answer-gauge-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    color: rgb(255, 255, 255);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 0.35em rgb(0, 0, 0), 0 1px 2px rgb(0, 0, 0);
+    pointer-events: none;
+}
+
+.question-index {
+    margin: 0 0 0.35rem;
+    text-align: center;
+    color: rgb(255, 195, 0);
+    font-size: 0.95rem;
+}
+
+.finish-quiz {
+    display: block;
+    margin: 1.4rem auto 0.4rem;
+    padding: 0.7rem 1.3rem;
+    color: rgb(184, 141, 0);
+    font: inherit;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.finish-quiz:hover {
+    color: rgb(255, 57, 15);
+    border-color: rgb(255, 57, 15);
 }
 
 .HEXADChara {

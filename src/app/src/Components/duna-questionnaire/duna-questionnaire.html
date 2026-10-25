@@ -1,17 +1,6 @@
 <div>
 
     @if (hasInLocalStorage("OccuBoard") && showHexad) {
-    <div>
-        <h2 class="title">Test Buttons</h2>
-        <div class="flexerino">
-            <button (click)="fillFormMock()">
-                Remplir automatiquement
-            </button>
-            <div>
-                <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
-            </div>
-        </div>
-    </div>
     <div class="flexerino">
         <div class="HEXADChara">
             <svg viewBox="-100 -100 600 600" preserveAspectRatio="xMidYMid meet">
@@ -74,7 +63,7 @@
     <div class="flexerino">
         <div class="cardHexad">
             <div class="title">
-                <h1>Primary</h1>
+                <h1>Primaire (Primary)</h1>
             </div>
             <hr>
             <div class="title">
@@ -93,7 +82,7 @@
         </div>
         <div class="cardHexad underlying">
             <div class="title">
-                <h1>Underlying</h1>
+                <h1>Secondaire (Underlying)</h1>
             </div>
             <hr>
             <div class="title">
@@ -118,21 +107,21 @@
             <h1>Le Présent</h1>
             <h3>Quel type de joueur(euse) es-tu ?</h3>
         </summary>
-        <div class="fold-body">
-        <div class="flexerino mock-row">
-            <button (click)="fillFormMock()">
-                Remplir automatiquement
-            </button>
-            <button (click)="YourHEXADType()">Your HEXAD TYPE</button>
+        <div class="answer-gauge" role="progressbar"
+            [attr.aria-valuenow]="filled()"
+            [attr.aria-valuemin]="0"
+            [attr.aria-valuemax]="questionReponses.length"
+            aria-label="Questions remplies">
+            <div class="answer-gauge-fill" [style.width.%]="gaugeFill()"></div>
+            <span class="answer-gauge-label">{{ filled() }}/{{ questionReponses.length }}</span>
         </div>
-
+        <div class="fold-body">
         <div class=" HEXADType flexerino">
             @for( currentDunaQR of questionReponses; track $index){
             <details class="QuestionCard" open>
                 <summary>
-                    <div class="flexerino">
-                        <h1 class="title">{{currentDunaQR.question}}</h1>
-                    </div>
+                    <p class="question-index">{{ $index + 1 }}/{{ questionReponses.length }}</p>
+                    <h1 class="title">{{currentDunaQR.question}}</h1>
                 </summary>
                 <div class="radio-group flexerino">
                     @for (answer of currentDunaQR.answers; track answer.value) {
@@ -155,6 +144,9 @@
             </details>
             }
         </div>
+        @if (quizComplete()) {
+        <button type="button" class="finish-quiz" (click)="YourHEXADType()">Voir mon HEXAD</button>
+        }
         </div>
 
     </details>

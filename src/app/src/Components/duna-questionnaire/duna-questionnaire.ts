@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 type Answers = {
     value: number,
@@ -276,35 +276,36 @@ export class DunaQuestionnaire {
         return typeof window !== 'undefined' && !!localStorage.getItem(key);
     }
 
-    fillFormMock(): void {
-        // nombre de questions réelles
-        const totalQuestions = 18;
-        // reset au cas où
-        this.UIAnswers = [];
-        for (let i = 1; i < totalQuestions + 1; i++) {
-            // valeur random entre 1 et 6
-            const value = Math.floor(Math.random() * 6) + 1;
-            this.UIAnswers[i] = value;
-            console.table(this.UIAnswers);
-        }
-    }
+    readonly filled = signal(0);
+
     setUiAnswers(indexQuestion: number, answer: Event) {
         let answerChoix = parseInt((answer.target as HTMLSelectElement).value);
         this.UIAnswers[indexQuestion] = answerChoix;
-        //console.log("Question :" + indexQuestion + " ; Choix " + answerChoix);
-        console.table(this.UIAnswers);
+        this.filled.set(this.answeredCount());
+    }
+
+    gaugeFill(): number {
+        const total = this.questionReponses.length;
+        return total ? (this.filled() / total) * 100 : 0;
+    }
+
+    answeredCount(): number {
+        return this.questionReponses.filter((question) => Number.isFinite(this.UIAnswers[question.id])).length;
+    }
+
+    quizComplete(): boolean {
+        return this.questionReponses.length > 0 && this.answeredCount() === this.questionReponses.length;
     }
 
     isQuizFullyAnwsered(): Boolean {
-        let isQuizFullyAnwsered = true;
-        console.log("isQuizFullyAnwsered LENGTH UIAnswers:" + this.UIAnswers.length);
-        for (let i = 1; i < this.UIAnswers.length; i++) {
-            if (this.UIAnswers[i] == undefined || isNaN(this.UIAnswers[i])) {
-                isQuizFullyAnwsered = false;
+        for (const question of this.questionReponses) {
+            const value = this.UIAnswers[question.id];
+            if (value == undefined || isNaN(value)) {
                 this.showHexad = false;
+                return false;
             }
         }
-        return isQuizFullyAnwsered && this.UIAnswers.length !== 0;
+        return this.questionReponses.length !== 0;
     }
 
     buildHexadPathFromOccurences(): void {
@@ -347,7 +348,7 @@ export class DunaQuestionnaire {
     setPrimary(): void {
         let indexOfPrimary = 0;
         for (let i = 1; i < this.finishedHEXADPersonnalClassification.length; i++) {
-            if (this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[i - 1].Occurences) {
+            if (this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[indexOfPrimary].Occurences) {
                 indexOfPrimary = i;
             }
         }
@@ -358,12 +359,13 @@ export class DunaQuestionnaire {
         }
     }
     setUnderlying(): void {
-        let indexOfUnderlying = 0;
-        for (let i = 1; i < this.finishedHEXADPersonnalClassification.length; i++) {
-            if (
-                (this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[i - 1].Occurences) &&
-                (this.finishedHEXADPersonnalClassification[i].Occurences < this.finishedHEXADPersonnalClassification[this.primary!.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray].Occurences)
-            ) {
+        const primaryIndex = this.primary!.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray;
+        let indexOfUnderlying = primaryIndex === 0 ? 1 : 0;
+        for (let i = 0; i < this.finishedHEXADPersonnalClassification.length; i++) {
+            if (i === primaryIndex) {
+                continue;
+            }
+            if (this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[indexOfUnderlying].Occurences) {
                 indexOfUnderlying = i;
             }
         }
@@ -378,15 +380,13 @@ export class DunaQuestionnaire {
     YourHEXADType(): any {
         let isQuizNotFullyAnwsered = !this.isQuizFullyAnwsered();
         if (isQuizNotFullyAnwsered) {
-            console.log("in YourHEXADType ===> isQuizNotFullyAnwsered : " + isQuizNotFullyAnwsered)
             return null;
         }
 
         this.OccurencesHEXADType = [];
-        console.log("LENGTH UIAnswers:" + this.UIAnswers.length);
+        this.finishedHEXADPersonnalClassification = [];
 
         this.UIAnswers.map((i) => {
-            console.log("IN MAP" + i);
             if (i !== undefined) {
                 if (this.OccurencesHEXADType[i - 1] !== undefined)
                     this.OccurencesHEXADType[i - 1] = this.OccurencesHEXADType[i - 1] + 1;
@@ -395,23 +395,14 @@ export class DunaQuestionnaire {
             }
 
         })
-        console.log(this.OccurencesHEXADType);
-        console.log("LENGTH OccurencesHEXADType:" + this.OccurencesHEXADType.length);
         if (this.UIAnswers.length === 19) {
-            for (let i = 0; i < this.OccurencesHEXADType.length; i++) {
-                if (this.OccurencesHEXADType[i] !== undefined) {
-                    this.finishedHEXADPersonnalClassification[i] = {
-                        HEXADType: this.HEXADType[i],
-                        DunaHEXADType: this.DunaHEXADType[i],
-                        Occurences: this.OccurencesHEXADType[i]
-                    }
+            for (let i = 0; i < this.DunaHEXADType.length; i++) {
+                this.finishedHEXADPersonnalClassification[i] = {
+                    HEXADType: this.HEXADType[i],
+                    DunaHEXADType: this.DunaHEXADType[i],
+                    Occurences: this.OccurencesHEXADType[i] ?? 0
                 }
-            }/*
-            console.log(this.finishedHEXADPersonnalClassification);
-            this.finishedHEXADPersonnalClassification.sort((a: HEXADClass, b: HEXADClass) => {
-                return a.Occurences - b.Occurences;
-            })*/
-            console.log(this.finishedHEXADPersonnalClassification);
+            }
 
             this.buildHexadPathFromOccurences();
             let toLocalHEXAPATH = JSON.stringify(this.finishedHEXADPersonnalClassification);
