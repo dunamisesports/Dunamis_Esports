@@ -1,16 +1,22 @@
 import { AngularAppEngine, createRequestHandler } from '@angular/ssr'
 import { getContext } from '@netlify/angular-runtime/app-engine.js'
-import { inscrireMembre } from './server/inscrire-membre'
 
 const angularAppEngine = new AngularAppEngine()
 
-export async function netlifyAppEngineHandler(request: Request): Promise<Response> {
-    const context = getContext()
+type NetlifyEdgeContext = {
+    rewrite?: (destination: string) => Promise<Response> | Response
+}
+
+export async function netlifyAppEngineHandler(request: Request, edge?: NetlifyEdgeContext): Promise<Response> {
     const url = new URL(request.url)
     if (url.pathname === '/api/membres' && request.method === 'POST') {
-        return inscrireMembre(request)
+        if (edge?.rewrite) {
+            return edge.rewrite('/.netlify/functions/membres')
+        }
+        return Response.json({ error: 'La base n\'est pas joignable.' }, { status: 503 })
     }
 
+    const context = getContext()
     const result = await angularAppEngine.handle(request, context)
     return result || new Response('La Page inexistante', { status: 404 })
 }
