@@ -7,7 +7,97 @@
 }
 
 .dunamisesportsTitle {
+    position: relative;
     font-size: clamp(2rem, 2vw, 2rem);
+}
+
+.session-entry {
+    position: absolute;
+    right: clamp(0.4rem, 1.5vw, 1.2rem);
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0.35rem 0.75rem;
+    color: rgb(184, 141, 0);
+    font: inherit;
+    font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.session-entry svg {
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+.session-entry:hover {
+    color: rgb(255, 57, 15);
+    border-color: rgb(255, 57, 15);
+}
+
+.login-back {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.login-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: min(24rem, 90vw);
+    margin: 0;
+    padding: 1.4rem;
+    text-align: left;
+    color: rgb(220, 220, 220);
+    background: rgb(0, 0, 0);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 1.2rem;
+}
+
+.login-card label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.login-card input {
+    padding: 0.55rem 0.7rem;
+    color: rgb(255, 255, 255);
+    font: inherit;
+    background: rgb(0, 0, 0);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 0.6rem;
+}
+
+.login-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.7rem;
+}
+
+.login-actions button {
+    padding: 0.55rem 0.9rem;
+    color: rgb(184, 141, 0);
+    font: inherit;
+    background: transparent;
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 0.8rem;
+    cursor: pointer;
+}
+
+.login-actions button:hover {
+    color: rgb(255, 57, 15);
+    border-color: rgb(255, 57, 15);
 }
 
 .flexerino {

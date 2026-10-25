@@ -1,0 +1,47 @@
+<section class="profil">
+    @if (session.membre(); as membre) {
+    <h1 class="title">{{ membre.pseudo }}</h1>
+    <p class="profil-rank">{{ membre.rang }}</p>
+    <dl>
+        <div>
+            <dt>Email</dt>
+            <dd>{{ membre.email }}</dd>
+        </div>
+        <div>
+            <dt>Date de naissance</dt>
+            <dd>{{ membre.birthdate }}</dd>
+        </div>
+        <div>
+            <dt>Genre</dt>
+            <dd>{{ membre.genre }}</dd>
+        </div>
+        <div>
+            <dt>Maison</dt>
+            <dd>{{ membre.maison ?? '—' }}</dd>
+        </div>
+        <div>
+            <dt>Primary</dt>
+            <dd>{{ membre.primary ?? '—' }}</dd>
+        </div>
+        <div>
+            <dt>Underlying</dt>
+            <dd>{{ membre.underlying ?? '—' }}</dd>
+        </div>
+        <div>
+            <dt>Étoiles</dt>
+            <dd>{{ membre.etoiles }}</dd>
+        </div>
+        <div>
+            <dt>Jeux</dt>
+            <dd>{{ membre.jeux.length ? membre.jeux.join(', ') : '—' }}</dd>
+        </div>
+        <div>
+            <dt>Chantiers</dt>
+            <dd>{{ membre.chantiers.length ? membre.chantiers.join(', ') : '—' }}</dd>
+        </div>
+    </dl>
+    } @else {
+    <h1 class="title">Profil</h1>
+    <p>Aucune session.</p>
+    }
+</section>

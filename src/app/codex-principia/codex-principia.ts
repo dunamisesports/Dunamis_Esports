@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { Initiation, MemberDossier } from '../initiation/initiation';
+import { Initiation } from '../initiation/initiation';
+import { MembreSession } from '../session/membre.session';
 
 interface HexadArchetype {
     name: string;
@@ -16,13 +17,13 @@ interface HexadArchetype {
 })
 export class CodexPrincipia {
     protected readonly showInitiation = signal(false);
-    readonly inscription = signal<MemberDossier | null>(null);
+    readonly inscription = signal<MembreSession | null>(null);
 
     protected openInitiation(): void {
         this.showInitiation.set(true);
     }
 
-    protected closeInitiation(dossier: MemberDossier): void {
+    protected closeInitiation(dossier: MembreSession): void {
         this.inscription.set(dossier);
         this.showInitiation.set(false);
     }

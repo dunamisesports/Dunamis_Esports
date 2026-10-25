@@ -7,6 +7,13 @@
                     <h1 class="noYmargin ">Dunamis Esports</h1>
                 </a>
             </div>
+            <button type="button" class="session-entry" (click)="onSessionClick()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"></circle>
+                    <path d="M5.2 19.4c1.3-3.3 3.6-4.9 6.8-4.9s5.5 1.6 6.8 4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+                </svg>
+                {{ session.membre() ? 'Profil' : 'Login' }}
+            </button>
         </div>
         <div class="Nav">
             <div class="NavElem">
@@ -32,3 +39,23 @@
 
 
 <router-outlet />
+
+@if (loginOpen()) {
+<div class="login-back" role="dialog" aria-modal="true" aria-labelledby="login-title" (click)="closeLogin()">
+    <form class="login-card" (click)="$event.stopPropagation()" (submit)="submitLogin($event)">
+        <h2 id="login-title" class="title">Connexion</h2>
+        <label>
+            Email
+            <input type="email" name="email" autocomplete="username" required>
+        </label>
+        <label>
+            Mot de passe
+            <input type="password" name="motDePasse" autocomplete="current-password" required>
+        </label>
+        <div class="login-actions">
+            <button type="button" (click)="closeLogin()">Fermer</button>
+            <button type="submit">Connexion</button>
+        </div>
+    </form>
+</div>
+}

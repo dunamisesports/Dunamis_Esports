@@ -1,17 +1,15 @@
 import { AngularAppEngine, createRequestHandler } from '@angular/ssr'
 import { getContext } from '@netlify/angular-runtime/app-engine.js'
+import { inscrireMembre } from './server/inscrire-membre'
 
 const angularAppEngine = new AngularAppEngine()
 
 export async function netlifyAppEngineHandler(request: Request): Promise<Response> {
     const context = getContext()
-
-    // Example API endpoints can be defined here.
-    // Uncomment and define endpoints as necessary.
-    // const pathname = new URL(request.url).pathname
-    // if (pathname === '/api/hello') {
-    //   return Response.json({ message: 'Hello from the API' });
-    // }
+    const url = new URL(request.url)
+    if (url.pathname === '/api/membres' && request.method === 'POST') {
+        return inscrireMembre(request)
+    }
 
     const result = await angularAppEngine.handle(request, context)
     return result || new Response('La Page inexistante', { status: 404 })

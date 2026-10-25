@@ -1,17 +1,16 @@
 import { DOCUMENT } from '@angular/common';
 import { afterNextRender, Component, inject, OnDestroy, output, signal, viewChild } from '@angular/core';
 import { DunaQuestionnaire } from '../src/Components/duna-questionnaire/duna-questionnaire';
+import { MembreSession, MembreStore } from '../session/membre.session';
 import { playedGames } from './games';
 
-export interface MemberDossier {
+interface ProfilSaisi {
     email: string;
     pseudo: string;
     birthdate: string;
-    genre: 'Masculin' | 'Féminin' | 'Autre';
+    genre: MembreSession['genre'];
     jeux: string[];
     motDePasse: string;
-    questionnaire: ReturnType<DunaQuestionnaire['snapshot']>;
-    maison: { id: string; title: string; affiliation: string; value: string } | null;
 }
 
 interface HouseChoice {
@@ -38,6 +37,7 @@ interface HouseChoice {
 })
 export class Initiation implements OnDestroy {
     private readonly document = inject(DOCUMENT);
+    private readonly membres = inject(MembreStore);
     private readonly questionnaire = viewChild.required(DunaQuestionnaire);
     private snapCleared = false;
 
@@ -48,8 +48,9 @@ export class Initiation implements OnDestroy {
     protected readonly showPasswords = signal(false);
     protected readonly profilError = signal<string | null>(null);
     protected readonly closeError = signal<string | null>(null);
-    private readonly profil = signal<Omit<MemberDossier, 'questionnaire' | 'maison'> | null>(null);
-    readonly closed = output<MemberDossier>();
+    protected readonly closing = signal(false);
+    private readonly profil = signal<ProfilSaisi | null>(null);
+    readonly closed = output<MembreSession>();
     protected readonly house = signal<string | null>(null);
     protected readonly confirmed = signal(false);
     protected readonly creedRevealed = signal(false);
@@ -195,7 +196,7 @@ export class Initiation implements OnDestroy {
             this.profilError.set('Choisis un genre.');
             return;
         }
-        const genreChoisi = genre as MemberDossier['genre'];
+        const genreChoisi = genre as ProfilSaisi['genre'];
         this.profil.set({
             email: String(data.get('email') ?? ''),
             pseudo: String(data.get('pseudo') ?? ''),
@@ -302,22 +303,52 @@ export class Initiation implements OnDestroy {
         this.document.defaultView?.setTimeout(finish, 460);
     }
 
-    protected closeInitiation(): void {
+    protected async closeInitiation(): Promise<void> {
         const profil = this.profil();
         if (!profil) {
             this.closeError.set('Enregistre tes données personnelles avant de clore l\'initiation.');
             return;
         }
+        if (this.closing()) {
+            return;
+        }
+        this.closing.set(true);
+        this.closeError.set(null);
+        const snap = this.questionnaire().snapshot();
         const maison = this.selected();
-        const dossier: MemberDossier = {
-            ...profil,
-            questionnaire: this.questionnaire().snapshot(),
-            maison: maison
-                ? { id: maison.id, title: maison.title, affiliation: maison.affiliation, value: maison.value }
-                : null
+        const payload: MembreSession = {
+            email: profil.email,
+            pseudo: profil.pseudo,
+            birthdate: profil.birthdate,
+            genre: profil.genre,
+            jeux: profil.jeux,
+            motDePasse: profil.motDePasse,
+            primary: snap.primary?.DunaHEXADType ?? null,
+            underlying: snap.underlying?.DunaHEXADType ?? null,
+            maison: maison?.id ?? null,
+            rang: 'Initié(e)',
+            etoiles: 0,
+            chantiers: []
         };
-        this.document.documentElement.scrollTo({ top: 0, behavior: 'instant' });
-        this.closed.emit(dossier);
+        try {
+            const response = await fetch('/api/membres', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                this.closeError.set('L\'envoi vers la base a échoué.');
+                return;
+            }
+            const saved = await response.json() as MembreSession;
+            this.membres.ouvrir(saved);
+            this.document.documentElement.scrollTo({ top: 0, behavior: 'instant' });
+            this.closed.emit(saved);
+        } catch {
+            this.closeError.set('L\'envoi vers la base a échoué.');
+        } finally {
+            this.closing.set(false);
+        }
     }
 
     protected tuneCreed(event: Event | HTMLVideoElement): void {

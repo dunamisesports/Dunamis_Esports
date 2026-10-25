@@ -1,0 +1,25 @@
+.profil {
+    width: min(40rem, 92vw);
+    margin: 2rem auto 4rem;
+    text-align: center;
+}
+
+.profil-rank {
+    color: rgb(255, 195, 0);
+}
+
+.profil dl {
+    margin: 1.5rem 0 0;
+}
+
+.profil div {
+    margin: 0.7rem 0;
+}
+
+.profil dt {
+    color: rgb(255, 195, 0);
+}
+
+.profil dd {
+    margin: 0.15rem 0 0;
+}
