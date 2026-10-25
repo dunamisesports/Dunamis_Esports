@@ -6,8 +6,3 @@ export default async function handler(request: Request): Promise<Response> {
     }
     return inscrireMembre(request);
 }
-
-export const config = {
-    path: '/api/membres',
-    method: 'POST'
-};
