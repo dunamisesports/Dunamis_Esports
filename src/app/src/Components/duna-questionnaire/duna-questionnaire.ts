@@ -272,8 +272,46 @@ export class DunaQuestionnaire {
         if (typeof window !== 'undefined')
             localStorage.setItem(key, value);
     }
-    hasInLocalStorage(key: string): boolean {
-        return typeof window !== 'undefined' && !!localStorage.getItem(key);
+
+    constructor() {
+        this.afficherDepuisLocal();
+    }
+
+    private afficherDepuisLocal(): void {
+        const raw = this.getFromLocalStorage('DunamisMembre');
+        if (!raw) {
+            return;
+        }
+        try {
+            const parsed = JSON.parse(raw) as { primary?: unknown; underlying?: unknown };
+            const primary = this.carte(parsed.primary);
+            const underlying = this.carte(parsed.underlying);
+            if (!primary || !underlying) {
+                return;
+            }
+            this.primary = primary;
+            this.underlying = underlying;
+            this.showHexad = true;
+        } catch {
+            return;
+        }
+    }
+
+    private carte(name: unknown): Exclude<HEXADClassEX, null> | null {
+        if (typeof name !== 'string') {
+            return null;
+        }
+        const index = this.DunaHEXADType.indexOf(name);
+        if (index < 0) {
+            return null;
+        }
+        return {
+            HEXADType: this.HEXADType[index],
+            DunaHEXADType: this.DunaHEXADType[index],
+            Occurences: 0,
+            indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray: index,
+            HEXADTypeDescription: this.HEXADTypeDescription[index]
+        };
     }
 
     readonly filled = signal(0);
@@ -301,7 +339,6 @@ export class DunaQuestionnaire {
         for (const question of this.questionReponses) {
             const value = this.UIAnswers[question.id];
             if (value == undefined || isNaN(value)) {
-                this.showHexad = false;
                 return false;
             }
         }

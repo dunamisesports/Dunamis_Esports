@@ -1,6 +1,6 @@
 <div>
 
-    @if (hasInLocalStorage("OccuBoard") && showHexad) {
+    @if (showHexad && primary && underlying) {
     <div class="flexerino">
         <div class="HEXADChara">
             <svg viewBox="-100 -100 600 600" preserveAspectRatio="xMidYMid meet">
@@ -127,6 +127,7 @@
                     @for (answer of currentDunaQR.answers; track answer.value) {
                     <label class="radio-label">
                         <input type="radio" [name]="'question_' + currentDunaQR.id" [value]="answer.value"
+                            [checked]="UIAnswers[currentDunaQR.id] === answer.value"
                             (change)="setUiAnswers(currentDunaQR.id, $event)" />
                         <span class="custom-radio"></span>
                         {{ answer.label }}

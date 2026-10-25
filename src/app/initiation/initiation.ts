@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { afterNextRender, Component, inject, OnDestroy, output, signal, viewChild } from '@angular/core';
 import { DunaQuestionnaire } from '../src/Components/duna-questionnaire/duna-questionnaire';
 import { MembreSession, MembreStore } from '../session/membre.session';
+import { empreinteMotDePasse } from '../session/md5';
 import { playedGames } from './games';
 
 interface ProfilSaisi {
@@ -50,6 +51,7 @@ export class Initiation implements OnDestroy {
     protected readonly closeError = signal<string | null>(null);
     protected readonly closing = signal(false);
     private readonly profil = signal<ProfilSaisi | null>(null);
+    private readonly reserve = signal<MembreSession | null>(null);
     readonly closed = output<MembreSession>();
     protected readonly house = signal<string | null>(null);
     protected readonly confirmed = signal(false);
@@ -104,11 +106,19 @@ export class Initiation implements OnDestroy {
     ];
 
     constructor() {
+        this.restaurerLocal();
         afterNextRender(() => {
             this.document.documentElement.style.scrollSnapType = 'none';
             this.document.documentElement.scrollTo({ top: 0, behavior: 'instant' });
             this.snapCleared = true;
             this.bindFolds();
+            this.remplirFormulaire();
+            if (this.profil()) {
+                const present = this.document.querySelector('details.present-fold');
+                if (present instanceof HTMLDetailsElement) {
+                    this.playFold(present, true);
+                }
+            }
         });
     }
 
@@ -176,6 +186,161 @@ export class Initiation implements OnDestroy {
 
     private foldGame(value: string): string {
         return value.trim().toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
+    }
+
+    private restaurerLocal(): void {
+        const membre = this.lireMembreLocal();
+        if (!membre) {
+            return;
+        }
+        this.reserve.set(membre);
+        this.profil.set({
+            email: membre.email,
+            pseudo: membre.pseudo,
+            birthdate: membre.birthdate,
+            genre: membre.genre,
+            jeux: membre.jeux,
+            motDePasse: membre.motDePasse
+        });
+        this.profilSaved.set(true);
+        if (membre.maison) {
+            this.house.set(membre.maison);
+            this.confirmed.set(true);
+            this.creedRevealed.set(true);
+        }
+    }
+
+    private lireMembreLocal(): MembreSession | null {
+        const parsed = this.lireJson('DunamisMembre');
+        if (!parsed || typeof parsed !== 'object') {
+            return null;
+        }
+        const source = parsed as Record<string, unknown>;
+        const email = this.texteLocal(source['email']);
+        const pseudo = this.texteLocal(source['pseudo']);
+        const birthdate = this.texteLocal(source['birthdate']);
+        const genre = this.texteLocal(source['genre']);
+        const motDePasse = this.texteLocal(source['motDePasse']);
+        const jeux = source['jeux'];
+        if (!email || !pseudo || !birthdate || !motDePasse || !Array.isArray(jeux)) {
+            return null;
+        }
+        if (genre !== 'Masculin' && genre !== 'Féminin' && genre !== 'Autre') {
+            return null;
+        }
+        if (jeux.some((jeu) => typeof jeu !== 'string')) {
+            return null;
+        }
+        const maison = this.texteOption(source['maison'], ['Concordia', 'Aequitas', 'Magisteria']);
+        const primary = this.texteOption(source['primary'], ['Sãmakh', 'Qãhal', 'Tùr', 'Bãnãh', 'Qasar', 'Nãsãh']);
+        const underlying = this.texteOption(source['underlying'], ['Sãmakh', 'Qãhal', 'Tùr', 'Bãnãh', 'Qasar', 'Nãsãh']);
+        if (maison === undefined || primary === undefined || underlying === undefined) {
+            return null;
+        }
+        return {
+            email,
+            pseudo,
+            birthdate,
+            genre,
+            jeux,
+            motDePasse,
+            primary,
+            underlying,
+            maison,
+            rang: 'Initié(e)',
+            etoiles: 0,
+            chantiers: []
+        };
+    }
+
+    private garderLocal(membre: MembreSession): void {
+        const copie: MembreSession = {
+            ...membre,
+            motDePasse: empreinteMotDePasse(membre.motDePasse),
+            rang: 'Initié(e)',
+            etoiles: 0,
+            chantiers: []
+        };
+        this.ecrireJson('DunamisMembre', copie);
+        this.effacerAnciennesCles();
+    }
+
+    private oublierLocal(): void {
+        if (typeof localStorage === 'undefined') {
+            return;
+        }
+        localStorage.removeItem('DunamisMembre');
+        this.effacerAnciennesCles();
+    }
+
+    private effacerAnciennesCles(): void {
+        if (typeof localStorage === 'undefined') {
+            return;
+        }
+        localStorage.removeItem('DunamisProfil');
+        localStorage.removeItem('DunamisMaison');
+        localStorage.removeItem('DunamisReponses');
+    }
+
+    private remplirFormulaire(): void {
+        const profil = this.profil();
+        const form = this.document.querySelector('form.identity-form');
+        if (!profil || !(form instanceof HTMLFormElement)) {
+            return;
+        }
+        this.ecrireChamp(form, 'email', profil.email);
+        this.ecrireChamp(form, 'pseudo', profil.pseudo);
+        this.ecrireChamp(form, 'birthdate', profil.birthdate);
+        this.ecrireChamp(form, 'genre', profil.genre);
+        const choisis = new Set(profil.jeux);
+        form.querySelectorAll('input[name="jeux"]').forEach((node) => {
+            if (node instanceof HTMLInputElement) {
+                node.checked = choisis.has(node.value);
+            }
+        });
+    }
+
+    private ecrireChamp(form: HTMLFormElement, name: string, value: string): void {
+        const field = form.elements.namedItem(name);
+        if (field instanceof HTMLInputElement || field instanceof HTMLSelectElement) {
+            field.value = value;
+        }
+    }
+
+    private lireJson(key: string): unknown {
+        if (typeof localStorage === 'undefined') {
+            return null;
+        }
+        const raw = localStorage.getItem(key);
+        if (!raw) {
+            return null;
+        }
+        try {
+            return JSON.parse(raw) as unknown;
+        } catch {
+            return null;
+        }
+    }
+
+    private ecrireJson(key: string, value: unknown): void {
+        if (typeof localStorage === 'undefined') {
+            return;
+        }
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    private texteLocal(value: unknown): string {
+        return typeof value === 'string' ? value.trim() : '';
+    }
+
+    private texteOption(value: unknown, allowed: readonly string[]): string | null | undefined {
+        if (value === null) {
+            return null;
+        }
+        if (typeof value !== 'string') {
+            return undefined;
+        }
+        return allowed.includes(value) ? value : undefined;
     }
 
     protected saveProfil(event: Event): void {
@@ -316,6 +481,7 @@ export class Initiation implements OnDestroy {
         this.closeError.set(null);
         const snap = this.questionnaire().snapshot();
         const maison = this.selected();
+        const garde = this.reserve();
         const payload: MembreSession = {
             email: profil.email,
             pseudo: profil.pseudo,
@@ -323,9 +489,9 @@ export class Initiation implements OnDestroy {
             genre: profil.genre,
             jeux: profil.jeux,
             motDePasse: profil.motDePasse,
-            primary: snap.primary?.DunaHEXADType ?? null,
-            underlying: snap.underlying?.DunaHEXADType ?? null,
-            maison: maison?.id ?? null,
+            primary: snap.primary?.DunaHEXADType ?? garde?.primary ?? null,
+            underlying: snap.underlying?.DunaHEXADType ?? garde?.underlying ?? null,
+            maison: maison?.id ?? garde?.maison ?? null,
             rang: 'Initié(e)',
             etoiles: 0,
             chantiers: []
@@ -337,14 +503,17 @@ export class Initiation implements OnDestroy {
                 body: JSON.stringify(payload)
             });
             if (!response.ok) {
+                this.garderLocal(payload);
                 this.closeError.set('L\'envoi vers la base a échoué.');
                 return;
             }
             const saved = await response.json() as MembreSession;
+            this.oublierLocal();
             this.membres.ouvrir(saved);
             this.document.documentElement.scrollTo({ top: 0, behavior: 'instant' });
             this.closed.emit(saved);
         } catch {
+            this.garderLocal(payload);
             this.closeError.set('L\'envoi vers la base a échoué.');
         } finally {
             this.closing.set(false);

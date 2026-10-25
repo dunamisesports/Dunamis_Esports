@@ -1,5 +1,5 @@
-import { createHash } from 'node:crypto';
 import { getDatabase } from '@netlify/database';
+import { empreinteMotDePasse } from '../app/session/md5';
 import type { MembreSession } from '../app/session/membre.session';
 
 const GENRES = ['Masculin', 'Féminin', 'Autre'] as const;
@@ -17,7 +17,7 @@ export async function inscrireMembre(request: Request): Promise<Response> {
     if (!membre) {
         return Response.json({ error: 'Dossier incomplet.' }, { status: 400 });
     }
-    membre.motDePasse = createHash('md5').update(membre.motDePasse).digest('hex');
+    membre.motDePasse = empreinteMotDePasse(membre.motDePasse);
     membre.rang = 'Initié(e)';
     membre.etoiles = 0;
     membre.chantiers = [];
