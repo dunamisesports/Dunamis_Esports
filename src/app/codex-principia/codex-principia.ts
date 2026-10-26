@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Initiation } from '../initiation/initiation';
-import { MembreSession } from '../session/membre.session';
+import { MembreSession, MembreStore } from '../session/membre.session';
 
 interface HexadArchetype {
     name: string;
@@ -16,11 +16,16 @@ interface HexadArchetype {
     styleUrl: './codex-principia.css'
 })
 export class CodexPrincipia {
+    protected readonly session = inject(MembreStore);
     protected readonly showInitiation = signal(false);
     readonly inscription = signal<MembreSession | null>(null);
 
     protected openInitiation(): void {
         this.showInitiation.set(true);
+    }
+
+    protected tuneCreed(event: Event): void {
+        (event.target as HTMLVideoElement).volume = 0.1;
     }
 
     protected closeInitiation(dossier: MembreSession): void {

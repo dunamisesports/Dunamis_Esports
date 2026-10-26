@@ -16,7 +16,15 @@ export async function netlifyAppEngineHandler(request: Request, edge?: NetlifyEd
         if (edge?.rewrite) {
             return edge.rewrite('/.netlify/functions/membres')
         }
-        return Response.json({ error: 'La base n\'est pas joignable.' }, { status: 503 })
+        const { inscrireEnLocal } = await import('./server/inscription-locale')
+        return inscrireEnLocal(request)
+    }
+    if (url.pathname === '/api/connexion' && request.method === 'POST') {
+        if (edge?.rewrite) {
+            return edge.rewrite('/.netlify/functions/connexion')
+        }
+        const { connecterEnLocal } = await import('./server/connexion-locale')
+        return connecterEnLocal(request)
     }
 
     const context = getContext()

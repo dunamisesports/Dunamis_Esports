@@ -71,6 +71,53 @@
     color: rgb(255, 57, 15);
 }
 
+.initiation-chapter.has-creed {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+}
+
+.creed-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: clamp(0.6rem, 2vw, 2.2rem);
+}
+
+.creed-col {
+    flex: 0 0 30%;
+    width: 30%;
+    min-width: 0;
+}
+
+.creed-video {
+    display: block;
+    flex: 0 0 25%;
+    width: 25%;
+    height: auto;
+    margin: 0;
+    object-fit: contain;
+    background: rgb(0, 0, 0);
+}
+
+.creed {
+    margin: clamp(0.55rem, 1.4vh, 1.15rem) 0;
+    text-align: center;
+    line-height: 2.2;
+    font-size: clamp(0.85rem, 1.35vw, 1.55rem);
+    text-shadow: 0 0 0.6em rgb(0, 0, 0);
+}
+
+#creed-fr {
+    color: rgb(89, 215, 255);
+}
+
+#creed-en {
+    color: rgb(255, 195, 0);
+}
+
 .flexerino {
     display: flex;
     justify-content: space-between;

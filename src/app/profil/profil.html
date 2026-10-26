@@ -1,47 +1,113 @@
-<section class="profil">
+<section class="sanctuaire" [class.OfTheConcordia]="session.membre()?.maison === 'Concordia'" [class.OfTheAequitas]="session.membre()?.maison === 'Aequitas'" [class.OfTheMagisteria]="session.membre()?.maison === 'Magisteria'">
     @if (session.membre(); as membre) {
-    <h1 class="title">{{ membre.pseudo }}</h1>
-    <p class="profil-rank">{{ membre.rang }}</p>
-    <dl>
-        <div>
-            <dt>Email</dt>
-            <dd>{{ membre.email }}</dd>
+    <header class="sceau">
+        <div class="sceau-ligne">
+            @if (maisonDe(membre.maison); as maison) {
+            <img class="sceau-embleme" [src]="maison.image" [alt]="maison.titre">
+            }
+            <div class="sceau-identite">
+                <div class="rang-ligne">
+                    <h2 class="sceau-rang">{{ membre.rang }}</h2>
+                    @if (membre.etoiles > 0) {
+                    <p class="etoiles" [attr.aria-label]="membre.etoiles">
+                        @for (etoile of etoiles(membre.etoiles); track etoile) {
+                        <span aria-hidden="true">★</span>
+                        }
+                    </p>
+                    }
+                </div>
+                <h1 class="sceau-pseudo">{{ membre.pseudo }}</h1>
+                <p class="sceau-maison">{{ maisonDe(membre.maison)?.titre ?? '—' }}</p>
+                @if (maisonDe(membre.maison); as maison) {
+                <p class="sceau-valeur">{{ maison.valeur }}</p>
+                }
+            </div>
         </div>
-        <div>
-            <dt>Date de naissance</dt>
-            <dd>{{ membre.birthdate }}</dd>
-        </div>
-        <div>
-            <dt>Genre</dt>
-            <dd>{{ membre.genre }}</dd>
-        </div>
-        <div>
-            <dt>Maison</dt>
-            <dd>{{ membre.maison ?? '—' }}</dd>
-        </div>
-        <div>
-            <dt>Primary</dt>
-            <dd>{{ membre.primary ?? '—' }}</dd>
-        </div>
-        <div>
-            <dt>Underlying</dt>
-            <dd>{{ membre.underlying ?? '—' }}</dd>
-        </div>
-        <div>
-            <dt>Étoiles</dt>
-            <dd>{{ membre.etoiles }}</dd>
-        </div>
-        <div>
-            <dt>Jeux</dt>
-            <dd>{{ membre.jeux.length ? membre.jeux.join(', ') : '—' }}</dd>
-        </div>
-        <div>
-            <dt>Chantiers</dt>
-            <dd>{{ membre.chantiers.length ? membre.chantiers.join(', ') : '—' }}</dd>
-        </div>
-    </dl>
+        <dl class="civil">
+            <div>
+                <dt>Email</dt>
+                <dd>{{ membre.email }}</dd>
+            </div>
+            <div>
+                <dt>Date de naissance</dt>
+                <dd>{{ dateDe(membre.birthdate) }}</dd>
+            </div>
+            <div>
+                <dt>Genre</dt>
+                <dd>{{ membre.genre }}</dd>
+            </div>
+        </dl>
+    </header>
+
+    <div class="archetypes">
+        <article class="archetype archetype-primaire">
+            <p class="archetype-role">Primaire</p>
+            @if (arche(membre.primary); as marque) {
+            <img [src]="marque.image" alt="">
+            <h2>{{ marque.name }}</h2>
+            <p class="archetype-type">{{ marque.type }}</p>
+            <p class="archetype-line">{{ marque.line }}</p>
+            } @else {
+            <h2>—</h2>
+            }
+        </article>
+        <article class="archetype archetype-secondaire">
+            <p class="archetype-role">Secondaire</p>
+            @if (arche(membre.underlying); as marque) {
+            <img [src]="marque.image" alt="">
+            <h2>{{ marque.name }}</h2>
+            <p class="archetype-type">{{ marque.type }}</p>
+            <p class="archetype-line">{{ marque.line }}</p>
+            } @else {
+            <h2>—</h2>
+            }
+        </article>
+    </div>
+
+    <section class="plaque">
+        <h2>Chantiers</h2>
+        @if (membre.chantiers.length) {
+        <ul class="chantiers">
+            @for (chantier of membre.chantiers; track chantier) {
+            <li>{{ chantier }}</li>
+            }
+        </ul>
+        } @else {
+        <p class="vide">—</p>
+        }
+    </section>
+
+    <section class="plaque">
+        <h2>Jeux</h2>
+        @if (!membre.jeux.length) {
+        <p class="vide">—</p>
+        } @else {
+        <ul class="jeu-liste">
+            @for (jeu of jeux(); track jeu.nom) {
+            <li>
+                @if (jeu.lien) {
+                <a [href]="jeu.lien" target="_blank" rel="noopener">
+                    <span class="jeu-visuel">
+                        @if (jeu.image) {
+                        <img [src]="jeu.image" alt="" (error)="retirerImage(jeu.nom)">
+                        }
+                    </span>
+                    <span>{{ jeu.nom }}</span>
+                </a>
+                } @else {
+                <span class="jeu-carte">
+                    <span class="jeu-visuel"></span>
+                    <span>{{ jeu.nom }}</span>
+                </span>
+                }
+            </li>
+            }
+        </ul>
+        }
+    </section>
+
     } @else {
-    <h1 class="title">Profil</h1>
-    <p>Aucune session.</p>
+    <h1 class="sceau-pseudo">Profil</h1>
+    <p class="vide">Aucune session.</p>
     }
 </section>

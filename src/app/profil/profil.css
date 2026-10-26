@@ -1,25 +1,283 @@
-.profil {
-    width: min(40rem, 92vw);
-    margin: 2rem auto 4rem;
+.sanctuaire {
+    width: min(68rem, 94vw);
+    margin: 1.2rem auto 4rem;
+    padding: clamp(1.2rem, 3vw, 2.2rem);
+    color: rgb(220, 220, 220);
+    background:
+        linear-gradient(180deg, rgba(255, 195, 0, 0.05), transparent 7rem),
+        rgba(0, 0, 0, 0.82);
+    border: 1px solid rgba(184, 141, 0, 0.7);
+    border-radius: 1.4rem;
+}
+
+.OfTheConcordia {
+    border-color: rgba(196, 30, 30, 0.8);
+}
+
+.OfTheAequitas {
+    border-color: rgba(214, 228, 242, 0.55);
+}
+
+.OfTheMagisteria {
+    border-color: rgba(120, 190, 255, 0.7);
+}
+
+.sceau {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 1.6rem);
     text-align: center;
 }
 
-.profil-rank {
+.sceau-ligne {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 2.6rem);
+}
+
+.sceau-embleme {
+    width: clamp(8rem, 18vw, 13rem);
+    height: auto;
+}
+
+.sceau-valeur,
+.archetype-role {
+    margin: 0;
     color: rgb(255, 195, 0);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: clamp(0.72rem, 1vw, 0.88rem);
 }
 
-.profil dl {
-    margin: 1.5rem 0 0;
+.rang-ligne {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
 }
 
-.profil div {
-    margin: 0.7rem 0;
+.sceau-rang {
+    margin: 0;
+    color: rgb(255, 255, 255);
+    font-family: Orbitron, OrbitronLight, monospace;
+    font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
-.profil dt {
+.etoiles {
+    display: flex;
+    gap: 0.2rem;
+    margin: 0;
     color: rgb(255, 195, 0);
+    font-size: 1.7rem;
+    line-height: 1;
+    text-shadow:
+        0 0 2px rgb(255, 255, 255),
+        0 0 7px rgb(89, 215, 255),
+        0 0 16px rgb(0, 200, 255),
+        0 0 28px rgb(0, 150, 255);
 }
 
-.profil dd {
+.sceau-pseudo {
+    margin: 0.2rem 0;
+    color: rgb(255, 255, 255);
+    font-family: Orbitron, OrbitronLight, monospace;
+    font-size: clamp(1.7rem, 4vw, 3.3rem);
+    letter-spacing: 0.03em;
+    text-shadow: 0 0 0.45em rgb(0, 0, 0);
+}
+
+.sceau-maison {
     margin: 0.15rem 0 0;
+    color: rgb(255, 195, 0);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+}
+
+.OfTheConcordia .sceau-maison {
+    color: rgb(255, 120, 90);
+}
+
+.OfTheAequitas .sceau-maison {
+    color: rgb(214, 228, 242);
+}
+
+.OfTheMagisteria .sceau-maison {
+    color: rgb(120, 190, 255);
+}
+
+.sceau-valeur {
+    margin-top: 0.35rem;
+}
+
+.archetypes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.8rem, 2vw, 1.2rem);
+    margin-top: clamp(1.3rem, 3vw, 2rem);
+}
+
+.archetype,
+.plaque {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 1rem;
+}
+
+.archetype {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 100%;
+    padding: clamp(0.9rem, 2vw, 1.3rem);
+    text-align: center;
+}
+
+.archetype img {
+    width: clamp(6.5rem, 11vw, 9rem);
+    height: auto;
+    filter:
+        drop-shadow(0 0 6px rgba(255, 195, 0, 0.95))
+        drop-shadow(0 0 18px rgba(255, 195, 0, 0.7));
+}
+
+.archetype-secondaire img {
+    filter:
+        drop-shadow(0 0 6px rgba(89, 215, 255, 0.95))
+        drop-shadow(0 0 18px rgba(89, 215, 255, 0.75));
+}
+
+.archetype h2,
+.plaque h2 {
+    margin: 0.15rem 0 0;
+    color: rgb(255, 255, 255);
+    font-size: clamp(1.15rem, 1.8vw, 1.6rem);
+}
+
+.archetype-type {
+    margin: 0;
+    color: rgb(255, 195, 0);
+}
+
+.archetype-secondaire .archetype-type {
+    color: rgb(89, 215, 255);
+}
+
+.archetype-line {
+    margin: 0.3rem 0 0;
+    max-width: 26rem;
+    line-height: 1.45;
+    font-size: clamp(0.8rem, 1.05vw, 0.92rem);
+}
+
+.plaque {
+    margin-top: clamp(1.1rem, 2.5vw, 1.6rem);
+    padding: clamp(0.9rem, 2vw, 1.2rem);
+    text-align: center;
+}
+
+.vide {
+    margin: 0.45rem 0 0;
+}
+
+.chantiers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chantiers li {
+    padding: 0.4rem 0.75rem;
+    color: white;
+}
+
+.jeu-liste {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.jeu-liste li {
+    width: 8.8rem;
+}
+
+.jeu-liste a,
+.jeu-carte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    height: 100%;
+    padding: 0.65rem 0.5rem 0.75rem;
+    color: white;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(184, 141, 0, 0.4);
+    border-radius: 0.8rem;
+}
+
+.jeu-liste a:hover {
+    color: rgb(255, 195, 0);
+    border-color: rgb(255, 195, 0);
+}
+
+.jeu-visuel {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 6.2rem;
+}
+
+.jeu-visuel img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.civil {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 1.4rem;
+    width: 100%;
+    margin: 0;
+}
+
+.civil div {
+    text-align: center;
+}
+
+.civil dt {
+    color: rgb(184, 141, 0);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.civil dd {
+    margin: 0.28rem 0 0;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+    .sceau-ligne {
+        flex-direction: column;
+    }
+
+    .archetypes {
+        grid-template-columns: 1fr;
+    }
 }

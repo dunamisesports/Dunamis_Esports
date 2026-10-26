@@ -43,3 +43,6 @@ __screenshots__/
 Thumbs.db
 #VAR
 .env
+
+# Local Netlify folder
+.netlify

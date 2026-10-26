@@ -32,6 +32,16 @@
                     },
                     "configurations": {
                         "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/server/inscription-locale.ts",
+                                    "with": "src/server/inscription-locale.prod.ts"
+                                },
+                                {
+                                    "replace": "src/server/connexion-locale.ts",
+                                    "with": "src/server/connexion-locale.prod.ts"
+                                }
+                            ],
                             "budgets": [
                                 {
                                     "type": "initial",

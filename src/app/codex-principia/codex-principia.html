@@ -125,9 +125,37 @@
         </article>
     </section>
 
-    <section class="chapter initiation-chapter">
+    <section class="chapter initiation-chapter" [class.has-creed]="session.membre()">
         <p class="lead">« Jésus lui dit : Je suis le chemin, la vérité, et la vie. Nul ne vient au Père que par moi. » <span class="verse-ref">Jean 14:6</span></p>
+        @if (session.membre()) {
+        <h2 class="title">⚔️ Le Dunamis Creed ⚔️</h2>
+        <div class="creed-stage">
+            <div class="creed-col" id="creed-fr">
+                <p class="creed">
+                    En communion, devant nos écrans,<br>
+                    notre confiance en Dieu aiguise notre talent.
+                </p>
+                <p class="creed">
+                    Bénis soient nos adversaires —<br>
+                    Mais en Lui, nous prendrons toutes les victoires.
+                </p>
+            </div>
+            <video class="creed-video" controls playsinline preload="metadata" src="/videos/DunaCreed.mp4"
+                (loadedmetadata)="tuneCreed($event)"></video>
+            <div class="creed-col" id="creed-en">
+                <p class="creed">
+                    In communion, in front of our screens,<br>
+                    our trust in the Lord sharpens our skill.
+                </p>
+                <p class="creed">
+                    Blessed may be our adversaries —<br>
+                    but in His name, we’ll claim all victories.
+                </p>
+            </div>
+        </div>
+        } @else {
         <button type="button" class="initiation-link" (click)="openInitiation()">l'Initiation</button>
+        }
     </section>
 
 </div>
