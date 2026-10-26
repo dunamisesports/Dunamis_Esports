@@ -1,4 +1,3 @@
-import { getDatabase } from '@netlify/database';
 import { empreinteMotDePasse } from '../app/session/md5';
 import type { MembreSession } from '../app/session/membre.session';
 
@@ -6,28 +5,16 @@ const GENRES = ['Masculin', 'Féminin', 'Autre'] as const;
 const ARCHETYPES = ['Sãmakh', 'Qãhal', 'Tùr', 'Bãnãh', 'Qasar', 'Nãsãh'] as const;
 const MAISONS = ['Concordia', 'Aequitas', 'Magisteria'] as const;
 
-export async function inscrireMembre(request: Request): Promise<Response> {
-    let body: unknown;
-    try {
-        body = await request.json();
-    } catch {
-        return Response.json({ error: 'Corps illisible.' }, { status: 400 });
-    }
+export function membrePourStockage(body: unknown): MembreSession | null {
     const membre = lireMembre(body);
     if (!membre) {
-        return Response.json({ error: 'Dossier incomplet.' }, { status: 400 });
+        return null;
     }
     membre.motDePasse = empreinteMotDePasse(membre.motDePasse);
     membre.rang = 'Initié(e)';
     membre.etoiles = 0;
     membre.chantiers = [];
-    try {
-        const db = getDatabase();
-        await db.sql`INSERT INTO membres (doc) VALUES (${JSON.stringify(membre)}::jsonb)`;
-    } catch {
-        return Response.json({ error: 'La base n\'est pas joignable.' }, { status: 503 });
-    }
-    return Response.json(membre);
+    return membre;
 }
 
 function lireMembre(body: unknown): MembreSession | null {
