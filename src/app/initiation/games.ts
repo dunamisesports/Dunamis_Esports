@@ -31,6 +31,7 @@ export const playedGames = [
     'Conan Exiles',
     'Content Warning',
     'Counter-Strike 2',
+    'Crusader Kings',
     'Cuphead',
     'Cyberpunk 2077',
     'Dark and Darker',
