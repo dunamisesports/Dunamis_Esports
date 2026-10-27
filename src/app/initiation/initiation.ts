@@ -2,8 +2,23 @@ import { DOCUMENT } from '@angular/common';
 import { afterNextRender, Component, inject, OnDestroy, output, signal, viewChild } from '@angular/core';
 import { DunaQuestionnaire } from '../src/Components/duna-questionnaire/duna-questionnaire';
 import { MembreSession, MembreStore } from '../session/membre.session';
-import { empreinteMotDePasse } from '../session/md5';
 import { playedGames } from './games';
+
+interface Brouillon {
+    email: string;
+    pseudo: string;
+    birthdate: string;
+    genre: string;
+    jeux: string[];
+    motDePasse: string;
+    profilEnregistre: boolean;
+    maison: string | null;
+    maisonConfirmee: boolean;
+    reponses: Array<number | null>;
+    hexadVu: boolean;
+    primary: string | null;
+    underlying: string | null;
+}
 
 interface ProfilSaisi {
     email: string;
@@ -51,7 +66,7 @@ export class Initiation implements OnDestroy {
     protected readonly closeError = signal<string | null>(null);
     protected readonly closing = signal(false);
     private readonly profil = signal<ProfilSaisi | null>(null);
-    private readonly reserve = signal<MembreSession | null>(null);
+    private reprise: Brouillon | null = null;
     readonly closed = output<MembreSession>();
     protected readonly house = signal<string | null>(null);
     protected readonly confirmed = signal(false);
@@ -113,7 +128,11 @@ export class Initiation implements OnDestroy {
             this.snapCleared = true;
             this.bindFolds();
             this.remplirFormulaire();
-            if (this.profil()) {
+            const reprise = this.reprise;
+            if (reprise) {
+                this.questionnaire().reprendre(reprise.reponses, reprise.hexadVu, reprise.primary, reprise.underlying);
+            }
+            if (this.profil() && !this.questionnaire().hexadVisible()) {
                 const present = this.document.querySelector('details.present-fold');
                 if (present instanceof HTMLDetailsElement) {
                     this.playFold(present, true);
@@ -133,6 +152,7 @@ export class Initiation implements OnDestroy {
             return;
         }
         this.house.set(id);
+        this.ecrireBrouillon({ maison: id, maisonConfirmee: false });
     }
 
     protected selected(): HouseChoice | undefined {
@@ -158,6 +178,7 @@ export class Initiation implements OnDestroy {
     protected confirmHouse(): void {
         this.confirmed.set(true);
         this.modalOpen.set(false);
+        this.ecrireBrouillon({ maison: this.house(), maisonConfirmee: true });
         this.creedRevealed.set(true);
         this.playGrave();
         setTimeout(() => {
@@ -189,28 +210,67 @@ export class Initiation implements OnDestroy {
     }
 
     private restaurerLocal(): void {
-        const membre = this.lireMembreLocal();
-        if (!membre) {
+        const brouillon = this.lireBrouillon();
+        if (!brouillon) {
             return;
         }
-        this.reserve.set(membre);
-        this.profil.set({
-            email: membre.email,
-            pseudo: membre.pseudo,
-            birthdate: membre.birthdate,
-            genre: membre.genre,
-            jeux: membre.jeux,
-            motDePasse: membre.motDePasse
-        });
-        this.profilSaved.set(true);
-        if (membre.maison) {
-            this.house.set(membre.maison);
+        this.reprise = brouillon;
+        const profil = this.profilComplet(brouillon);
+        if (profil) {
+            this.profil.set(profil);
+            this.profilSaved.set(true);
+        }
+        if (brouillon.maison) {
+            this.house.set(brouillon.maison);
+        }
+        if (brouillon.maisonConfirmee && brouillon.maison) {
             this.confirmed.set(true);
             this.creedRevealed.set(true);
         }
     }
 
-    private lireMembreLocal(): MembreSession | null {
+    protected suivreSaisie(event: Event): void {
+        const cible = event.target;
+        if (cible instanceof HTMLElement && cible.classList.contains('game-search')) {
+            return;
+        }
+        const form = event.currentTarget;
+        if (!(form instanceof HTMLFormElement)) {
+            return;
+        }
+        const data = new FormData(form);
+        this.profil.set(null);
+        this.profilSaved.set(false);
+        this.ecrireBrouillon({
+            email: String(data.get('email') ?? ''),
+            pseudo: String(data.get('pseudo') ?? ''),
+            birthdate: String(data.get('birthdate') ?? ''),
+            genre: String(data.get('genre') ?? ''),
+            jeux: data.getAll('jeux').map(String),
+            motDePasse: String(data.get('motDePasse') ?? ''),
+            profilEnregistre: false
+        });
+    }
+
+    protected garderQuestionnaire(): void {
+        const questionnaire = this.questionnaire();
+        const noms = questionnaire.noms();
+        this.ecrireBrouillon({
+            reponses: questionnaire.reponses(),
+            hexadVu: questionnaire.hexadVisible(),
+            primary: noms.primary,
+            underlying: noms.underlying
+        });
+    }
+
+    private ecrireBrouillon(patch: Partial<Brouillon>): void {
+        const suivant: Brouillon = { ...(this.lireBrouillon() ?? this.brouillonVide()), ...patch };
+        this.reprise = suivant;
+        this.ecrireJson('DunamisMembre', suivant);
+        this.effacerAnciennesCles();
+    }
+
+    private lireBrouillon(): Brouillon | null {
         const parsed = this.lireJson('DunamisMembre');
         if (!parsed || typeof parsed !== 'object') {
             return null;
@@ -220,23 +280,21 @@ export class Initiation implements OnDestroy {
         const pseudo = this.texteLocal(source['pseudo']);
         const birthdate = this.texteLocal(source['birthdate']);
         const genre = this.texteLocal(source['genre']);
-        const motDePasse = this.texteLocal(source['motDePasse']);
-        const jeux = source['jeux'];
-        if (!email || !pseudo || !birthdate || !motDePasse || !Array.isArray(jeux)) {
-            return null;
-        }
-        if (genre !== 'Masculin' && genre !== 'Féminin' && genre !== 'Autre') {
-            return null;
-        }
-        if (jeux.some((jeu) => typeof jeu !== 'string')) {
-            return null;
-        }
-        const maison = this.texteOption(source['maison'], ['Concordia', 'Aequitas', 'Magisteria']);
-        const primary = this.texteOption(source['primary'], ['Sãmakh', 'Qãhal', 'Tùr', 'Bãnãh', 'Qasar', 'Nãsãh']);
-        const underlying = this.texteOption(source['underlying'], ['Sãmakh', 'Qãhal', 'Tùr', 'Bãnãh', 'Qasar', 'Nãsãh']);
-        if (maison === undefined || primary === undefined || underlying === undefined) {
-            return null;
-        }
+        const motDePasse = typeof source['motDePasse'] === 'string' ? source['motDePasse'] : '';
+        const jeuxSource = source['jeux'];
+        const jeux = Array.isArray(jeuxSource) ? jeuxSource.filter((jeu): jeu is string => typeof jeu === 'string') : [];
+        const maisonLu = this.texteOption(source['maison'], ['Concordia', 'Aequitas', 'Magisteria']);
+        const primaryLu = this.texteOption(source['primary'], ['Sãmakh', 'Qãhal', 'Tùr', 'Bãnãh', 'Qasar', 'Nãsãh']);
+        const underlyingLu = this.texteOption(source['underlying'], ['Sãmakh', 'Qãhal', 'Tùr', 'Bãnãh', 'Qasar', 'Nãsãh']);
+        const maison = maisonLu ?? null;
+        const primary = primaryLu ?? null;
+        const underlying = underlyingLu ?? null;
+        const genreValide = genre === 'Masculin' || genre === 'Féminin' || genre === 'Autre';
+        const moderne = typeof source['profilEnregistre'] === 'boolean';
+        const reponsesSource = source['reponses'];
+        const reponses = Array.isArray(reponsesSource)
+            ? reponsesSource.map((valeur) => typeof valeur === 'number' && Number.isFinite(valeur) ? valeur : null)
+            : [];
         return {
             email,
             pseudo,
@@ -244,25 +302,51 @@ export class Initiation implements OnDestroy {
             genre,
             jeux,
             motDePasse,
-            primary,
-            underlying,
+            profilEnregistre: moderne
+                ? source['profilEnregistre'] === true
+                : Boolean(email && pseudo && birthdate && motDePasse && genreValide),
             maison,
-            rang: 'Initié(e)',
-            etoiles: 0,
-            chantiers: []
+            maisonConfirmee: typeof source['maisonConfirmee'] === 'boolean' ? source['maisonConfirmee'] : Boolean(maison),
+            reponses,
+            hexadVu: typeof source['hexadVu'] === 'boolean' ? source['hexadVu'] : Boolean(primary && underlying),
+            primary,
+            underlying
         };
     }
 
-    private garderLocal(membre: MembreSession): void {
-        const copie: MembreSession = {
-            ...membre,
-            motDePasse: empreinteMotDePasse(membre.motDePasse),
-            rang: 'Initié(e)',
-            etoiles: 0,
-            chantiers: []
+    private brouillonVide(): Brouillon {
+        return {
+            email: '',
+            pseudo: '',
+            birthdate: '',
+            genre: '',
+            jeux: [],
+            motDePasse: '',
+            profilEnregistre: false,
+            maison: null,
+            maisonConfirmee: false,
+            reponses: [],
+            hexadVu: false,
+            primary: null,
+            underlying: null
         };
-        this.ecrireJson('DunamisMembre', copie);
-        this.effacerAnciennesCles();
+    }
+
+    private profilComplet(brouillon: Brouillon): ProfilSaisi | null {
+        if (!brouillon.profilEnregistre || !brouillon.email || !brouillon.pseudo || !brouillon.birthdate || !brouillon.motDePasse) {
+            return null;
+        }
+        if (brouillon.genre !== 'Masculin' && brouillon.genre !== 'Féminin' && brouillon.genre !== 'Autre') {
+            return null;
+        }
+        return {
+            email: brouillon.email,
+            pseudo: brouillon.pseudo,
+            birthdate: brouillon.birthdate,
+            genre: brouillon.genre,
+            jeux: brouillon.jeux,
+            motDePasse: brouillon.motDePasse
+        };
     }
 
     private oublierLocal(): void {
@@ -271,6 +355,7 @@ export class Initiation implements OnDestroy {
         }
         localStorage.removeItem('DunamisMembre');
         this.effacerAnciennesCles();
+        this.reprise = null;
     }
 
     private effacerAnciennesCles(): void {
@@ -280,19 +365,34 @@ export class Initiation implements OnDestroy {
         localStorage.removeItem('DunamisProfil');
         localStorage.removeItem('DunamisMaison');
         localStorage.removeItem('DunamisReponses');
+        localStorage.removeItem('OccuBoard');
     }
 
     private remplirFormulaire(): void {
         const profil = this.profil();
+        const reprise = this.reprise;
+        const source = profil ?? (reprise ? {
+            email: reprise.email,
+            pseudo: reprise.pseudo,
+            birthdate: reprise.birthdate,
+            genre: reprise.genre,
+            jeux: reprise.jeux,
+            motDePasse: reprise.motDePasse
+        } : null);
         const form = this.document.querySelector('form.identity-form');
-        if (!profil || !(form instanceof HTMLFormElement)) {
+        if (!source || !(form instanceof HTMLFormElement)) {
             return;
         }
-        this.ecrireChamp(form, 'email', profil.email);
-        this.ecrireChamp(form, 'pseudo', profil.pseudo);
-        this.ecrireChamp(form, 'birthdate', profil.birthdate);
-        this.ecrireChamp(form, 'genre', profil.genre);
-        const choisis = new Set(profil.jeux);
+        if (!source.email && !source.pseudo && !source.birthdate && !source.genre && !source.motDePasse && source.jeux.length === 0) {
+            return;
+        }
+        this.ecrireChamp(form, 'email', source.email);
+        this.ecrireChamp(form, 'pseudo', source.pseudo);
+        this.ecrireChamp(form, 'birthdate', source.birthdate);
+        this.ecrireChamp(form, 'genre', source.genre);
+        this.ecrireChamp(form, 'motDePasse', source.motDePasse);
+        this.ecrireChamp(form, 'confirmation', source.motDePasse);
+        const choisis = new Set(source.jeux);
         form.querySelectorAll('input[name="jeux"]').forEach((node) => {
             if (node instanceof HTMLInputElement) {
                 node.checked = choisis.has(node.value);
@@ -352,25 +452,29 @@ export class Initiation implements OnDestroy {
         if (!motDePasse || motDePasse !== confirmation) {
             this.profil.set(null);
             this.profilSaved.set(false);
+            this.ecrireBrouillon({ profilEnregistre: false });
             this.profilError.set('Les deux mots de passe doivent être identiques.');
             return;
         }
         if (genre !== 'Masculin' && genre !== 'Féminin' && genre !== 'Autre') {
             this.profil.set(null);
             this.profilSaved.set(false);
+            this.ecrireBrouillon({ profilEnregistre: false });
             this.profilError.set('Choisis un genre.');
             return;
         }
         const genreChoisi = genre as ProfilSaisi['genre'];
-        this.profil.set({
+        const saisi: ProfilSaisi = {
             email: String(data.get('email') ?? ''),
             pseudo: String(data.get('pseudo') ?? ''),
             birthdate: String(data.get('birthdate') ?? ''),
             genre: genreChoisi,
             jeux: data.getAll('jeux').map(String),
             motDePasse
-        });
+        };
+        this.profil.set(saisi);
         this.profilSaved.set(true);
+        this.ecrireBrouillon({ ...saisi, profilEnregistre: true });
         this.profilError.set(null);
         this.closeError.set(null);
         const fold = (event.target as HTMLFormElement).closest('details');
@@ -469,7 +573,8 @@ export class Initiation implements OnDestroy {
     }
 
     protected async closeInitiation(): Promise<void> {
-        const profil = this.profil();
+        const brouillon = this.lireBrouillon();
+        const profil = brouillon ? this.profilComplet(brouillon) : null;
         if (!profil) {
             this.closeError.set('Enregistre tes données personnelles avant de clore l\'initiation.');
             return;
@@ -480,8 +585,7 @@ export class Initiation implements OnDestroy {
         this.closing.set(true);
         this.closeError.set(null);
         const snap = this.questionnaire().snapshot();
-        const maison = this.selected();
-        const garde = this.reserve();
+        const maison = brouillon?.maisonConfirmee ? brouillon.maison : null;
         const payload: MembreSession = {
             email: profil.email,
             pseudo: profil.pseudo,
@@ -489,9 +593,9 @@ export class Initiation implements OnDestroy {
             genre: profil.genre,
             jeux: profil.jeux,
             motDePasse: profil.motDePasse,
-            primary: snap.primary?.DunaHEXADType ?? garde?.primary ?? null,
-            underlying: snap.underlying?.DunaHEXADType ?? garde?.underlying ?? null,
-            maison: maison?.id ?? garde?.maison ?? null,
+            primary: snap.primary?.DunaHEXADType ?? brouillon?.primary ?? null,
+            underlying: snap.underlying?.DunaHEXADType ?? brouillon?.underlying ?? null,
+            maison,
             rang: 'Initié(e)',
             etoiles: 0,
             chantiers: []
@@ -503,7 +607,6 @@ export class Initiation implements OnDestroy {
                 body: JSON.stringify(payload)
             });
             if (!response.ok) {
-                this.garderLocal(payload);
                 this.closeError.set('L\'envoi vers la base a échoué.');
                 return;
             }
@@ -513,7 +616,6 @@ export class Initiation implements OnDestroy {
             this.document.documentElement.scrollTo({ top: 0, behavior: 'instant' });
             this.closed.emit(saved);
         } catch {
-            this.garderLocal(payload);
             this.closeError.set('L\'envoi vers la base a échoué.');
         } finally {
             this.closing.set(false);

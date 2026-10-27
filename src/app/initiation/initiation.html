@@ -11,7 +11,7 @@
             </span>
         </summary>
         <div class="fold-body">
-        <form class="identity-form" (submit)="saveProfil($event)">
+        <form class="identity-form" (submit)="saveProfil($event)" (input)="suivreSaisie($event)">
             <label>
                 Email
                 <input type="email" name="email" autocomplete="email" required>
@@ -72,7 +72,7 @@
     </details>
 
     <section class="initiation-part">
-        <app-duna-questionnaire></app-duna-questionnaire>
+        <app-duna-questionnaire (progression)="garderQuestionnaire()"></app-duna-questionnaire>
     </section>
 
     <details class="initiation-part initiation-fold">

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 
 type Answers = {
     value: number,
@@ -38,7 +38,8 @@ export class DunaQuestionnaire {
     DunaHEXADType: string[] = ["Sãmakh", "Qãhal", "Tùr", "Bãnãh", "Qasar", "Nãsãh"];
     OccurencesHEXADType: number[] = [];
     finishedHEXADPersonnalClassification: HEXADClass[] = [];
-    showHexad = false;
+    readonly showHexad = signal(false);
+    readonly progression = output<void>();
     hexadPath: string = '';
 
     primary: HEXADClassEX = null;
@@ -264,37 +265,48 @@ export class DunaQuestionnaire {
             }
         ]
     UIAnswers: number[] = [];
-    // Méthode qui prend la clé en paramètre
-    getFromLocalStorage(key: string): string | null {
-        return typeof window !== 'undefined' ? localStorage.getItem(key) : null;
-    }
-    setToLocalStorage(key: string, value: string) {
-        if (typeof window !== 'undefined')
-            localStorage.setItem(key, value);
+
+    reponses(): Array<number | null> {
+        const liste: Array<number | null> = [];
+        this.questionReponses.forEach((question) => {
+            const value = this.UIAnswers[question.id];
+            liste[question.id] = Number.isFinite(value) ? value : null;
+        });
+        return liste;
     }
 
-    constructor() {
-        this.afficherDepuisLocal();
+    noms(): { primary: string | null; underlying: string | null } {
+        return {
+            primary: this.primary?.DunaHEXADType ?? null,
+            underlying: this.underlying?.DunaHEXADType ?? null
+        };
     }
 
-    private afficherDepuisLocal(): void {
-        const raw = this.getFromLocalStorage('DunamisMembre');
-        if (!raw) {
-            return;
-        }
-        try {
-            const parsed = JSON.parse(raw) as { primary?: unknown; underlying?: unknown };
-            const primary = this.carte(parsed.primary);
-            const underlying = this.carte(parsed.underlying);
-            if (!primary || !underlying) {
-                return;
+    hexadVisible(): boolean {
+        return this.showHexad();
+    }
+
+    reprendre(reponses: Array<number | null>, montrer: boolean, primary: string | null, underlying: string | null): void {
+        const utiles = reponses.some((value) => Number.isFinite(value));
+        if (utiles) {
+            this.UIAnswers = reponses.map((value) => typeof value === 'number' && Number.isFinite(value) ? value : Number.NaN);
+            this.filled.set(this.answeredCount());
+            if (montrer && this.quizComplete()) {
+                this.calculerHexad(false);
             }
-            this.primary = primary;
-            this.underlying = underlying;
-            this.showHexad = true;
-        } catch {
             return;
         }
+        if (!montrer) {
+            return;
+        }
+        const primaire = this.carte(primary);
+        const secondaire = this.carte(underlying);
+        if (!primaire || !secondaire) {
+            return;
+        }
+        this.primary = primaire;
+        this.underlying = secondaire;
+        this.showHexad.set(true);
     }
 
     private carte(name: unknown): Exclude<HEXADClassEX, null> | null {
@@ -320,6 +332,7 @@ export class DunaQuestionnaire {
         let answerChoix = parseInt((answer.target as HTMLSelectElement).value);
         this.UIAnswers[indexQuestion] = answerChoix;
         this.filled.set(this.answeredCount());
+        this.progression.emit();
     }
 
     gaugeFill(): number {
@@ -414,41 +427,43 @@ export class DunaQuestionnaire {
     }
 
 
-    YourHEXADType(): any {
-        let isQuizNotFullyAnwsered = !this.isQuizFullyAnwsered();
-        if (isQuizNotFullyAnwsered) {
-            return null;
+    YourHEXADType(): void {
+        this.calculerHexad(true);
+    }
+
+    private calculerHexad(publier: boolean): void {
+        if (!this.isQuizFullyAnwsered()) {
+            return;
         }
 
         this.OccurencesHEXADType = [];
         this.finishedHEXADPersonnalClassification = [];
 
         this.UIAnswers.map((i) => {
-            if (i !== undefined) {
+            if (i !== undefined && Number.isFinite(i)) {
                 if (this.OccurencesHEXADType[i - 1] !== undefined)
                     this.OccurencesHEXADType[i - 1] = this.OccurencesHEXADType[i - 1] + 1;
                 else
                     this.OccurencesHEXADType[i - 1] = 0 + 1;
             }
 
-        })
+        });
         if (this.UIAnswers.length === 19) {
             for (let i = 0; i < this.DunaHEXADType.length; i++) {
                 this.finishedHEXADPersonnalClassification[i] = {
                     HEXADType: this.HEXADType[i],
                     DunaHEXADType: this.DunaHEXADType[i],
                     Occurences: this.OccurencesHEXADType[i] ?? 0
-                }
+                };
             }
 
             this.buildHexadPathFromOccurences();
-            let toLocalHEXAPATH = JSON.stringify(this.finishedHEXADPersonnalClassification);
-            this.setToLocalStorage("OccuBoard", toLocalHEXAPATH);
-
             this.setPrimary();
             this.setUnderlying();
-
-            this.showHexad = true;
+            this.showHexad.set(true);
+            if (publier) {
+                this.progression.emit();
+            }
         }
     }
 
