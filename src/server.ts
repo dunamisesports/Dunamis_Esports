@@ -26,6 +26,20 @@ export async function netlifyAppEngineHandler(request: Request, edge?: NetlifyEd
         const { connecterEnLocal } = await import('./server/connexion-locale')
         return connecterEnLocal(request)
     }
+    if (url.pathname === '/api/session' && request.method === 'GET') {
+        if (edge?.rewrite) {
+            return edge.rewrite('/.netlify/functions/session')
+        }
+        const { lireSessionEnLocal } = await import('./server/session-locale')
+        return lireSessionEnLocal(request)
+    }
+    if (url.pathname === '/api/deconnexion' && request.method === 'POST') {
+        if (edge?.rewrite) {
+            return edge.rewrite('/.netlify/functions/deconnexion')
+        }
+        const { deconnecterEnLocal } = await import('./server/session-locale')
+        return deconnecterEnLocal(request)
+    }
 
     const context = getContext()
     const result = await angularAppEngine.handle(request, context)

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { afterNextRender, Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MembreSession, MembreStore } from './session/membre.session';
 
@@ -14,6 +14,25 @@ export class App {
     protected readonly title = signal('Dunamis_Esports');
     protected readonly loginOpen = signal(false);
     protected readonly loginError = signal('');
+
+    constructor() {
+        afterNextRender(() => {
+            void this.reprendreSession();
+        });
+    }
+
+    private async reprendreSession(): Promise<void> {
+        try {
+            const response = await fetch('/api/session');
+            if (!response.ok) {
+                return;
+            }
+            const membre = await response.json() as MembreSession;
+            this.session.ouvrir(membre);
+        } catch {
+            return;
+        }
+    }
 
     protected onSessionClick(): void {
         if (this.session.membre()) {

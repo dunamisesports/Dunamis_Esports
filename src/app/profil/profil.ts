@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, effect, inject, PLATFORM_ID, signal, untracked } from '@angular/core';
+import { Router } from '@angular/router';
 import { MembreStore } from '../session/membre.session';
 import { JeuVisuel, visuelDuJeu } from './jeu-visuel';
 
@@ -82,11 +83,25 @@ const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 
     styleUrl: './profil.css'
 })
 export class Profil {
+    private readonly router = inject(Router);
     protected readonly session = inject(MembreStore);
     private readonly platform = inject(PLATFORM_ID);
     protected readonly jeux = signal<JeuVisuel[]>([]);
     private demande = '';
     private jeton = 0;
+
+    protected async quitter(): Promise<void> {
+        try {
+            const response = await fetch('/api/deconnexion', { method: 'POST' });
+            if (!response.ok) {
+                return;
+            }
+        } catch {
+            return;
+        }
+        this.session.fermer();
+        void this.router.navigate(['/']);
+    }
 
     constructor() {
         effect(() => {

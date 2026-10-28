@@ -40,6 +40,10 @@
                                 {
                                     "replace": "src/server/connexion-locale.ts",
                                     "with": "src/server/connexion-locale.prod.ts"
+                                },
+                                {
+                                    "replace": "src/server/session-locale.ts",
+                                    "with": "src/server/session-locale.prod.ts"
                                 }
                             ],
                             "budgets": [

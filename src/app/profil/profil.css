@@ -185,6 +185,17 @@
     margin: 0.45rem 0 0;
 }
 
+.quitter {
+    display: block;
+    margin: 1.4rem auto 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: rgb(184, 141, 0);
+    font: inherit;
+    cursor: pointer;
+}
+
 .chantiers {
     display: flex;
     flex-wrap: wrap;
