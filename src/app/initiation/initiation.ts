@@ -65,6 +65,7 @@ export class Initiation implements OnDestroy {
     protected readonly showPasswords = signal(false);
     protected readonly profilError = signal<string | null>(null);
     protected readonly closeError = signal<string | null>(null);
+    protected readonly attente = signal<string | null>(null);
     protected readonly closing = signal(false);
     private readonly profil = signal<ProfilSaisi | null>(null);
     private reprise: Brouillon | null = null;
@@ -585,6 +586,7 @@ export class Initiation implements OnDestroy {
         }
         this.closing.set(true);
         this.closeError.set(null);
+        this.attente.set(null);
         const snap = this.questionnaire().snapshot();
         const maison = brouillon?.maisonConfirmee ? brouillon.maison : null;
         const payload: MembreSession = {
@@ -607,8 +609,13 @@ export class Initiation implements OnDestroy {
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify(payload)
             });
+            if (response.status === 202) {
+                this.attente.set(profil.email);
+                return;
+            }
             if (!response.ok) {
-                this.closeError.set('L\'envoi vers la base a échoué.');
+                const corps = await response.json().catch(() => null) as { error?: string } | null;
+                this.closeError.set(corps?.error ?? 'L\'envoi vers la base a échoué.');
                 return;
             }
             const saved = await response.json() as MembreSession;

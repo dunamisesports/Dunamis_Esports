@@ -136,6 +136,9 @@
         <video class="creed-video" controls playsinline autoplay preload="auto" [src]="creedVideo"
             (loadedmetadata)="tuneCreed($event)"></video>
         <button type="button" class="fight-btn" [disabled]="closing()" (click)="closeInitiation()">Time to Fight the Good Fight</button>
+        @if (attente()) {
+        <p class="form-ok">Un lien est parti vers {{ attente() }}. Regarde aussi les indésirables. Il reste valable deux jours.</p>
+        }
         @if (closeError()) {
         <p class="form-error">{{ closeError() }}</p>
         }

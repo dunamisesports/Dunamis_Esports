@@ -34,6 +34,7 @@
         "@netlify/angular-runtime": "^4.0.0",
         "dotenv": "^17.2.4",
         "express": "^5.1.0",
+        "nodemailer": "^8.0.11",
         "postgres": "^3.4.8",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0"

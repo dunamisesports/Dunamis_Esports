@@ -16,6 +16,10 @@ export async function netlifyAppEngineHandler(request: Request, edge?: NetlifyEd
         const { inscrireEnLocal } = await import('./server/inscription-locale')
         return inscrireEnLocal(request)
     }
+    if (url.pathname === '/api/confirmation' && request.method === 'POST') {
+        const { confirmerEnLocal } = await import('./server/confirmation-locale')
+        return confirmerEnLocal(request)
+    }
     if (url.pathname === '/api/connexion' && request.method === 'POST') {
         const { connecterEnLocal } = await import('./server/connexion-locale')
         return connecterEnLocal(request)

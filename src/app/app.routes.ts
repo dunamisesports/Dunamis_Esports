@@ -6,6 +6,7 @@ import { DunaContact } from './src/Components/duna-contact/duna-contact';
 import { Ourgames } from './ourgames/ourgames';
 import { CodexPrincipia } from './codex-principia/codex-principia';
 import { Profil } from './profil/profil';
+import { Confirmation } from './confirmation/confirmation';
 
 
 export const routes: Routes = [
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'ourgames', component: Ourgames },
     { path: "codexprincipia", component: CodexPrincipia },
     { path: 'profil', component: Profil },
+    { path: 'confirmation', component: Confirmation },
     { path: "initiation", redirectTo: "codexprincipia", pathMatch: "full" }
 ];
