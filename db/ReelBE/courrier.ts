@@ -10,7 +10,7 @@ export function lienDuSite(): string {
     return process.env['DUNAMIS_LIEN_SITE']?.trim() || 'http://localhost:4200';
 }
 
-export async function envoyerLien(email: string, lien: string): Promise<void> {
+export async function envoyerLien(email: string, lien: string, choix: { maison?: string | null; primary?: string | null; underlying?: string | null }): Promise<void> {
     const user = process.env['DUNAMIS_SMTP_USER']?.trim();
     const pass = process.env['DUNAMIS_SMTP_PASS']?.trim();
     if (!user || !pass) {
@@ -31,10 +31,14 @@ export async function envoyerLien(email: string, lien: string): Promise<void> {
         auth: { user, pass }
     });
     await transport.sendMail({
-        from: user,
+        from: `Dunamis Esports <${user}>`,
         to: email,
         subject: 'Confirme ton initiation — Dunamis Esports',
         text: [
+            `Maison : ${choix?.maison || 'non choisie'}`,
+            `Archétype principal : ${choix?.primary || 'non choisi'}`,
+            `Archétype secondaire : ${choix?.underlying || 'non choisi'}`,
+            '',
             'Pour terminer l\'initiation, ouvre ce lien :',
             lien,
             '',

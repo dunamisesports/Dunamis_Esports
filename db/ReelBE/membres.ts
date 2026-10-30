@@ -44,7 +44,7 @@ export async function inscrireSurPi(request: Request): Promise<Response> {
         `
         const lien = `${lienDuSite()}/confirmation?jeton=${encodeURIComponent(jeton)}`
         try {
-            await envoyerLien(doc.email, lien)
+            await envoyerLien(doc.email, lien, doc)
         } catch (error) {
             await db`DELETE FROM inscriptions_attente WHERE jeton = ${jeton}`
             console.error('[Pi]', error instanceof Error ? error.message : error)
