@@ -1,6 +1,6 @@
 <div>
 
-    @if (showHexad() && primary && underlying) {
+    @if (showHexad() && primary) {
     <div class="flexerino">
         <div class="HEXADChara">
             <svg viewBox="-100 -100 600 600" preserveAspectRatio="xMidYMid meet">
@@ -80,6 +80,7 @@
                 {{primary!.HEXADTypeDescription}}
             </div>
         </div>
+        @if (underlying) {
         <div class="cardHexad underlying">
             <div class="title">
                 <h1>Secondaire (Underlying)</h1>
@@ -99,6 +100,7 @@
                 {{underlying!.HEXADTypeDescription}}
             </div>
         </div>
+        }
     </div>
     }
     @else{

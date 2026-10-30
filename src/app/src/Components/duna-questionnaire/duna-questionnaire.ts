@@ -410,14 +410,19 @@ export class DunaQuestionnaire {
     }
     setUnderlying(): void {
         const primaryIndex = this.primary!.indexOfHEXADTypeFromfinishedHEXADPersonnalClassificationArray;
-        let indexOfUnderlying = primaryIndex === 0 ? 1 : 0;
+        let indexOfUnderlying = -1;
         for (let i = 0; i < this.finishedHEXADPersonnalClassification.length; i++) {
             if (i === primaryIndex) {
                 continue;
             }
-            if (this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[indexOfUnderlying].Occurences) {
+            if (indexOfUnderlying === -1 || this.finishedHEXADPersonnalClassification[i].Occurences > this.finishedHEXADPersonnalClassification[indexOfUnderlying].Occurences) {
                 indexOfUnderlying = i;
             }
+        }
+        const score = indexOfUnderlying === -1 ? 0 : this.finishedHEXADPersonnalClassification[indexOfUnderlying].Occurences;
+        if (score === 0) {
+            this.underlying = null;
+            return;
         }
         this.underlying = {
             ...this.finishedHEXADPersonnalClassification[indexOfUnderlying],
