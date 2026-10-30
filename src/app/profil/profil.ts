@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, effect, inject, PLATFORM_ID, signal, untracked } from '@angular/core';
 import { Router } from '@angular/router';
+import { appel } from '../session/api';
 import { MembreStore } from '../session/membre.session';
 import { JeuVisuel, visuelDuJeu } from './jeu-visuel';
 
@@ -92,7 +93,7 @@ export class Profil {
 
     protected async quitter(): Promise<void> {
         try {
-            const response = await fetch('/api/deconnexion', { method: 'POST' });
+            const response = await appel('/api/deconnexion', { method: 'POST' });
             if (!response.ok) {
                 return;
             }

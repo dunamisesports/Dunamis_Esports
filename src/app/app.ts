@@ -1,5 +1,6 @@
 import { afterNextRender, Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { appel } from './session/api';
 import { MembreSession, MembreStore } from './session/membre.session';
 
 @Component({
@@ -23,7 +24,7 @@ export class App {
 
     private async reprendreSession(): Promise<void> {
         try {
-            const response = await fetch('/api/session');
+            const response = await appel('/api/session');
             if (!response.ok) {
                 return;
             }
@@ -55,7 +56,7 @@ export class App {
         const motDePasse = String(data.get('motDePasse') ?? '');
         this.loginError.set('');
         try {
-            const response = await fetch('/api/connexion', {
+            const response = await appel('/api/connexion', {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify({ email, motDePasse })

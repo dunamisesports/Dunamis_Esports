@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { afterNextRender, Component, inject, OnDestroy, output, signal, viewChild } from '@angular/core';
 import { DunaQuestionnaire } from '../src/Components/duna-questionnaire/duna-questionnaire';
+import { appel } from '../session/api';
 import { MembreSession, MembreStore } from '../session/membre.session';
 import { playedGames } from './games';
 
@@ -601,7 +602,7 @@ export class Initiation implements OnDestroy {
             chantiers: []
         };
         try {
-            const response = await fetch('/api/membres', {
+            const response = await appel('/api/membres', {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify(payload)
