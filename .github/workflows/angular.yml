@@ -24,7 +24,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx ng build --output-mode=static
+      - run: npx ng build --output-mode=static --base-href /Dunamis_Esports/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/Dunamis_Esports/browser
