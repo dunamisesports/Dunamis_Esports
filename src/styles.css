@@ -11,7 +11,7 @@ html {
 body {
     margin: 0px;
     padding: 0px;
-    background-image: url(/img/logo/logot.png);
+    background-image: url("../public/img/logo/logot.png");
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -27,11 +27,11 @@ body {
 
 @font-face {
     font-family: OrbitronLight;
-    src: url("/orbitron/orbitron-light.otf") format("opentype");
+    src: url("../public/orbitron/orbitron-light.otf") format("opentype");
 }
 
 @font-face {
     font-family: Orbitron;
     font-weight: bold;
-    src: url("/orbitron/orbitron-bold.otf") format("opentype");
+    src: url("../public/orbitron/orbitron-bold.otf") format("opentype");
 }

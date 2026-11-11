@@ -17,37 +17,37 @@ const ARCHETYPES: Archetype[] = [
         name: 'Sãmakh',
         type: 'Philanthropist',
         line: 'Aider sans rien attendre en retour, motivé par le sens et la contribution à une cause.',
-        image: '/img/HEXAD/0b.svg'
+        image: 'img/HEXAD/0b.svg'
     },
     {
         name: 'Qãhal',
         type: 'Socializer',
         line: 'Relier, collaborer et tenir la communauté.',
-        image: '/img/HEXAD/1b.svg'
+        image: 'img/HEXAD/1b.svg'
     },
     {
         name: 'Tùr',
         type: 'Free Spirit',
         line: 'Explorer, créer et rester libre.',
-        image: '/img/HEXAD/2b.svg'
+        image: 'img/HEXAD/2b.svg'
     },
     {
         name: 'Bãnãh',
         type: 'Achiever',
         line: 'Progresser, maîtriser et relever le défi.',
-        image: '/img/HEXAD/3b.svg'
+        image: 'img/HEXAD/3b.svg'
     },
     {
         name: 'Qasar',
         type: 'Player',
         line: 'Chercher les récompenses et les règles du système.',
-        image: '/img/HEXAD/4b.svg'
+        image: 'img/HEXAD/4b.svg'
     },
     {
         name: 'Nãsãh',
         type: 'Disruptor',
         line: 'Tester les limites et changer la donne.',
-        image: '/img/HEXAD/5b.svg'
+        image: 'img/HEXAD/5b.svg'
     }
 ];
 
@@ -59,17 +59,17 @@ interface Maison {
 
 const MAISONS: Record<string, Maison> = {
     Concordia: {
-        image: '/img/codexprincipia/OfTheConcordiaT.png',
+        image: 'img/codexprincipia/OfTheConcordiaT.png',
         titre: 'De la Concordia',
         valeur: 'Unité'
     },
     Aequitas: {
-        image: '/img/codexprincipia/OfTheAequitasT.png',
+        image: 'img/codexprincipia/OfTheAequitasT.png',
         titre: "De l'Aequitas",
         valeur: 'Équité'
     },
     Magisteria: {
-        image: '/img/codexprincipia/OfTheMagisteriaT.png',
+        image: 'img/codexprincipia/OfTheMagisteriaT.png',
         titre: 'De La Magisteria',
         valeur: 'Maîtrise'
     }

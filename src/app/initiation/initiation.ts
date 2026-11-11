@@ -58,7 +58,7 @@ export class Initiation implements OnDestroy {
     private readonly questionnaire = viewChild.required(DunaQuestionnaire);
     private snapCleared = false;
 
-    protected readonly creedVideo = '/videos/DunaCreed.mp4';
+    protected readonly creedVideo = 'videos/DunaCreed.mp4';
     protected readonly games = playedGames;
     protected readonly gameQuery = signal('');
     protected readonly profilSaved = signal(false);
@@ -81,7 +81,7 @@ export class Initiation implements OnDestroy {
             title: 'De la Concordia',
             affiliation: 'Of the Concordia',
             value: 'Unité',
-            image: '/img/codexprincipia/OfTheConcordiaT.png',
+            image: 'img/codexprincipia/OfTheConcordiaT.png',
             mark: '🏛️',
             mottoEn: 'Strength Through Unity.',
             mottoFr: "La force par l'unité.",
@@ -96,7 +96,7 @@ export class Initiation implements OnDestroy {
             title: "De l'Aequitas",
             affiliation: 'Of the Aequitas',
             value: 'Équité',
-            image: '/img/codexprincipia/OfTheAequitasT.png',
+            image: 'img/codexprincipia/OfTheAequitasT.png',
             mark: '⚖️',
             mottoEn: 'Justice Beyond Judgment.',
             mottoFr: 'La justice au-delà du jugement.',
@@ -111,7 +111,7 @@ export class Initiation implements OnDestroy {
             title: 'De La Magisteria',
             affiliation: 'Of the Magisteria',
             value: 'Maîtrise',
-            image: '/img/codexprincipia/OfTheMagisteriaT.png',
+            image: 'img/codexprincipia/OfTheMagisteriaT.png',
             mark: '🐉',
             mottoEn: 'We Must Learn. We Will Learn.',
             mottoFr: 'Nous devons apprendre. Nous apprendrons.',
