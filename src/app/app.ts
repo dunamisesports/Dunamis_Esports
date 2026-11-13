@@ -62,6 +62,8 @@ export class App {
                 body: JSON.stringify({ email, motDePasse })
             });
             if (!response.ok) {
+                const corps = await response.json().catch(() => null) as { error?: string } | null;
+                console.error('[connexion]', response.status, corps?.error ?? 'réponse refusée');
                 this.loginError.set('Connexion refusée.');
                 return;
             }
@@ -70,7 +72,8 @@ export class App {
             form.reset();
             this.closeLogin();
             void this.router.navigate(['/profil']);
-        } catch {
+        } catch (error) {
+            console.error('[connexion]', error);
             this.loginError.set('Connexion refusée.');
         }
     }

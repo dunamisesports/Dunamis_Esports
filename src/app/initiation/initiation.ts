@@ -615,6 +615,7 @@ export class Initiation implements OnDestroy {
             }
             if (!response.ok) {
                 const corps = await response.json().catch(() => null) as { error?: string } | null;
+                console.error('[initiation]', response.status, corps?.error ?? 'réponse refusée');
                 this.closeError.set(corps?.error ?? 'L\'envoi vers la base a échoué.');
                 return;
             }
@@ -623,7 +624,8 @@ export class Initiation implements OnDestroy {
             this.membres.ouvrir(saved);
             this.document.documentElement.scrollTo({ top: 0, behavior: 'instant' });
             this.closed.emit(saved);
-        } catch {
+        } catch (error) {
+            console.error('[initiation]', error);
             this.closeError.set('L\'envoi vers la base a échoué.');
         } finally {
             this.closing.set(false);

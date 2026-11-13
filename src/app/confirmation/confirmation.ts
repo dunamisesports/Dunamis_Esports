@@ -34,13 +34,15 @@ export class Confirmation {
             });
             if (!response.ok) {
                 const corps = await response.json().catch(() => null) as { error?: string } | null;
+                console.error('[confirmation]', response.status, corps?.error ?? 'réponse refusée');
                 this.message.set(corps?.error ?? 'Ce lien n\'est plus valable.');
                 return;
             }
             const membre = await response.json() as MembreSession;
             this.session.ouvrir(membre);
             void this.router.navigate(['/profil']);
-        } catch {
+        } catch (error) {
+            console.error('[confirmation]', error);
             this.message.set('La confirmation n\'a pas abouti.');
         }
     }
