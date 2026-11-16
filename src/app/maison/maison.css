@@ -1,0 +1,12 @@
+.choose-house:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+.retour {
+    display: block;
+    width: fit-content;
+    margin: 1.4rem auto 0;
+    color: rgb(184, 141, 0);
+    text-decoration: none;
+}

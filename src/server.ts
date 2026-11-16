@@ -32,6 +32,10 @@ export async function netlifyAppEngineHandler(request: Request, edge?: NetlifyEd
         const { deconnecterEnLocal } = await import('./server/session-locale')
         return deconnecterEnLocal(request)
     }
+    if (url.pathname === '/api/maison' && request.method === 'POST') {
+        const { choisirMaisonEnLocal } = await import('./server/maison-locale')
+        return choisirMaisonEnLocal(request)
+    }
 
     const context = getContext()
     const result = await angularAppEngine.handle(request, context)

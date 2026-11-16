@@ -1,16 +1,62 @@
+import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { join } from 'node:path';
 
 const require = createRequire(import.meta.url);
+let charge = false;
+
+function chargerEnv(): void {
+    if (charge) {
+        return;
+    }
+    const chemins = [
+        join(import.meta.dirname, 'dev.env'),
+        join(process.cwd(), 'db', 'ReelBE', 'dev.env')
+    ];
+    let brut = '';
+    for (const chemin of chemins) {
+        try {
+            brut = readFileSync(chemin, 'utf8');
+            break;
+        } catch {
+            brut = '';
+        }
+    }
+    if (!brut) {
+        return;
+    }
+    charge = true;
+    for (const entree of brut.split(/\r?\n/)) {
+        if (!entree || entree.startsWith('#')) {
+            continue;
+        }
+        const coupe = entree.indexOf('=');
+        if (coupe < 1) {
+            continue;
+        }
+        const cle = entree.slice(0, coupe).trim();
+        let valeur = entree.slice(coupe + 1).trim();
+        if ((valeur.startsWith('"') && valeur.endsWith('"')) || (valeur.startsWith('\'') && valeur.endsWith('\''))) {
+            valeur = valeur.slice(1, -1);
+        }
+        if (cle && process.env[cle] === undefined) {
+            process.env[cle] = valeur;
+        }
+    }
+}
 
 interface Transport {
     sendMail(options: { from: string; to: string; subject: string; text: string; html: string }): Promise<unknown>;
 }
 
 export function lienDuSite(): string {
-    return process.env['DUNAMIS_LIEN_SITE']?.trim() || 'http://localhost:4200';
+    chargerEnv();
+    const lien = process.env['DUNAMIS_LIEN_SITE']?.trim() || 'http://localhost:4200';
+    return lien.replace(/\/+$/, '');
 }
 
 export async function envoyerLien(email: string, lien: string, choix: { maison?: string | null; primary?: string | null; underlying?: string | null }): Promise<void> {
+    chargerEnv();
     const user = process.env['DUNAMIS_SMTP_USER']?.trim();
     const pass = process.env['DUNAMIS_SMTP_PASS']?.trim();
     if (!user || !pass) {

@@ -46,3 +46,10 @@ Thumbs.db
 
 # Local Netlify folder
 .netlify
+
+# Liaisons PostgreSQL du Pi
+db/ReelBE/dev.env
+db/ReelBE/prod.env
+backend/.env
+backend/node_modules
+backend/DunaOld/node_modules

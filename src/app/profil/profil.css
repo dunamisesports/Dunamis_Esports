@@ -99,6 +99,34 @@
     font-size: clamp(0.85rem, 1.3vw, 1.05rem);
 }
 
+.choisir-maison {
+    display: inline-block;
+    margin-top: 0.45rem;
+    padding: 0.65rem 1.2rem;
+    text-decoration: none;
+    color: rgb(89, 215, 255);
+    font: inherit;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgb(89, 215, 255);
+    border-radius: 1rem;
+    text-shadow:
+        0 0 2px rgb(255, 255, 255),
+        0 0 7px rgb(89, 215, 255),
+        0 0 16px rgb(0, 200, 255);
+    box-shadow:
+        0 0 8px rgba(89, 215, 255, 0.85),
+        0 0 18px rgba(0, 200, 255, 0.45),
+        0 0 32px rgba(0, 150, 255, 0.28);
+}
+
+.choisir-maison:hover {
+    color: rgb(0, 0, 0);
+    background: rgb(89, 215, 255);
+    text-shadow: none;
+}
+
 .OfTheConcordia .sceau-maison {
     color: rgb(255, 120, 90);
 }

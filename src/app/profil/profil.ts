@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, effect, inject, PLATFORM_ID, signal, untracked } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { appel } from '../session/api';
 import { MembreStore } from '../session/membre.session';
 import { JeuVisuel, visuelDuJeu } from './jeu-visuel';
@@ -79,7 +79,7 @@ const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 
 
 @Component({
     selector: 'app-profil',
-    imports: [],
+    imports: [RouterLink],
     templateUrl: './profil.html',
     styleUrl: './profil.css'
 })

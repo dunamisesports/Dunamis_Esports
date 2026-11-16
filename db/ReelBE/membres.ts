@@ -187,6 +187,62 @@ export async function sessionSurPi(request: Request): Promise<Response> {
     }
 }
 
+const MAISONS = ['Concordia', 'Aequitas', 'Magisteria'] as const
+
+export async function choisirMaisonSurPi(request: Request): Promise<Response> {
+    const jeton = lireJeton(request)
+    if (!jeton) {
+        return Response.json({ error: 'Connexion refusée.' }, { status: 401 })
+    }
+    const db = base()
+    if (!db) {
+        return Response.json({ error: 'La base n\'est pas joignable.' }, { status: 503 })
+    }
+    let body: unknown
+    try {
+        body = await request.json()
+    } catch {
+        return Response.json({ error: 'Corps illisible.' }, { status: 400 })
+    }
+    const brute = body && typeof body === 'object' && typeof (body as { maison?: unknown }).maison === 'string'
+        ? (body as { maison: string }).maison.trim()
+        : ''
+    if (!MAISONS.includes(brute as typeof MAISONS[number])) {
+        return Response.json({ error: 'Maison inconnue.' }, { status: 400 })
+    }
+    const maison = brute as typeof MAISONS[number]
+    try {
+        const rows = await db<{ id: string; doc: unknown }[]>`
+            SELECT m.id, m.doc FROM sessions AS s
+            JOIN membres AS m ON m.id = s.membre_id
+            WHERE s.jeton = ${jeton} AND s.expire_le > now()
+            LIMIT 1
+        `
+        const membre = lireDoc(rows)
+        const id = rows[0]?.id
+        if (!membre || !id) {
+            return Response.json({ error: 'Connexion refusée.' }, { status: 401 })
+        }
+        if (membre.maison) {
+            return Response.json({ error: 'Une Maison est déjà choisie.' }, { status: 409 })
+        }
+        const updated = await db`
+            UPDATE membres
+            SET doc = jsonb_set(doc, '{maison}', ${db.json(maison)})
+            WHERE id = ${id} AND (doc->>'maison' IS NULL OR btrim(doc->>'maison') = '')
+            RETURNING doc
+        `
+        const suivant = lireDoc(updated)
+        if (!suivant) {
+            return Response.json({ error: 'Une Maison est déjà choisie.' }, { status: 409 })
+        }
+        return Response.json(suivant)
+    } catch (error) {
+        console.error('[Pi]', error instanceof Error ? error.message : error)
+        return Response.json({ error: 'La base n\'est pas joignable.' }, { status: 503 })
+    }
+}
+
 export async function deconnecterSurPi(request: Request): Promise<Response> {
     const db = base()
     const jeton = lireJeton(request)

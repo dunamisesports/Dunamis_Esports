@@ -17,9 +17,11 @@
                     }
                 </div>
                 <h1 class="sceau-pseudo">{{ membre.pseudo }}</h1>
-                <p class="sceau-maison">{{ maisonDe(membre.maison)?.titre ?? '—' }}</p>
                 @if (maisonDe(membre.maison); as maison) {
+                <p class="sceau-maison">{{ maison.titre }}</p>
                 <p class="sceau-valeur">{{ maison.valeur }}</p>
+                } @else {
+                <a class="choisir-maison" routerLink="/maison">Choisir ma Maison.</a>
                 }
             </div>
         </div>

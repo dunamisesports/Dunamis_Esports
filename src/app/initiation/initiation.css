@@ -181,6 +181,12 @@
     font-size: clamp(1rem, 1.8vw, 1.8rem);
 }
 
+.house-later {
+    margin: 1.4rem 0 0;
+    text-align: center;
+    color: rgb(255, 195, 0);
+}
+
 .house-choice {
     display: flex;
     justify-content: space-between;

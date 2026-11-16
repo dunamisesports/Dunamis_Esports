@@ -1,0 +1,47 @@
+@if (pret()) {
+<section class="initiation">
+    <header class="initiation-head">
+        <h1 class="title">Les Maisons du Dunamis</h1>
+        <p class="lead">« Choisir les valeurs qui guident notre évolution. »</p>
+    </header>
+    <div class="house-choice">
+        @for (item of houses; track item.id) {
+        <button type="button" class="house-pick house {{ item.cssClass }}" [class.is-chosen]="house() === item.id"
+            [attr.aria-pressed]="house() === item.id" (click)="choose(item.id)">
+            <img class="houseEmblem" [src]="item.image" [alt]="'Blason ' + item.title">
+            <h2 class="title">{{ item.title }}</h2>
+            <p class="affiliation">{{ item.affiliation }}</p>
+            <p class="core-value">{{ item.value }}</p>
+        </button>
+        }
+    </div>
+    @if (selected(); as item) {
+    <article class="house-lore">
+        <h3>{{ item.mark }} {{ item.id }} — {{ item.value }}</h3>
+        <p class="motto">{{ item.mottoEn }} — {{ item.mottoFr }}</p>
+        <p>{{ item.body }}</p>
+        <p><span>Sa philosophie :</span> {{ item.philosophy }}</p>
+        <p><span>Vertus cultivées :</span> {{ item.virtues }}</p>
+        <p><span>Idéal :</span> {{ item.ideal }}</p>
+        <button type="button" class="choose-house" [disabled]="envoi()" (click)="openModal()">Choisir ma Maison Maintenant</button>
+    </article>
+    }
+    <button type="button" class="choose-house" [disabled]="envoi()" (click)="reporter()">Choisir ma Maison ultérieurement</button>
+    @if (erreur()) {
+    <p class="form-error">{{ erreur() }}</p>
+    }
+    <a class="retour" routerLink="/profil">Retour au profil</a>
+</section>
+}
+
+@if (modalOpen()) {
+<div class="modal-back" role="dialog" aria-modal="true" aria-labelledby="house-modal-title">
+    <div class="modal-card">
+        <p id="house-modal-title">Ce choix n'est pas irréversible une fois initié, mais il sera statué par les Archons en Denatus.</p>
+        <div class="modal-actions">
+            <button type="button" (click)="confirmer()">Oui</button>
+            <button type="button" (click)="closeModal()">Non</button>
+        </div>
+    </div>
+</div>
+}
