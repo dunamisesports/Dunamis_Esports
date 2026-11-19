@@ -1,7 +1,8 @@
 .container {
     display: flex;
-    justify-content: space-around;
-    padding-top: 50px;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem var(--espace) 0;
 }
 
 
@@ -9,8 +10,8 @@
 .ContainedItem {
     display: flex;
     flex-direction: column;
-    width: 25%;
-    color: rgb(255, 57, 15);
+    width: min(100%, var(--mesure));
+    color: var(--braise);
 }
 
 img {
@@ -37,7 +38,7 @@ img {
     align-items: center;
     justify-content: center;
     padding: 1%;
-    width: 20%;
+    width: min(100%, var(--mesure));
     background-color: #000000;
 }
 
@@ -47,15 +48,16 @@ img {
 
 .containerMissionStatement {
     display: flex;
-    justify-content: center;
-    padding-top: 50px;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem var(--espace) 0;
 }
 
 .text-section {
     display: flex;
     flex-direction: column;
-    gap: 70px;
-    width: 50%;
+    gap: var(--espace);
+    width: min(100%, 40rem);
 }
 
 .instagram {
@@ -71,10 +73,10 @@ img {
 
 
 .box {
-    background-color: #000000;
-    padding: 30px 35px;
+    background-color: var(--encre);
+    padding: var(--espace);
     border-radius: 20px;
-    box-shadow: 0 0 30px rgb(255, 57, 15);
+    box-shadow: 0 0 30px var(--braise);
 }
 
 .title {
@@ -92,4 +94,35 @@ img {
     line-height: 1.8;
     font-size: 1.1em;
     margin: 12px 0;
+}
+
+@media (min-width: 720px) {
+    .container {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
+        padding: 50px 0 0;
+    }
+
+    .ContainedItem {
+        width: 25%;
+    }
+
+    .logo-section {
+        width: 20%;
+    }
+
+    .containerMissionStatement {
+        flex-direction: row;
+        padding: 50px 0 0;
+    }
+
+    .text-section {
+        gap: 70px;
+        width: 50%;
+    }
+
+    .box {
+        padding: 30px 35px;
+    }
 }

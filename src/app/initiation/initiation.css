@@ -67,14 +67,14 @@
 }
 
 .rgpd-pop {
-    display: none;
-    position: absolute;
+    display: block;
+    position: static;
     z-index: 6;
-    left: 50%;
-    top: calc(100% + 0.45rem);
-    transform: translateX(-50%);
-    width: min(34rem, 78vw);
-    margin: 0;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: min(100%, var(--mesure));
+    margin: 0.6rem auto 0;
     padding: 0.75rem 0.9rem;
     text-align: center;
     font-size: clamp(0.85rem, 1.3vw, 1.05rem);
@@ -189,17 +189,17 @@
 
 .house-choice {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     margin-top: 0;
     padding-top: clamp(2.4rem, 6vh, 4.5rem);
-    gap: clamp(0.4rem, 1.5vw, 2rem);
+    gap: var(--espace);
 }
 
 .house-pick {
-    flex: 1 1 0;
+    flex: none;
+    width: min(100%, var(--mesure));
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -227,7 +227,7 @@
 }
 
 .houseEmblem {
-    width: clamp(7.5rem, 24vw, 26rem);
+    width: min(100%, 12rem);
     border: 1px solid rgba(124, 122, 1, 0.35);
     transition: transform 0.35s ease, background-color 0.35s ease, border-radius 0.35s ease;
 }
@@ -287,10 +287,11 @@
 
 .creed-stage {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: clamp(0.6rem, 2vw, 2.2rem);
+    gap: var(--espace);
 }
 
 .creed-col {
@@ -300,7 +301,7 @@
 
 .creed-video {
     display: block;
-    width: 30%;
+    width: min(100%, var(--mesure));
     height: auto;
     margin: clamp(1rem, 3vh, 2rem) auto 0;
     object-fit: contain;
@@ -439,4 +440,44 @@
 
 #creed-en {
     color: rgb(255, 195, 0);
+}
+
+@media (min-width: 720px) {
+    .house-choice {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        gap: clamp(0.4rem, 1.5vw, 2rem);
+    }
+
+    .house-pick {
+        flex: 1 1 0;
+        width: auto;
+    }
+
+    .houseEmblem {
+        width: clamp(7.5rem, 24vw, 26rem);
+    }
+
+    .creed-stage {
+        flex-direction: row;
+        gap: clamp(0.6rem, 2vw, 2.2rem);
+    }
+
+    .creed-video {
+        width: 30%;
+    }
+}
+
+@media (min-width: 720px) and (hover: hover) {
+    .rgpd-pop {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: calc(100% + 0.45rem);
+        transform: translateX(-50%);
+        width: min(34rem, 78vw);
+        margin: 0;
+    }
 }

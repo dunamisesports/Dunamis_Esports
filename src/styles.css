@@ -1,26 +1,35 @@
+/* Seuil unique : 720px. Le bloc nu est le téléphone.
+   La rangée s'ajoute dans @media (min-width: 720px). */
 :root {
+    --or: rgb(184, 141, 0);
+    --or-vif: rgb(255, 195, 0);
+    --braise: rgb(255, 57, 15);
+    --encre: rgb(0, 0, 0);
+    --espace: 1rem;
+    --texte: clamp(1rem, 3.2vw, 1.25rem);
+    --titre: clamp(1.8rem, 6vw, 3.2rem);
+    --touche: 2.75rem;
+    --mesure: 28rem;
     --nav-height: 180px;
 }
 
 html {
-    scroll-snap-type: y mandatory;
+    overflow-x: clip;
     scroll-behavior: smooth;
-
 }
 
 body {
     margin: 0px;
     padding: 0px;
     background-image: url("../public/img/logo/logot.png");
-    background-attachment: fixed;
+    background-attachment: scroll;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 
-    background-color: rgb(0, 0, 0);
-    color: rgb(184, 141, 0);
+    background-color: var(--encre);
+    color: var(--or);
     font-family: 'OrbitronLight', monospace;
-
 
     scroll-behavior: smooth;
 }

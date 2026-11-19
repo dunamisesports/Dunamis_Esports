@@ -15,6 +15,7 @@ export class App {
     protected readonly title = signal('Dunamis_Esports');
     protected readonly loginOpen = signal(false);
     protected readonly loginError = signal('');
+    protected readonly navOuverte = signal(false);
 
     constructor() {
         afterNextRender(() => {
@@ -46,6 +47,14 @@ export class App {
     protected closeLogin(): void {
         this.loginOpen.set(false);
         this.loginError.set('');
+    }
+
+    protected basculerNav(): void {
+        this.navOuverte.update((ouverte) => !ouverte);
+    }
+
+    protected fermerNav(): void {
+        this.navOuverte.set(false);
     }
 
     protected async submitLogin(event: Event): Promise<void> {
@@ -81,5 +90,6 @@ export class App {
     @HostListener('document:keydown.escape')
     protected onEscape(): void {
         this.closeLogin();
+        this.fermerNav();
     }
 }

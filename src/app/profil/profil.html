@@ -94,12 +94,12 @@
                         <img [src]="jeu.image" alt="" (error)="retirerImage(jeu.nom)">
                         }
                     </span>
-                    <span>{{ jeu.nom }}</span>
+                    <span class="jeu-nom" role="tooltip">{{ jeu.nom }}</span>
                 </a>
                 } @else {
-                <span class="jeu-carte">
+                <span class="jeu-carte" tabindex="0">
                     <span class="jeu-visuel"></span>
-                    <span>{{ jeu.nom }}</span>
+                    <span class="jeu-nom" role="tooltip">{{ jeu.nom }}</span>
                 </span>
                 }
             </li>

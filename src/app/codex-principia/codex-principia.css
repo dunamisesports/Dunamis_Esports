@@ -16,18 +16,18 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    padding: clamp(0.6rem, 2vh, 1.6rem) clamp(1rem, 3vw, 4rem);
-    overflow: hidden;
+    padding: clamp(0.6rem, 2vh, 1.6rem) 0;
+    overflow: visible;
 }
 
 .Firstchapter {
-    height: calc(100vh - var(--nav-height));
-    scroll-snap-align: end;
+    height: auto;
+    scroll-snap-align: none;
 }
 
 .chapter {
-    height: 100vh;
-    scroll-snap-align: start;
+    height: auto;
+    scroll-snap-align: none;
 }
 
 .appel-chapter .title {
@@ -73,29 +73,29 @@
 
 .initiation-chapter.has-creed {
     height: auto;
-    min-height: 100vh;
+    min-height: 0;
     overflow: visible;
 }
 
 .creed-stage {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-wrap: nowrap;
     width: 100%;
-    gap: clamp(0.6rem, 2vw, 2.2rem);
+    gap: var(--espace);
 }
 
 .creed-col {
-    flex: 0 0 30%;
-    width: 30%;
+    flex: none;
+    width: min(100%, var(--mesure));
     min-width: 0;
 }
 
 .creed-video {
     display: block;
-    flex: 0 0 25%;
-    width: 25%;
+    flex: none;
+    width: min(100%, var(--mesure));
     height: auto;
     margin: 0;
     object-fit: contain;
@@ -120,15 +120,15 @@
 
 .flexerino {
     display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    gap: clamp(0.4rem, 1.5vw, 2rem);
+    gap: var(--espace);
 }
 
 .house {
-    flex: 1 1 0;
+    flex: none;
+    width: min(100%, var(--mesure));
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -150,7 +150,7 @@
 }
 
 .houseEmblem {
-    width: clamp(7.5rem, 24vw, 26rem);
+    width: min(100%, 12rem);
     border: 1px solid rgba(124, 122, 1, 0.35);
     transition: transform 0.35s ease, background-color 0.35s ease, border-radius 0.35s ease;
 }
@@ -199,13 +199,14 @@
 }
 
 .archon-pop {
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 0.45rem);
-    transform: translateX(-50%);
-    opacity: 0;
-    pointer-events: none;
-    white-space: nowrap;
+    position: static;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    white-space: normal;
+    margin-top: 0.35rem;
     color: rgb(255, 195, 0);
     background: rgba(0, 0, 0, 0.88);
     border-radius: clamp(0.4rem, 0.8vw, 0.8rem);
@@ -301,7 +302,7 @@
 .rank-name {
     color: rgb(255, 195, 0);
     font-size: clamp(0.85rem, 1.5vw, 1.7rem);
-    white-space: nowrap;
+    white-space: normal;
 }
 
 .rank-note {
@@ -340,7 +341,8 @@
 }
 
 .hexad-slide img {
-    width: clamp(14rem, 34vw, 38rem);
+    width: 100%;
+    max-width: 16rem;
     max-height: 46vh;
     object-fit: contain;
     filter:
@@ -414,7 +416,7 @@
 
 .pillar-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     width: 100%;
     gap: clamp(0.8rem, 2vw, 2rem);
 }
@@ -446,5 +448,85 @@
 .pillar p {
     line-height: 1.4;
     font-size: clamp(0.95rem, 1.4vw, 1.35rem);
+}
+
+@media (min-width: 720px) {
+    .Firstchapter,
+    .chapter {
+        overflow: hidden;
+    }
+
+    .Firstchapter {
+        height: calc(100vh - var(--nav-height));
+        scroll-snap-align: end;
+    }
+
+    .chapter {
+        height: 100vh;
+        scroll-snap-align: start;
+    }
+
+    .initiation-chapter.has-creed {
+        min-height: 100vh;
+    }
+
+    .creed-stage {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: clamp(0.6rem, 2vw, 2.2rem);
+    }
+
+    .creed-col {
+        flex: 0 0 30%;
+        width: 30%;
+    }
+
+    .creed-video {
+        flex: 0 0 25%;
+        width: 25%;
+    }
+
+    .flexerino {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        gap: clamp(0.4rem, 1.5vw, 2rem);
+    }
+
+    .house {
+        flex: 1 1 0;
+        width: auto;
+    }
+
+    .houseEmblem {
+        width: clamp(7.5rem, 24vw, 26rem);
+    }
+
+    .rank-name {
+        white-space: nowrap;
+    }
+
+    .hexad-slide img {
+        width: clamp(14rem, 34vw, 38rem);
+        max-width: none;
+    }
+
+    .pillar-row {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 720px) and (hover: hover) {
+    .archon-pop {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 0.45rem);
+        transform: translateX(-50%);
+        opacity: 0;
+        pointer-events: none;
+        white-space: nowrap;
+        margin-top: 0;
+    }
 }
 

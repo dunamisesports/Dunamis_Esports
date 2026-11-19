@@ -1,38 +1,44 @@
 <main class="main">
-    <div class="">
+    <div class="entete">
         <div class="title dunamisesportsTitle aNavNoStyle">
             <div class="inlinerino">
-                <img src="img/logo/logotReal.png" alt="Dunamis Logo" width="135px" height="100px">
+                <img src="img/logo/logotReal.png" alt="Dunamis Logo" width="135" height="100">
                 <a style="text-decoration: none;color: inherit;" routerLink="/">
                     <h1 class="noYmargin ">Dunamis Esports</h1>
                 </a>
             </div>
+        </div>
+        <div class="nav-outils">
+            <button type="button" class="nav-burger" [attr.aria-expanded]="navOuverte()" aria-controls="nav-principale"
+                (click)="basculerNav()">
+                <span class="nav-burger-bars" aria-hidden="true"></span>
+                {{ navOuverte() ? 'Fermer' : 'Menu' }}
+            </button>
             <button type="button" class="session-entry" (click)="onSessionClick()">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"></circle>
-                    <path d="M5.2 19.4c1.3-3.3 3.6-4.9 6.8-4.9s5.5 1.6 6.8 4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+                    <circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"></circle>
+                    <path d="M5.2 19.4c1.3-3.3 3.6-4.9 6.8-4.9s5.5 1.6 6.8 4.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
                 </svg>
                 {{ session.membre()?.pseudo ?? 'Login' }}
             </button>
         </div>
-        <div class="Nav">
+        <nav class="Nav" id="nav-principale" [class.est-ouverte]="navOuverte()">
             <div class="NavElem">
-                <h2><a class="aNavNoStyle" routerLink="">Accueil</a></h2>
+                <h2><a class="aNavNoStyle" routerLink="" (click)="fermerNav()">Accueil</a></h2>
             </div>
             <div class="NavElem">
-                <h2><a class="aNavNoStyle" routerLink="/codexprincipia">Codex Principia</a></h2>
+                <h2><a class="aNavNoStyle" routerLink="/codexprincipia" (click)="fermerNav()">Codex Principia</a></h2>
             </div>
             <div class="NavElem">
-                <h2><a class="aNavNoStyle" routerLink="/ourgames">Nos Jeux</a></h2>
+                <h2><a class="aNavNoStyle" routerLink="/ourgames" (click)="fermerNav()">Nos Jeux</a></h2>
             </div>
             <div class="NavElem">
-                <h2><a class="aNavNoStyle" routerLink="/GETSOME">MERCH</a></h2>
+                <h2><a class="aNavNoStyle" routerLink="/GETSOME" (click)="fermerNav()">MERCH</a></h2>
             </div>
             <div class="NavElem">
-                <h2><a class="aNavNoStyle" routerLink="/ouridentity">A propos</a></h2>
+                <h2><a class="aNavNoStyle" routerLink="/ouridentity" (click)="fermerNav()">A propos</a></h2>
             </div>
-
-        </div>
+        </nav>
     </div>
 </main>
 

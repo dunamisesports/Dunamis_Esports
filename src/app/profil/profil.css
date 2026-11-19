@@ -1,7 +1,8 @@
 .sanctuaire {
-    width: min(68rem, 94vw);
-    margin: 1.2rem auto 4rem;
-    padding: clamp(1.2rem, 3vw, 2.2rem);
+    box-sizing: border-box;
+    width: min(68rem, calc(100% - 1.2rem));
+    margin: 0.35rem auto 0.5rem;
+    padding: clamp(0.55rem, 1.4vh, 2.2rem);
     color: rgb(220, 220, 220);
     background:
         linear-gradient(180deg, rgba(255, 195, 0, 0.05), transparent 7rem),
@@ -26,20 +27,44 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(1rem, 2.4vw, 1.6rem);
+    gap: clamp(0.45rem, 1.6vh, 1.6rem);
     text-align: center;
 }
 
 .sceau-ligne {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: clamp(1rem, 3vw, 2.6rem);
+    gap: clamp(0.45rem, 1.5vw, 2.6rem);
+}
+
+.sceau-identite {
+    order: 0;
+    width: 100%;
 }
 
 .sceau-embleme {
-    width: clamp(8rem, 18vw, 13rem);
+    order: 1;
+    width: clamp(6rem, 18vh, 26rem);
+    max-width: 100%;
     height: auto;
+    flex: none;
+}
+
+@media (min-width: 425px) {
+    .sceau-ligne {
+        flex-direction: row;
+    }
+
+    .sceau-embleme {
+        order: 0;
+        max-width: 46%;
+    }
+
+    .sceau-identite {
+        width: auto;
+    }
 }
 
 .sceau-valeur,
@@ -86,7 +111,7 @@
     margin: 0.2rem 0;
     color: rgb(255, 255, 255);
     font-family: Orbitron, OrbitronLight, monospace;
-    font-size: clamp(1.7rem, 4vw, 3.3rem);
+    font-size: clamp(1.15rem, 3.2vh, 3.3rem);
     letter-spacing: 0.03em;
     text-shadow: 0 0 0.45em rgb(0, 0, 0);
 }
@@ -146,8 +171,8 @@
 .archetypes {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(0.8rem, 2vw, 1.2rem);
-    margin-top: clamp(1.3rem, 3vw, 2rem);
+    gap: clamp(0.45rem, 1.4vh, 1.2rem);
+    margin-top: clamp(0.6rem, 1.6vh, 2rem);
 }
 
 .archetype,
@@ -162,12 +187,13 @@
     align-items: center;
     gap: 0.3rem;
     min-height: 100%;
-    padding: clamp(0.9rem, 2vw, 1.3rem);
+    padding: clamp(0.4rem, 1vh, 1.3rem);
     text-align: center;
 }
 
 .archetype img {
-    width: clamp(6.5rem, 11vw, 9rem);
+    width: clamp(8rem, 22vh, 28rem);
+    max-width: 100%;
     height: auto;
     filter:
         drop-shadow(0 0 6px rgba(255, 195, 0, 0.95))
@@ -199,13 +225,13 @@
 .archetype-line {
     margin: 0.3rem 0 0;
     max-width: 26rem;
-    line-height: 1.45;
-    font-size: clamp(0.8rem, 1.05vw, 0.92rem);
+    line-height: 1.25;
+    font-size: clamp(0.68rem, 2.4vw, 0.92rem);
 }
 
 .plaque {
-    margin-top: clamp(1.1rem, 2.5vw, 1.6rem);
-    padding: clamp(0.9rem, 2vw, 1.2rem);
+    margin-top: clamp(0.45rem, 1.2vh, 1.6rem);
+    padding: clamp(0.4rem, 1vh, 1.2rem);
     text-align: center;
 }
 
@@ -215,7 +241,7 @@
 
 .quitter {
     display: block;
-    margin: 1.4rem auto 0;
+    margin: clamp(0.35rem, 1vh, 1.4rem) auto 0;
     padding: 0;
     border: 0;
     background: transparent;
@@ -250,7 +276,9 @@
 }
 
 .jeu-liste li {
-    width: 8.8rem;
+    position: relative;
+    flex: 0 0 auto;
+    width: min(100%, 120px);
 }
 
 .jeu-liste a,
@@ -258,9 +286,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.45rem;
-    height: 100%;
-    padding: 0.65rem 0.5rem 0.75rem;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    aspect-ratio: 120 / 180;
+    overflow: visible;
+    padding: 0;
     color: white;
     text-decoration: none;
     background: rgba(0, 0, 0, 0.45);
@@ -268,34 +300,78 @@
     border-radius: 0.8rem;
 }
 
+.jeu-liste a:not(:has(img)),
+.jeu-carte:not(:has(img)) {
+    overflow: hidden;
+    padding: 0.55rem 0.45rem;
+}
+
 .jeu-liste a:hover {
     color: rgb(255, 195, 0);
     border-color: rgb(255, 195, 0);
 }
 
+.jeu-nom {
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+.jeu-liste a:has(img) .jeu-nom,
+.jeu-carte:has(img) .jeu-nom {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.35rem);
+    transform: translateX(-50%);
+    z-index: 3;
+    width: max-content;
+    max-width: min(16rem, 70vw);
+    margin: 0;
+    padding: 0.28rem 0.55rem;
+    opacity: 0;
+    pointer-events: none;
+    color: rgb(255, 195, 0);
+    background: rgba(0, 0, 0, 0.88);
+    border: 1px solid rgba(184, 141, 0, 0.45);
+    border-radius: 0.45rem;
+}
+
+.jeu-liste li:focus-within .jeu-nom,
+.jeu-liste li:active .jeu-nom {
+    opacity: 1;
+}
+
 .jeu-visuel {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    height: 6.2rem;
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    border-radius: inherit;
+    line-height: 0;
+}
+
+.jeu-visuel:not(:has(img)) {
+    display: none;
 }
 
 .jeu-visuel img {
-    max-width: 100%;
-    max-height: 100%;
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
 }
 
 .civil {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 0.35rem 1.4rem;
+    gap: 0.35rem 0.6rem;
     width: 100%;
     margin: 0;
 }
 
 .civil div {
+    flex: 1 1 0;
+    min-width: 0;
     text-align: center;
 }
 
@@ -311,12 +387,39 @@
     overflow-wrap: anywhere;
 }
 
-@media (max-width: 720px) {
+@media (min-width: 720px) and (min-height: 1000px) {
+    .sanctuaire {
+        margin: 0 auto;
+    }
+
     .sceau-ligne {
-        flex-direction: column;
+        gap: clamp(1rem, 3vw, 2.6rem);
+    }
+}
+
+@media (max-height: 999px) {
+    .sanctuaire {
+        margin: 0 auto;
+        padding-block: 0.2rem;
+    }
+
+    .sceau {
+        gap: 0.3rem;
     }
 
     .archetypes {
-        grid-template-columns: 1fr;
+        margin-top: 0.35rem;
+        gap: 0.35rem;
+    }
+
+    .plaque {
+        margin-top: 0.3rem;
+        padding: 0.3rem;
+    }
+}
+
+@media (hover: hover) {
+    .jeu-liste li:hover .jeu-nom {
+        opacity: 1;
     }
 }
